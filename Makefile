@@ -6,7 +6,7 @@
 #    By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/01/05 14:56:39 by keishii          ###   ########.fr        #
+#    Updated: 2025/01/05 16:16:29 by keishii          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,9 @@ OBJ_FILES		= ${addprefix ${OBJ_DIR}/, \
 # LIBRARIES & FRAMEWORKS
 
 
+LFLAGS		= -lreadline
+
+
 # **************************************** #
 # RULES
 
@@ -45,7 +48,7 @@ OBJ_FILES		= ${addprefix ${OBJ_DIR}/, \
 all: ${NAME}
 
 ${NAME}: ${OBJ_FILES}
-	${CC} ${CFLAGS} $^ -o ${NAME}
+	${CC} ${CFLAGS} ${LFLAGS} $^ -o ${NAME}
 
 ${OBJ_DIR}/%.o: ${SRC_DIR}/%.c
 	@mkdir -p ${OBJ_DIR}
