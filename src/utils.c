@@ -1,20 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/01/05 14:24:14 by keishii          ###   ########.fr       */
+/*   Created: 2025/01/05 14:22:39 by keishii           #+#    #+#             */
+/*   Updated: 2025/01/05 14:23:26 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <unistd.h>
+#include "minishell.h"
 
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-
-void	print_message(void);
+void	print_message(void)
+{
+	printf("hello minishell.\n");
+}
