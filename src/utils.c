@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 14:22:39 by keishii           #+#    #+#             */
-/*   Updated: 2025/01/09 16:53:38 by keishii          ###   ########.fr       */
+/*   Updated: 2025/01/09 18:00:44 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 void	print_message(void)
 {
-	printf("hello world!\n");
+	printf("hello minishell\n");
 }
