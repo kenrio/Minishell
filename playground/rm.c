@@ -14,7 +14,7 @@ int	main(int argc, char *argv[])
 	i = 1;
 	while (i < argc)
 	{
-		if (rmdir(argv[i]) < 0)
+		if ((unlink(argv[i]) < 0))
 		{
 			perror(argv[i]);
 			exit(1);
