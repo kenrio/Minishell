@@ -54,17 +54,17 @@ main(int argc, char *argv[])
     exit(0);
 }
 
-#define LINEBUF_MAX 2048
+#define LINE_BUF_SIZE 2048
 
 static void
 prompt(void)
 {
-    static char buf[LINEBUF_MAX];
+    static char buf[LINE_BUF_SIZE];
     struct cmd *cmd;
 
     fprintf(stdout, "$ ");
     fflush(stdout);
-    if (fgets(buf, LINEBUF_MAX, stdin) == NULL)
+    if (read(stdin, buf, LINE_BUF_SIZE) == NULL)
         exit(0);
     cmd = parse_command_line(buf);
     if (cmd == NULL) {
