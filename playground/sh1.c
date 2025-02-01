@@ -13,7 +13,6 @@
 #include <string.h>
 
 # define PROMPT	"minishell$ "
-# define LINE_BUF_SIZE	2048
 
 // static void	invoke_cmd(void);
 
@@ -33,9 +32,8 @@ int	main(int argc, char *argv[])
 	(void)argc;
 	program_name = argv[0];
 	printf("program_name: %s\n", program_name);
-	while (1)
+	while ((buf = readline(PROMPT)))
 	{
-		buf = readline(PROMPT);
 		if (!buf)
 			exit(1);
 		pid = fork();
