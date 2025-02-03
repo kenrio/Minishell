@@ -28,6 +28,8 @@ static char	*program_name;
 
 int	main(int argc, char *argv[])
 {
+	(void)argc;
+
 	program_name = argv[0];				// 実行ファイル名をprogram_nameに代入
 	for (;;)							// 無限ループ
 	{
@@ -36,7 +38,7 @@ int	main(int argc, char *argv[])
 		fprintf(stdout, PROMPT);		// PROMPTを標準出力に出力
 		fflush(stdout);					// PROMPTが即座に出力されるようにバッファをフラッシュ
 		cmd = read_cmd();				// ユーザの入力コマンドを取得
-		if (cmd->argc > 0)				// argcメンバが0の場合（トークン（単語）が無い場合）
+		if (cmd->argc > 0)				// argcメンバが0より大きい場合（トークン（単語）が1つ以上の場合）
 			invoke_cmd(cmd);			// コマンドを実行
 		free_cmd(cmd);					// 確保したメモリを開放
 	}
@@ -45,21 +47,23 @@ int	main(int argc, char *argv[])
 
 static void invoke_cmd(struct cmd *cmd)
 {
-	pid_t	pid;											// プロセスID
+	pid_t	pid;											// プロセスIDを格納する変数を宣言
 
-	pid = fork();											// プロセスをフォークし、その返り値をpidに代入
-	if (pid < 0)											// pidが0未満の場合
+	pid = fork();											// 現在のプロセスを複製し、新しい子プロセスを作成、その返り値をpidに代入
+	if (pid < 0)											// forkの失敗時（pidが0未満の場合）
 	{
 		perror("fork");										// 標準エラーに"fork"を出力
 		exit(1);											// プログラムを終了
 	}
-	if (pid > 0)											// 親プロセス
-		waitpid(pid, NULL, 0);
-	else													// 子プロセス
+	if (pid > 0)											// 親プロセスの場合（pidが0より大きい場合）
+		waitpid(pid, NULL, 0);								// 子プロセスの終了を待つ
+	else													// 子プロセスの場合（pidが0の場合）
 	{
-		execvp(cmd->argv[0], cmd->argv);					// コマンドを実行
-		fprintf(stderr, "%s: command not found: %s\n",		// execvpが失敗して、
-			program_name, cmd->argv[0]);					// 
+		// execvpでcmd->argv[0]（コマンド名）を実行、
+		// argvはexecvpに渡すための引数リスト（NULL終端の配列）
+		execvp(cmd->argv[0], cmd->argv);					// コマンドの実行が成功した子プロセスはそのまま終了
+		fprintf(stderr, "%s: command not found: %s\n",		// execvpが失敗した場合、標準エラーにエラーメッセージを出力
+			program_name, cmd->argv[0]);
 		exit(1);											// プログラムを終了
 	}
 }
@@ -68,7 +72,7 @@ static void invoke_cmd(struct cmd *cmd)
 
 static struct cmd *read_cmd(void)
 {
-	static char	buf[LINE_BUF_SIZE];							// charの固定長配列を宣言
+	static char	buf[LINE_BUF_SIZE];							// charの配列を宣言
 
 	if ((fgets(buf, LINE_BUF_SIZE, stdin) == NULL))			// 「LINE_BUF_SIZE - 1」分を標準入力からデータを読み取り、bufににセットしbufへのポインタを返す
 		exit(0);											// fgetsが失敗し、返り値がNULLの場合、プログラムを終了
@@ -110,8 +114,8 @@ static struct cmd *parse_cmd(char *cmdline)
 
 static void free_cmd(struct cmd *cmd)
 {
-	free(cmd->argv);
-	free(cmd);
+	free(cmd->argv);				// cmd構造体のargvメンバのメモリを解放
+	free(cmd);						// cmd構造体のメモリを解放
 }
 
 static void *xmalloc(size_t size)
