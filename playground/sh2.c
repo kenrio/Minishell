@@ -79,17 +79,17 @@ static void prompt(void)
 
 static struct cmd*  parse_command_line(char *p)
 {
-    struct cmd  *cmd;
+    struct cmd  *cmd;                                                               // cmd構造体へのポインタcmdを宣言
 
-    cmd = xamlloc(sizeof(struct cmd));
-    cmd->argc = 0;
-    cmd->argv = xmalloc(sizeof(char *) * INIT_ARGV);
-    cmd->capa = INIT_ARGV;
-    cmd->next = NULL;
-    while (*p)
+    cmd = xamlloc(sizeof(struct cmd));                                              // cmd用のメモリをxmallocで確保し、その先頭アドレスをcmdに代入
+    cmd->argc = 0;                                                                  // argcメンバに0を代入
+    cmd->argv = xmalloc(sizeof(char *) * INIT_ARGV);                                // argvメンバ用のメモリをxmallocで確保し、その先頭アドレスをargvに代入
+    cmd->capa = INIT_ARGV;                                                          // capaメンバにINIT_CAPAを代入
+    cmd->next = NULL;                                                               // nextメンバにNULLを代入
+    while (*p)                                                                      // pが指す文字がヌル文字（'\0'）でない限り
     {
-        while (*p && isspace((int)*p))
-            *p++ = '\0';
+        while (*p && isspace((int)*p))                                              // pが指す文字がヌル文字（'\0'）でなく、空白文字（スペース、タブ、改行など）の場合n
+            *p++ = '\0';                                                            // 
         if (! IDENT_CHAR_P(*p))
             break ;
         if (*p && IDENT_CHAR_P(*p))
