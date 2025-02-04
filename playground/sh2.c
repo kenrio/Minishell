@@ -64,14 +64,34 @@ static void prompt(void)
 	if (fgets(buf, LINEBUF_MAX, stdin) == NULL)						// 「LINEBUF_MAX - 1」分のデータを標準入力から読み取り、bufにセットしbufへのポインタを返す
 		exit(0);													// fgets()が失敗し、返り血がNULLの場合、プログラムを終了
 	cmd = parse_command_line(buf);									// 
-	if (cmd == NULL)
+	if (cmd == NULL)												// cmdがNULLの場合
 	{
-		fprintf(stderr, "%s: syntax error\n", program_name);
-		return ;
+		fprintf(stderr, "%s: syntax error\n", program_name);		// 標準エラーにエラーメッセージを出力
+		return ;													// 関数を終了
 	}
-	if (cmd->argc > 0)
-		invoke_commands(cmd);
-	free_cmd(cmd);
+	if (cmd->argc > 0)												// argcメンバが0よりも大きい場合
+		invoke_commands(cmd);										// 
+	free_cmd(cmd);													// 確保したメモリを解放
+}
+
+static void	invoke_cmd(struct cmd *cmd)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid < 0)
+	{
+		perror("fork");
+		exit(1);
+	}
+	if (pid > 0)
+		waitpid(pid, NULL, 0);
+	else
+	{
+		execvp(cmd->argv[0], cmd->argv);
+		fprintf(stderr, "%s: command not found: %s\n", program_name, cmd->argv[0]);
+		exit(1);
+	}
 }
 
 #define INIT_ARGV 8
@@ -79,53 +99,59 @@ static void prompt(void)
 
 static struct cmd*  parse_command_line(char *p)
 {
-	struct cmd	*cmd;																// cmd構造体へのポインタcmdを宣言
+	struct cmd	*cmd;														// cmd構造体へのポインタcmdを宣言
 
-	cmd = xamlloc(sizeof(struct cmd));												// cmd用のメモリをxmallocで確保し、その先頭アドレスをcmdに代入
-	cmd->argc = 0;																	// argcメンバに0を代入
-	cmd->argv = xmalloc(sizeof(char *) * INIT_ARGV);								// argvメンバ用のメモリをxmallocで確保し、その先頭アドレスをargvに代入
-	cmd->capa = INIT_ARGV;															// capaメンバにINIT_CAPAを代入
-	cmd->next = NULL;																// nextメンバにNULLを代入
-	while (*p)																		// pが指す文字がヌル文字（'\0'）でない限り
+	cmd = xamlloc(sizeof(struct cmd));										// cmd用のメモリをxmallocで確保し、その先頭アドレスをcmdに代入
+	cmd->argc = 0;															// argcメンバに0を代入
+	cmd->argv = xmalloc(sizeof(char *) * INIT_ARGV);						// argvメンバ用のメモリをxmallocで確保し、その先頭アドレスをargvに代入
+	cmd->capa = INIT_ARGV;													// capaメンバにINIT_CAPAを代入
+	cmd->next = NULL;														// nextメンバにNULLを代入
+	while (*p)																// pが指す文字がヌル文字（'\0'）でない限り
 	{
-		while (*p && isspace((int)*p))												// pが指す文字がヌル文字（'\0'）でなく、空白文字（スペース、タブ、改行など）の場合n
-			*p++ = '\0';															// 
-		if (! IDENT_CHAR_P(*p))
-			break ;
-		if (*p && IDENT_CHAR_P(*p))
+		while (*p && isspace((int)*p))										// pが指す文字がヌル文字（'\0'）でなく、空白文字（スペース、タブ、改行など）の場合
+			*p++ = '\0';													// pが指す文字をヌル文字（'\0'）にし、ポインタを次の位置に進める
+		if (! IDENT_CHAR_P(*p))												// pが指す文字が空白文字またはパイプ記号またはリダイレクト記号の場合
+			break ;															// whileループを抜ける
+		if (*p && IDENT_CHAR_P(*p))											// pが指す文字がヌル文字（'\0'）でも、空白文字でも、パイプ記号でも、リダイレクト記号でない場合
 		{
-			if (cmd->capa <= cmd->argc)
+			if (cmd->capa <= cmd->argc)										// capaメンバがargc + 1以下の場合
 			{
-				cmd->capa *= 2;
-				cmd->argv = xrealloc(cmd->argv, cmd->capa);
+				cmd->capa *= 2;												// capaメンバの値を2倍にする
+				cmd->argv = xrealloc(cmd->argv, cmd->capa);					// argvメンバ用のメモリサイズをxreallocで変更し、その先頭アドレスをargvメンバに代入
 			}
-			cmd->argv[cmd->argc] = p;
-			cmd->argc++;
+			cmd->argv[cmd->argc] = p;										// argvメンバのargc番目（初期値は0）の要素にpを代入
+			cmd->argc++;													// argcをインクリメント
 		}
-		while (*p && IDENT_CHAR_P(*p))
-			p++;
+		while (*p && IDENT_CHAR_P(*p))										// pが指す文字がヌル文字（'\0'） でも、空白文字でも、パイプ記号でも、リダイレクト記号でもない限り
+			p++;															// ポインタを次の位置に進める
 	}
-	if (cmd->capa <= cmd->argc)
+	if (cmd->capa <= cmd->argc)												// capaメンバがargc以下の場合
 	{
-		cmd->capa += 1;
-		cmd->argv =  xrealloc(cmd->argv, cmd->capa);
+		cmd->capa += 1;														// capaメンバに1を加算
+		cmd->argv =  xrealloc(cmd->argv, cmd->capa);						// argvメンバ用のメモリサイズをxreallocで変更し、その先頭アドレスをargvメンバに代入
 	}
-	cmd->argv[cmd->argc] = NULL;
-	if (*p == '|' || *p == '>')
+	cmd->argv[cmd->argc] = NULL;											// argvメンバのargc番目の要素にNULLを代入
+	if (*p == '|' || *p == '>')												// pが指す文字がパイプ記号または、リダイレクト記号の場合
 	{
-		if (cmd == NULL || cmd->argc == 0) goto parse_error;
-		cmd->next = parse_command_line(p + 1);
-		if (cmd->next == NULL || cmd->next->argc == 0) goto parse_error;
-		if (*p == '>')
+		if (cmd == NULL || cmd->argc == 0) goto parse_error;				// cmdがNULLまたは、argcメンバが0の場合、parse_errorラベルにジャンプ
+		cmd->next = parse_command_line(p + 1);								// nextメンバに次のトークン（pポインタの次の位置）を解析
+		if (cmd->next == NULL || cmd->next->argc == 0) goto parse_error;	// nextメンバがNULLの場合、nextメンバのargcメンバが0の場合、parse_errorラベルにジャンプ
+		if (*p == '>')														// pが指す文字がリダイレクト記号の場合
 		{
-			if (cmd->next->argc != 1) goto parse_error;
-			cmd->next->argc = -1;
+			if (cmd->next->argc != 1) goto parse_error;						// nextメンバのargcメンバが1でない場合、parse_errorラベルにジャンプ
+			cmd->next->argc = -1;											// nextメンバのargcメンバに-1を代入
 		}
-		*p = '\0';
+		*p = '\0';															// pが指す文字にヌル文字（'\0'）を代入
 	}
-	return (cmd);
+	return (cmd);															// cmd構造体を返す
 
-	parse_error:
-		if (cmd) free_cmd(cmd);
-		return (NULL);
+	parse_error:															// parse_errorラベル
+		if (cmd) free_cmd(cmd);												// cmd構造体がNULLでない場合、確保したメモリを解放
+		return (NULL);														// NULLを返す
+}
+
+static void	free_cmd(struct cmd *cmd)
+{
+	free(cmd->argv);		// cmd構造体のargvメンバのメモリを解放
+	free(cmd);				// cmd構造体のメモリを解放
 }
