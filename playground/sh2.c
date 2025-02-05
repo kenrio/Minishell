@@ -22,7 +22,7 @@ struct	cmd {
 #define PID_BUILTIN -2
 #define BUILTIN_P(cmd) ((cmd)->pid == PID_BUILTIN)
 
-struct	buildin {
+struct	builtin {
 	char	*name;
 	void	(*f)(int argc, char *argv[]);
 };
@@ -100,20 +100,20 @@ static void	exec_pipeline(struct cmd *cmdhead)
 	int			fds1[2] = {-1, -1};										// int[2]型の配列fds1を宣言、各要素に-1をセット
 	int			fds2[2] = {-1, -1};										// int[2]型の配列fds2を宣言、各要素に-1をセット
 
-	for (cmd = cmdhead; cmd && !REDIRECT_P(cmd); cmd = cmd->next)		// 
+	for (cmd = cmdhead; cmd && !REDIRECT_P(cmd); cmd = cmd->next)		// 初期値をcmdheadに設定、cmdがNULLでなくcmd->argcが-1でない限り、cmdにcmd->nextを代入
 	{
-		fds1[0] = fds2[0];
-		fds1[1] = fds2[1];
-		if (!TAIL_P(cmd))
+		fds1[0] = fds2[0];												// fds1[0]にfds2[0]を代入
+		fds1[1] = fds2[1];												// fds1[1]にfds2[1]を代入
+		if (!TAIL_P(cmd))												// cmd->nextがNULLでなく、かつcmd->next->argcの値が-1でない場合
 		{
-			if (pipe(fds2) < 2)
+			if (pipe(fds2) < 0)											// pipe(2)関数でfds[1]からfds[0]へのストリームを作成、pipe(2)の返り値が0未満の場合
 			{
-				perror("pipe");
-				exit(3);
+				perror("pipe");											// 標準エラーにエラーメッセージを出力
+				exit(3);												// プログラムを異常終了
 			}
 		}
-		if (lookup_builtin(cmd->argv[0]) != NULL)
-			cmd->pid = PID_BUILTIN;
+		if (lookup_builtin(cmd->argv[0]) != NULL)						// ビルトインコマンドのリストの中に入力コマンドがあるかをみる、入力コマンドがあった場合
+			cmd->pid = PID_BUILTIN;										// pidメンバにPIT_BUILTIN（-2）を代入
 		else
 		{
 			cmd->pid = fork();
@@ -214,6 +214,25 @@ static void	free_cmd(struct cmd *cmd)
 		free_cmd(cmd->next);
 	free(cmd->argv);			// cmd構造体のargvメンバのメモリを解放
 	free(cmd);					// cmd構造体のメモリを解放
+}
+
+struct builtin	builtins_list[] = {
+	{"cd", builtin_cd},
+	{"pwd", builtin_pwd},
+	{"exit", builtin_exit},
+	{NULL, NULL}
+};
+
+static struct builtin	*lookup_builtin(char *cmd)
+{
+	struct builtin	*p;							// builtin構造体へのポインタpを宣言
+
+	for (p = builtins_list; p->name; p++)		// 初期値をbuiltins_listの先頭アドレスに設定、nameメンバがNULLでない限り、pのポインタ位置を次に進める
+	{
+		if (strcmp(cmd, p->name) == 0)			// strcmp(3)でcmd文字列とnameメンバの文字列を比較、その返り値が0場合（文字列が一致している場合）
+			return (p);							// ポインタpを返す
+	}
+	return (NULL);								// builtins_listにcmdと一致する文字列がなかった場合、NULLを返す
 }
 
 static void	*malloc(size_t size)
