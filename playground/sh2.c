@@ -65,7 +65,7 @@ static void prompt(void)
 		exit(0);													// fgets()が失敗し、返り血がNULLの場合、プログラムを終了
 
 	cmd = parse_command_line(buf);									// コマンドラインを解析し、パイプorリダイレクトで区切られた各コマンドをcmd構造体のリストとして管理
-																	// 各コマンドの引数はargv[]格納し、NULL終端の配列として扱う									
+																	// 各コマンドの引数はargv[]に格納し、NULL終端の配列として扱う									
 
 	if (cmd == NULL)												// cmdがNULLの場合
 	{
@@ -83,7 +83,7 @@ static int	invoke_commands(struct cmd *cmdhead)
 	int	original_stdin = dup(0);									// 標準入力のfdを複製してoriginal_stdinに代入
 	int	original_stdout = dup(1);									// 標準出力のfdを複製してoriginal_stdoutに代入
 
-	exec_pipeline(cmdhead);											// 
+	exec_pipeline(cmdhead);
 	st = wait_pipeline(cmdhead);
 	close(0); dup2(original_stdin, 0); close(original_stdin);
 	close(1); dup2(original_stdout, 1); close(original_stdout);
@@ -97,59 +97,58 @@ static int	invoke_commands(struct cmd *cmdhead)
 static void	exec_pipeline(struct cmd *cmdhead)
 {
 	struct cmd	*cmd;													// cmd構造体を宣言
-	int			fds1[2] = {-1, -1};										// int[2]型の配列fds1を宣言、各要素に-1をセット
-	int			fds2[2] = {-1, -1};										// int[2]型の配列fds2を宣言、各要素に-1をセット
+	int			fds1[2] = {-1, -1};										// int[2]型の配列fds1（パイプ用のfd）を宣言、-1で初期化
+	int			fds2[2] = {-1, -1};										// int[2]型の配列fds2（パイプ用のfd）を宣言、-1で初期化
 
-	for (cmd = cmdhead; cmd && !REDIRECT_P(cmd); cmd = cmd->next)		// 初期値をcmdheadに設定、cmdがNULLでなくcmd->argcが-1でない限り、cmdにcmd->nextを代入
-	{
-		fds1[0] = fds2[0];												// fds1[0]にfds2[0]を代入
-		fds1[1] = fds2[1];												// fds1[1]にfds2[1]を代入
-		if (!TAIL_P(cmd))												// cmd->nextがNULLでなく、かつcmd->next->argcの値が-1でない場合
+	for (cmd = cmdhead; cmd && !REDIRECT_P(cmd); cmd = cmd->next)		// cmdをcmdheadの先頭に設定し、cmdがNULLでなくcmd->argcが-1でない限りループを続ける
+	{																	// （リダイレクトまたは最後のコマンドまで処理したらループを終了）
+		fds1[0] = fds2[0];												// fds1[0]にfds2[0]を代入（最後に作成した入力用パイプを引き継ぐ）
+		fds1[1] = fds2[1];												// fds1[1]にfds2[1]を代入（最後に作成した出力用パイプを引き継ぐ）
+		if (!TAIL_P(cmd))												// cmdがリストの最後のコマンドでないかつ、次のコマンドがリダイレクトでない場合
 		{
-			if (pipe(fds2) < 0)											// pipe(2)関数でfds[1]からfds[0]へのストリームを作成、pipe(2)の返り値が0未満の場合
+			if (pipe(fds2) < 0)											// pipe(2)でfds[1]からfds[0]へのストリームを作成、pipe(2)の返り値が0未満の場合
 			{
 				perror("pipe");											// 標準エラーにエラーメッセージを出力
 				exit(3);												// プログラムを異常終了
 			}
 		}
-		if (lookup_builtin(cmd->argv[0]) != NULL)						// ビルトインコマンドのリストの中に入力コマンドがあるかをみる、入力コマンドがあった場合
-			cmd->pid = PID_BUILTIN;										// pidメンバにPIT_BUILTIN（-2）を代入
-		else
+		if (lookup_builtin(cmd->argv[0]) != NULL)						// ビルトインコマンドリストの中から、入力されたコマンドに該当するものを検索する。該当するものがある場合
+			cmd->pid = PID_BUILTIN;										// pidメンバにPID_BUILTIN（-2）を代入
+		else															// ビルトインコマンドリストの中に、入力されたコマンドに該当するものがない場合
 		{
-			cmd->pid = fork();
-			if (cmd->pid < 0)
+			cmd->pid = fork();											// 現在のプロセスを複製し、新しい子プロセスを作成、その返り値をpidに代入
+			if (cmd->pid < 0)											// forkの失敗時（pidが0未満の場合）
 			{
-				perror("fork");
-				exit(3);
+				perror("fork");											// 標準エラーにエラーメッセージを出力
+				exit(3);												// プログラムを異常終了
 			}
-			if (cmd->pid > 0)
+			if (cmd->pid > 0)											// 親プロセスの場合（pidが0より大きい場合）
 			{
-				if (fds1[0] != -1) close(fds1[0]);
-				if (fds1[1] != -1) close(fds1[1]);
-				continue;
+				if (fds1[0] != -1) close(fds1[0]);						// fds1[0]が-1以外の場合、fds1[0]をcloseする
+				if (fds1[1] != -1) close(fds1[1]);						// fds1[1]が-1以外の場合、fds[1]をcloseする
+				continue ;												// 以降の処理をスキップし、次のコマンドへ処理を進める
 			}
 		}
-		if (!HEAD_P(cmd))
+		if (!HEAD_P(cmd))												// cmdが先頭のコマンドでない場合
 		{
-			close(0); dup2(fds1[0], 0); close(fds1[0]);
-			close(fds1[1]);
+			close(0); dup2(fds1[0], 0); close(fds1[0]);					// 	stdinをcloseする、fds1[0]をstdinに複製する、fds1[0]をcloseする
+			close(fds1[1]);												// fds1[1]をcloseする
 		}
-		if (!TAIL_P(cmd))
+		if (!TAIL_P(cmd))												// cmdがリストの最後のコマンドでないかつ、次のコマンドがリダイレクトでない場合
 		{
-			close(fds2[0]);
-			close(1); dup2(fds2[1], 1); close(fds2[1]);
+			close(fds2[0]);												// fds[0]をcloseする
+			close(1); dup2(fds2[1], 1); close(fds2[1]);					// 1をcloseする、fds2[1]を1に複製する、fds2[1]をcloseする
 		}
-		if ((cmd->next != NULL) && REDIRECT_P(cmd->next))
-			redirect_stdout(cmd->next->argv[0]);
-		if (!BUILTIN_P(cmd))
+		if ((cmd->next != NULL) && REDIRECT_P(cmd->next))				// cmdがリストの最後のノードないかつ、リダイレクトの場合
+			redirect_stdout(cmd->next->argv[0]);						// 
+		if (!BUILTIN_P(cmd))											// コマンドがビルトインコマンド以外のコマンドの場合
 		{
-			execvp(cmd->argv[0], cmd->argv);
-			fprintf(stderr, "%s: command not found: %s\n",
+			execvp(cmd->argv[0], cmd->argv);							// execvp(3)を使って、cmd->argv[0]（コマンド名）を実行
+			fprintf(stderr, "%s: command not found: %s\n",				// exexvpが失敗した場合、標準エラーにエラーメッセージを出力
 				program_name, cmd->argv[0]);
-			exit(1);
+			exit(1);													// プログラムを終了
 		}
 	}
-
 }
 
 #define INIT_ARGV 8
@@ -227,12 +226,12 @@ static struct builtin	*lookup_builtin(char *cmd)
 {
 	struct builtin	*p;							// builtin構造体へのポインタpを宣言
 
-	for (p = builtins_list; p->name; p++)		// 初期値をbuiltins_listの先頭アドレスに設定、nameメンバがNULLでない限り、pのポインタ位置を次に進める
+	for (p = builtins_list; p->name; p++)		// pをbuiltin_listの先頭に設定し、リストのnameがNULLに到達するまでループを続ける（NULLはリストの終端）
 	{
-		if (strcmp(cmd, p->name) == 0)			// strcmp(3)でcmd文字列とnameメンバの文字列を比較、その返り値が0場合（文字列が一致している場合）
-			return (p);							// ポインタpを返す
+		if (strcmp(cmd, p->name) == 0)			// strcmp(3)を使ってcmdとp->nameを比較し、一致（strcmp(cmd, p->name) == 0）した場合、
+			return (p);							// ビルトインコマンドと判断してpを返す
 	}
-	return (NULL);								// builtins_listにcmdと一致する文字列がなかった場合、NULLを返す
+	return (NULL);								// ビルトインコマンドに該当するものがなければ、NULLを返す
 }
 
 static void	*malloc(size_t size)
