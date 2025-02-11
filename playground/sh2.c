@@ -137,10 +137,10 @@ static void	exec_pipeline(struct cmd *cmdhead)
 		}
 		if (!TAIL_P(cmd))												// cmdがリストの最後のコマンドでないかつ、次のコマンドがリダイレクトでない場合
 		{
-			close(fds2[0]);												// fds[0]をcloseする
-			close(1); dup2(fds2[1], 1); close(fds2[1]);					// 1をcloseする、fds2[1]を1に複製する、fds2[1]をcloseする
+			close(fds2[0]);												// fds2[0]をcloseする
+			close(1); dup2(fds2[1], 1); close(fds2[1]);					// stdoutをcloseする、fds2[1]をstdoutに複製する、fds2[1]をcloseする
 		}
-		if ((cmd->next != NULL) && REDIRECT_P(cmd->next))				// cmdがリストの最後のノードないかつ、リダイレクトの場合
+		if ((cmd->next != NULL) && REDIRECT_P(cmd->next))				// cmdがリストの最後のコマンドでないかつ、次のコマンドがリダイレクトの場合
 			redirect_stdout(cmd->next->argv[0]);						// 
 		if (!BUILTIN_P(cmd))											// コマンドがビルトインコマンド以外のコマンドの場合
 		{
