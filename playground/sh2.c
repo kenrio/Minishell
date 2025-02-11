@@ -24,7 +24,7 @@ struct	cmd {
 
 struct	builtin {
 	char	*name;
-	void	(*f)(int argc, char *argv[]);
+	int		(*f)(int argc, char *argv[]);
 };
 
 static void				prompt(void);
@@ -46,6 +46,7 @@ static char	*program_name;
 
 int main(int argc, char *argv[])
 {
+	(void)argc;
 	program_name = argv[0];			// 実行ファイル名をprogram_nameに代入
 	for (;;)						// 無限ループ
 		prompt();					// 
@@ -122,10 +123,10 @@ static void	exec_pipeline(struct cmd *cmdhead)
 				perror("fork");											// 標準エラーにエラーメッセージを出力
 				exit(3);												// プログラムを異常終了
 			}
-			if (cmd->pid > 0)											// 親プロセスの場合（pidが0より大きい場合）
+			if (cmd->pid > 0)											// 親プロセスの場合（pidが0より大きい）
 			{
 				if (fds1[0] != -1) close(fds1[0]);						// fds1[0]が-1以外の場合、fds1[0]をcloseする
-				if (fds1[1] != -1) close(fds1[1]);						// fds1[1]が-1以外の場合、fds[1]をcloseする
+				if (fds1[1] != -1) close(fds1[1]);						// fds1[1]が-1以外の場合、fds1[1]をcloseする
 				continue ;												// 以降の処理をスキップし、次のコマンドへ処理を進める
 			}
 		}
@@ -149,6 +150,47 @@ static void	exec_pipeline(struct cmd *cmdhead)
 			exit(1);													// プログラムを終了
 		}
 	}
+}
+
+static void	redirect_stdout(char *path)
+{
+	int	fd;
+
+	close(1);
+	fd = open(path, O_WRONLY|O_TRUNC|O_CREAT, 0666);
+	if (fd < 0)
+	{
+		perror(path);
+		return;
+	}
+	if (fd != 1)
+	{
+		dup2(fd, 1);
+		close(fd);
+	}
+}
+
+static int	wait_pipeline(struct cmd *cmdhead)
+{
+	struct cmd	*cmd;
+
+	for (cmd = cmdhead; cmd && !REDIRECT_P(cmd); cmd = cmd->next)
+	{
+		if (BUILTIN_P(cmd))
+			cmd->status = lookup_builtin(cmd->argv[0])->f(cmd->argc, cmd->argv);
+		else
+			waitpid(cmd->pid, &cmd->status, 0);
+	}
+	return (pipeline_tail(cmdhead)->status);
+}
+
+static struct cmd	*pipeline_tail(struct cmd *cmdhead)
+{
+	struct cmd	*cmd;
+
+	for (cmd = cmdhead; !TAIL_P(cmd); cmd = cmd->next)
+		;
+	return (cmd);
 }
 
 #define INIT_ARGV 8
@@ -234,7 +276,50 @@ static struct builtin	*lookup_builtin(char *cmd)
 	return (NULL);								// ビルトインコマンドに該当するものがなければ、NULLを返す
 }
 
-static void	*malloc(size_t size)
+static int	builtin_cd(int argc, char *argv[])
+{
+	if (argc != 2)
+	{
+		fprintf(stderr, "%s: wrong argument\n", argv[0]);
+		return (1);
+	}
+	if (chdir(argv[1]) < 0)
+	{
+		perror(argv[1]);
+		return (1);
+	}
+	return (0);
+}
+
+static int	builtin_pwd(int argc, char *argv[])
+{
+	char	buf[LINEBUF_MAX];
+
+	if (argc != 1)
+	{
+		fprintf(stderr, "%s: wrong argument\n", argv[0]);
+		return (1);
+	}
+	if (!getcwd(buf, LINEBUF_MAX))
+	{
+		fprintf(stderr, "%s: cannot get working directory\n", argv[0]);
+		return (1);
+	}
+	printf("%s\n", buf);
+	return (0);
+}
+
+static int	builtin_exit(int argc, char *argv[])
+{
+	if (argc != 1)
+	{
+		fprintf(stderr, "%s: too many arguments\n", argv[0]);
+		return (1);
+	}
+	exit(0);
+}
+
+static void	*xmalloc(size_t size)
 {
 	void	*p;
 
