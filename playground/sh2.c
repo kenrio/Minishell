@@ -125,8 +125,8 @@ static void	exec_pipeline(struct cmd *cmdhead)
 			}
 			if (cmd->pid > 0)											// 親プロセスの場合（pidが0より大きい）
 			{
-				if (fds1[0] != -1) close(fds1[0]);						// fds1[0]が-1以外の場合、fds1[0]をcloseする
-				if (fds1[1] != -1) close(fds1[1]);						// fds1[1]が-1以外の場合、fds1[1]をcloseする
+				if (fds1[0] != -1) close(fds1[0]);						// fds1[0]が-1以外の場合（先頭コマンド以外の場合）、fds1[0]をcloseする
+				if (fds1[1] != -1) close(fds1[1]);						// fds1[1]が-1以外の場合（先頭コマンド以外の場合）、fds1[1]をcloseする
 				continue ;												// 以降の処理をスキップし、次のコマンドへ処理を進める
 			}
 		}
