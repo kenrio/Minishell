@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+         #
+#    By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/02/01 16:05:24 by keishii          ###   ########.fr        #
+#    Updated: 2025/02/21 22:09:51 by tishihar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,13 +25,20 @@ OBJ_DIR			= obj
 
 # **************************************************************************** #
 # SOURCES
+SRC_UTILS		= \
+				utils.c \
 
 
-SRC				= main \
-				utils
+
+
+
+SRC				= \
+				main.c \
+				$(addprefix utils/, $(SRC_UTILS)) \
+
 
 OBJ				= ${addprefix ${OBJ_DIR}/, \
-				${SRC:=.o}}
+				${SRC:.c=.o}}
 
 
 # **************************************************************************** #
@@ -39,10 +46,15 @@ OBJ				= ${addprefix ${OBJ_DIR}/, \
 
 
 LIBFT_DIR	= libft
+LIBFT_INC_DIR := $(LIBFT_DIR)
 LIBFT		= ${LIBFT_DIR}/libft.a
 
 LFLAGS		= -lreadline
 
+# **************************************************************************** #
+# INCLUDES
+INC_DIR := includes
+INCLUDES := -I$(INC_DIR) -I$(LIBFT_INC_DIR)
 
 # **************************************************************************** #
 # RULES
@@ -54,8 +66,8 @@ ${NAME}: ${OBJ} ${LIBFT}
 	${CC} ${CFLAGS} $^ -o ${NAME} ${LIBFT} ${LFLAGS}
 
 ${OBJ_DIR}/%.o: ${SRC_DIR}/%.c
-	@mkdir -p ${OBJ_DIR}
-	${CC} ${CFLAGS} -Iincludes -c $< -o $@
+	@mkdir -p $(dir $@)
+	${CC} ${CFLAGS} ${INCLUDES} -c $< -o $@
 
 $(LIBFT):
 	${MAKE} -C ${LIBFT_DIR}
