@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+         #
+#    By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/01/05 16:16:29 by keishii          ###   ########.fr        #
+#    Updated: 2025/02/21 22:09:51 by tishihar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# **************************************** #
+# **************************************************************************** #
 # VARIABLES
 
 
@@ -23,39 +23,58 @@ SRC_DIR			= src
 OBJ_DIR			= obj
 
 
-# **************************************** #
+# **************************************************************************** #
 # SOURCES
+SRC_UTILS		= \
+				utils.c \
 
 
-SRC_FILES		= main \
-				utils
-
-OBJ_FILES		= ${addprefix ${OBJ_DIR}/, \
-				${SRC_FILES:=.o}}
 
 
-# **************************************** #
+
+SRC				= \
+				main.c \
+				$(addprefix utils/, $(SRC_UTILS)) \
+
+
+OBJ				= ${addprefix ${OBJ_DIR}/, \
+				${SRC:.c=.o}}
+
+
+# **************************************************************************** #
 # LIBRARIES & FRAMEWORKS
 
 
+LIBFT_DIR	= libft
+LIBFT_INC_DIR := $(LIBFT_DIR)
+LIBFT		= ${LIBFT_DIR}/libft.a
+
 LFLAGS		= -lreadline
 
+# **************************************************************************** #
+# INCLUDES
+INC_DIR := includes
+INCLUDES := -I$(INC_DIR) -I$(LIBFT_INC_DIR)
 
-# **************************************** #
+# **************************************************************************** #
 # RULES
 
 
 all: ${NAME}
 
-${NAME}: ${OBJ_FILES}
-	${CC} ${CFLAGS} ${LFLAGS} $^ -o ${NAME}
+${NAME}: ${OBJ} ${LIBFT}
+	${CC} ${CFLAGS} $^ -o ${NAME} ${LIBFT} ${LFLAGS}
 
 ${OBJ_DIR}/%.o: ${SRC_DIR}/%.c
-	@mkdir -p ${OBJ_DIR}
-	${CC} ${CFLAGS} -Iincludes -c $< -o $@
+	@mkdir -p $(dir $@)
+	${CC} ${CFLAGS} ${INCLUDES} -c $< -o $@
+
+$(LIBFT):
+	${MAKE} -C ${LIBFT_DIR}
 
 clean:
 	rm -rf ${OBJ_DIR}
+	${MAKE} -C ${LIBFT_DIR} fclean
 
 fclean: clean
 	rm -f ${NAME}
@@ -63,7 +82,7 @@ fclean: clean
 re: fclean all
 
 
-# **************************************** #
+# **************************************************************************** #
 # PHONY
 
 
