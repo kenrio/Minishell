@@ -6,7 +6,7 @@
 #    By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/02/21 22:09:51 by tishihar         ###   ########.fr        #
+#    Updated: 2025/02/22 15:24:40 by tishihar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,13 +28,15 @@ OBJ_DIR			= obj
 SRC_UTILS		= \
 				utils.c \
 
+SRC_AST			= \
+				exec_ast.c \
 
 
-
-
+# SRC&OBJ
 SRC				= \
 				main.c \
 				$(addprefix utils/, $(SRC_UTILS)) \
+				$(addprefix ast/, $(SRC_AST)) \
 
 
 OBJ				= ${addprefix ${OBJ_DIR}/, \
