@@ -31,6 +31,9 @@ SRC_UTILS		= \
 SRC_AST			= \
 				exec_ast.c \
 
+SRC				= \
+				main.c \
+				$(addprefix utils/, $(SRC_UTILS)) \
 
 # SRC&OBJ
 SRC				= \
@@ -38,10 +41,8 @@ SRC				= \
 				$(addprefix utils/, $(SRC_UTILS)) \
 				$(addprefix ast/, $(SRC_AST)) \
 
-
 OBJ				= ${addprefix ${OBJ_DIR}/, \
 				${SRC:.c=.o}}
-
 
 # **************************************************************************** #
 # LIBRARIES & FRAMEWORKS
