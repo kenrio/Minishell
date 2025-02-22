@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+         #
+#    By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/02/21 22:09:51 by tishihar         ###   ########.fr        #
+#    Updated: 2025/02/22 15:21:10 by keishii          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,16 +25,20 @@ OBJ_DIR			= obj
 
 # **************************************************************************** #
 # SOURCES
+
+
+SRC_LEXER		= \
+				lexer.c \
+
+
 SRC_UTILS		= \
 				utils.c \
-
-
-
 
 
 SRC				= \
 				main.c \
 				$(addprefix utils/, $(SRC_UTILS)) \
+				$(addprefix lexer/, $(SRC_LEXER)) \
 
 
 OBJ				= ${addprefix ${OBJ_DIR}/, \
@@ -51,10 +55,14 @@ LIBFT		= ${LIBFT_DIR}/libft.a
 
 LFLAGS		= -lreadline
 
+
 # **************************************************************************** #
 # INCLUDES
+
+
 INC_DIR := includes
 INCLUDES := -I$(INC_DIR) -I$(LIBFT_INC_DIR)
+
 
 # **************************************************************************** #
 # RULES
