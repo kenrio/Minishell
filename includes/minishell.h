@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/02/21 20:26:24 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/02/22 20:17:56 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,28 @@ typedef struct s_redirect
 	char				*file_name;
 	struct	s_redirect	*next;
 } t_ridirect;
+
+typedef enum	e_token_type
+{
+	WORD,
+	REDIRECT_OUT,
+	REDIRECT_IN,
+	REDIRECT_APPEND,
+	REDIRECT_HEREDOC,
+	PIPE,
+}				t_token_type;
+
+typedef struct	s_token
+{
+	char			*token;
+	t_token_type	token_type;
+}				t_token;
+
+typedef struct	s_token_list
+{
+	t_token	*token_list;
+	int		num;
+}				t_token_list;
 
 // AST
 // AST structure can take "cmd_node" or "pipe_node".
