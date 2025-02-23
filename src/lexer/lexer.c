@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:01:33 by keishii           #+#    #+#             */
-/*   Updated: 2025/02/22 20:01:02 by keishii          ###   ########.fr       */
+/*   Updated: 2025/02/23 20:36:30 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,6 @@
 
 int	lexer(char *input_line[])
 {
+	(void)input_line;
 	return (0);
 }
