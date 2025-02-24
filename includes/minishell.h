@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/02/21 20:26:24 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/02/24 16:11:04 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,22 @@ typedef	struct u_ast
 } t_ast;
 
 // -------------------- functions --------------------
+// ast
+int		execute_ast(t_ast *ast_node, int fd_in, int fd_out, pid_t *pids);
+int		exec_ast_pipe(t_ast *ast_node, int fd_in, int fd_out, pid_t *pids);
+int		exec_ast_cmd(t_ast *ast_node, int fd_in, int fd_out, pid_t *pids);
 
+
+
+
+
+
+
+
+
+
+
+// test
 void	print_message(void);
 
 
