@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/02/23 18:18:26 by keishii          ###   ########.fr       */
+/*   Updated: 2025/02/24 17:19:33 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,6 @@ typedef	struct u_ast
 
 void	print_message(void);
 
+// lexer functions
 
-
-
+int		lexer(char *input_line, t_token_list *token_list);
