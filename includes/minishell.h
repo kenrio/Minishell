@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/02/24 17:19:33 by keishii          ###   ########.fr       */
+/*   Updated: 2025/02/25 19:16:13 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <signal.h>
@@ -70,6 +71,12 @@ typedef struct	s_token_list
 	int		num;
 }				t_token_list;
 
+typedef struct	s_lexer_flag
+{
+	bool	in_squote;
+	bool	in_dquote;
+}				t_lexer_flag;
+
 // AST
 // AST structure can take "cmd_node" or "pipe_node".
 // cmd_node must have "redirects" member.
@@ -99,7 +106,10 @@ typedef	struct u_ast
 
 // -------------------- functions --------------------
 
+// utils functions
+
 void	print_message(void);
+int		ft_isspace(char c);
 
 // lexer functions
 
