@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:04:52 by tishihar          #+#    #+#             */
-/*   Updated: 2025/02/26 14:49:50 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:04:59 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ static	void	exec_left(t_ast *ast_node, int fd_in, int fd_pipe[], pid_t *pids);
 static	void	exec_right(t_ast *ast_node, int fd_pipe[], int fd_out, pid_t *pids);
 
 
-// pipeでfork()する
+// exec_ast_pipe() handle a pipe.
+// use fork(), separate left and right processes, and execute_ast() in each;
 int	exec_ast_pipe(t_ast *ast_node, int fd_in, int fd_out, pid_t *pids)
 {
 	int		fd_pipe[2];
@@ -44,6 +45,7 @@ int	exec_ast_pipe(t_ast *ast_node, int fd_in, int fd_out, pid_t *pids)
 	return (0);
 }
 
+// this function can close pipe, riterally.
 static	void	close_pipe(int fd_pipe[])
 {
 	if (fd_pipe[0] != -1)
@@ -52,6 +54,7 @@ static	void	close_pipe(int fd_pipe[])
 		close(fd_pipe[1]);
 }
 
+// this function wait a pipe_fork().
 static	void	wait_left_right()
 {
 	int count;
@@ -61,6 +64,7 @@ static	void	wait_left_right()
 		wait(NULL);
 }
 
+// riterally.
 static	void	exec_left(t_ast *ast_node, int fd_in, int fd_pipe[], pid_t *pids)
 {
 	pid_t	pid;
@@ -86,6 +90,7 @@ static	void	exec_left(t_ast *ast_node, int fd_in, int fd_pipe[], pid_t *pids)
 	}
 }
 
+// riterally.
 static	void	exec_right(t_ast *ast_node, int fd_pipe[], int fd_out, pid_t *pids)
 {
 	pid_t	pid;
