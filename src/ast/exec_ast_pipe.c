@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:04:52 by tishihar          #+#    #+#             */
-/*   Updated: 2025/02/26 15:04:59 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:28:51 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,30 +20,30 @@ static	void	exec_right(t_ast *ast_node, int fd_pipe[], int fd_out, pid_t *pids);
 
 // exec_ast_pipe() handle a pipe.
 // use fork(), separate left and right processes, and execute_ast() in each;
-int	exec_ast_pipe(t_ast *ast_node, int fd_in, int fd_out, pid_t *pids)
-{
-	int		fd_pipe[2];
+// int	exec_ast_pipe(t_ast *ast_node, int fd_in, int fd_out, pid_t *pids)
+// {
+// 	int		fd_pipe[2];
 
-	// pipe生み出す。
-    if (pipe(fd_pipe) == -1)
-	{
-		perror("crate pipe failed.");
-		return (1);
-	}
+// 	// pipe生み出す。
+//     if (pipe(fd_pipe) == -1)
+// 	{
+// 		perror("crate pipe failed.");
+// 		return (1);
+// 	}
 	
-	// pipeがある状態でleftとrightをfork()する。
-	exec_left(ast_node->data.pipe.left, fd_in, fd_pipe, pids);
-	exec_right(ast_node->data.pipe.right, fd_pipe, fd_out, pids);
+// 	// pipeがある状態でleftとrightをfork()する。
+// 	exec_left(ast_node->data.pipe.left, fd_in, fd_pipe, pids);
+// 	exec_right(ast_node->data.pipe.right, fd_pipe, fd_out, pids);
 
-	// 用済みなので速攻でpipeを閉じる
-	close_pipe(fd_pipe);
+// 	// 用済みなので速攻でpipeを閉じる
+// 	close_pipe(fd_pipe);
 	
-	// wait処理
-	wait_left_right();
+// 	// wait処理
+// 	wait_left_right();
 
-	// return 
-	return (0);
-}
+// 	// return 
+// 	return (0);
+// }
 
 // this function can close pipe, riterally.
 static	void	close_pipe(int fd_pipe[])

@@ -6,14 +6,11 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:07:58 by tishihar          #+#    #+#             */
-/*   Updated: 2025/02/24 18:42:48 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:22:34 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static	void	check_fd(int fd_in, int fd_out);
-static	void	setup_child_fd(int fd_in, int fd_out);
 
 
 
@@ -30,11 +27,12 @@ int	exec_ast_cmd(t_ast *ast_node, int fd_in, int fd_out, pid_t *pids)
 	if (ast_node->data.cmd.redirects != NULL)
 		handle_redirect();
 
-	// null だったらそのまま抜ける
-
-
-	// 2: redirect配列がない場合、単純にfd_inから読み取り、fd_outに書き込めばいい。
+	// 2: 単純にfd_inから読み取り、fd_outに書き込めばいい。
+	// forkしたときにpidsに付け加えることを忘れずに。//TODO これに関して親は孫プロセスを待てないので、pidsに追加しても意味がない。
 	execute_cmd();
+
+
+	// 
 
 	
 	
@@ -45,6 +43,10 @@ int	exec_ast_cmd(t_ast *ast_node, int fd_in, int fd_out, pid_t *pids)
 
 	
 }
+
+
+
+
 
 
 // this func() replace fd_in & fd_out.
