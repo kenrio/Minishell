@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/02/25 19:16:13 by keishii          ###   ########.fr       */
+/*   Updated: 2025/02/26 18:42:04 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct	s_lexer_flag
 {
 	bool	in_squote;
 	bool	in_dquote;
+	bool	new_token;
 }				t_lexer_flag;
 
 // AST
@@ -113,4 +114,4 @@ int		ft_isspace(char c);
 
 // lexer functions
 
-int		lexer(char *input_line, t_token_list *token_list);
+int		lexer(char *input_line);
