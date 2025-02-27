@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:07:58 by tishihar          #+#    #+#             */
-/*   Updated: 2025/02/27 15:34:28 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:40:42 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,6 @@ void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], pid_t *pids)
 		// pids更新
 	}
 }
-
-
 
 
 // this func() determines if the input is correct.
