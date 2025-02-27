@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:07:58 by tishihar          #+#    #+#             */
-/*   Updated: 2025/02/27 15:12:01 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:34:28 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,31 @@ static	void	check_fd(int fd_in, int fd_out);
 // step1. if there is a redirect arrays, replace fd_in and fd_out.
 // step2. fd_in & fd_out to std_in & std_out, use dup().
 // step3. Execute fork(), and execute(). 
-void	exec_right_cmd(t_ast *ast_node, int fd_in, pid_t *pids)
+void	exec_right_cmd(t_ast *node, int fd_in, pid_t *pids)
 {
-    // このノードタイプ＝cmdの場合、コマンドを実行する。
+	pid_t	pid;
 
-	// 1: redirect配列に１つでもredirectが入っていた場合、リダイレクトにfd_in, fd_outを付け替える
-	// if (ast_node->data.cmd.redirects != NULL)
-	// 	handle_redirect();
-
-	
-
-	// 右側はfd_inから読み取って（リダイレクト）に書き込む(これは最後のコマンドなのである)
-	// fd_inとリダイレクト先(fd_out)を付け替える
-
+	// fork()して子プロセスで処理をする
+	// fd_inとリダイレクト先(fd_out)を付け替えてから実行
+	pid = fork();
+	if (pid < 0)
+	{
+		perror("fork failed.");
+		exit(EXIT_FAILURE);
+	}
+	else if (pid == 0)
+	{
+		check_fd(fd_in, STDOUT_FILENO);
+		setup_child_fd(fd_in, STDOUT_FILENO);
+		execve(node->data.cmd.path, node->data.cmd.argv, node->data.cmd.envp);
+		perror("execve failed");
+		exit(EXIT_FAILURE);
+	}
+	else
+	{
+		// 親プロセス
+		// pids更新
+	}
 	
 }
 
@@ -47,12 +59,8 @@ void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], pid_t *pids)
 {
 	pid_t	pid;
 
-	// redirect情報がある場合、STD_INとSTD_OUTを書き換える。
-	// if (node->data.cmd.redirects != NULL)
-	// 	handle_redirect();
-
-
 	// fork()して子プロセスで処理をする
+	// fd_inとfd_pipe[1]に入出力先を入れ替えてから実行している。
 	pid = fork();
 	if (pid < 0)
 	{
@@ -68,11 +76,12 @@ void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], pid_t *pids)
 		perror("execve failed");
 		exit(EXIT_FAILURE);
 	}
+	else
+	{
+		// 親プロセス
+		// pids更新
+	}
 }
-
-
-
-
 
 
 
@@ -92,19 +101,17 @@ static	void	check_fd(int fd_in, int fd_out)
 	}
 }
 
-
-
 // this func() is set "fd_in" to STDIN, and "fd_out" to STD_OUT
 // if in or out isn't right shape, this is not the case.
 static	void	setup_child_fd(int fd_in, int fd_out)
 {
 	// ここでfd_inが-1になるケースはリダイレクトが-1, もしくは初期inが-1か。
-	if (fd_in != -1)
+	if (fd_in != -1 || fd_in != STDIN_FILENO)
 	{
 		dup2(fd_in, STDIN_FILENO);
 		close(fd_in);
 	}
-	if (fd_out != -1)
+	if (fd_out != -1 || fd_out != STDOUT_FILENO)
 	{
 		dup2(fd_out, STDOUT_FILENO);
 		close(fd_out);
@@ -113,14 +120,8 @@ static	void	setup_child_fd(int fd_in, int fd_out)
 
 
 
+//TODO:redirect対応とpids登録
 
-
-
-// this func() replace fd_in & fd_out.
-static	int	handle_redirect()
-{
-	
-}
 
 
 
