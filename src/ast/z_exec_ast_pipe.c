@@ -6,20 +6,16 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:32:03 by tishihar          #+#    #+#             */
-/*   Updated: 2025/02/26 18:32:41 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:50:05 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
-
-
 #include "minishell.h"
 
-static	void 	close_pipe(int fd_pipe[]);
-static	void	wait_left_right();
-static	void	exec_left(t_ast *ast_node, int fd_in, int fd_pipe[], pid_t *pids);
-static	void	exec_right(t_ast *ast_node, int fd_pipe[], int fd_out, pid_t *pids);
+// static	void 	close_pipe(int fd_pipe[]);
+// static	void	wait_left_right();
+// static	void	exec_left(t_ast *ast_node, int fd_in, int fd_pipe[], pid_t *pids);
+// static	void	exec_right(t_ast *ast_node, int fd_pipe[], int fd_out, pid_t *pids);
 
 
 // exec_ast_pipe() handle a pipe.
@@ -49,74 +45,74 @@ static	void	exec_right(t_ast *ast_node, int fd_pipe[], int fd_out, pid_t *pids);
 // 	return (0);
 // }
 
-// this function can close pipe, riterally.
-static	void	close_pipe(int fd_pipe[])
-{
-	if (fd_pipe[0] != -1)
-		close(fd_pipe[0]);
-	if (fd_pipe[1] != -1)	
-		close(fd_pipe[1]);
-}
+// // this function can close pipe, riterally.
+// static	void	close_pipe(int fd_pipe[])
+// {
+// 	if (fd_pipe[0] != -1)
+// 		close(fd_pipe[0]);
+// 	if (fd_pipe[1] != -1)	
+// 		close(fd_pipe[1]);
+// }
 
-// this function wait a pipe_fork().
-static	void	wait_left_right()
-{
-	int count;
+// // this function wait a pipe_fork().
+// static	void	wait_left_right()
+// {
+// 	int count;
 
-	count = 2;
-	while (count--)
-		wait(NULL);
-}
+// 	count = 2;
+// 	while (count--)
+// 		wait(NULL);
+// }
 
-// riterally.
-static	void	exec_left(t_ast *ast_node, int fd_in, int fd_pipe[], pid_t *pids)
-{
-	pid_t	pid;
+// // riterally.
+// static	void	exec_left(t_ast *ast_node, int fd_in, int fd_pipe[], pid_t *pids)
+// {
+// 	pid_t	pid;
 
-	pid = fork();
-	if (pid < 0)
-	{
-		perror("pipe fork failed.");
-		exit(EXIT_FAILURE);
-	}
-	else if (pid == 0)
-	{
-		// 要らない方を消す
-		close(fd_pipe[0]);
+// 	pid = fork();
+// 	if (pid < 0)
+// 	{
+// 		perror("pipe fork failed.");
+// 		exit(EXIT_FAILURE);
+// 	}
+// 	else if (pid == 0)
+// 	{
+// 		// 要らない方を消す
+// 		close(fd_pipe[0]);
 
-		// execute_ast();
-		if (execute_ast(ast_node, fd_in, fd_pipe[1], pids))
-		{
-			// 実行がエラーだった場合の処理
-			exit(EXIT_FAILURE);
-		}
-		exit(EXIT_SUCCESS);
-	}
-}
+// 		// execute_ast();
+// 		if (execute_ast(ast_node, fd_in, fd_pipe[1], pids))
+// 		{
+// 			// 実行がエラーだった場合の処理
+// 			exit(EXIT_FAILURE);
+// 		}
+// 		exit(EXIT_SUCCESS);
+// 	}
+// }
 
-// riterally.
-static	void	exec_right(t_ast *ast_node, int fd_pipe[], int fd_out, pid_t *pids)
-{
-	pid_t	pid;
+// // riterally.
+// static	void	exec_right(t_ast *ast_node, int fd_pipe[], int fd_out, pid_t *pids)
+// {
+// 	pid_t	pid;
 
-	pid = fork();
-	if (pid < 0)
-	{
-		perror("pipe fork failed.");
-		exit(EXIT_FAILURE);
-	}
-	else if (pid == 0)
-	{
-		// 要らない方を消す
-		close(fd_pipe[1]);
+// 	pid = fork();
+// 	if (pid < 0)
+// 	{
+// 		perror("pipe fork failed.");
+// 		exit(EXIT_FAILURE);
+// 	}
+// 	else if (pid == 0)
+// 	{
+// 		// 要らない方を消す
+// 		close(fd_pipe[1]);
 
-		// execute_ast();
-		if (execute_ast(ast_node, fd_pipe[0], fd_out, pids))
-		{
-			// 実行がエラーだった場合の処理
-			exit(EXIT_FAILURE);
-		}
-		exit(EXIT_SUCCESS);
-	}
-}
+// 		// execute_ast();
+// 		if (execute_ast(ast_node, fd_pipe[0], fd_out, pids))
+// 		{
+// 			// 実行がエラーだった場合の処理
+// 			exit(EXIT_FAILURE);
+// 		}
+// 		exit(EXIT_SUCCESS);
+// 	}
+// }
 
