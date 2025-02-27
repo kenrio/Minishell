@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:07:58 by tishihar          #+#    #+#             */
-/*   Updated: 2025/02/27 15:40:42 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/02/27 18:03:53 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void	exec_right_cmd(t_ast *node, int fd_in, pid_t *pids)
 	}
 	else
 	{
-		// 親プロセス
-		// pids更新
+		// pid追加
+		pids_push_back(pids, pid);
 	}
 	
 }
@@ -78,8 +78,8 @@ void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], pid_t *pids)
 	}
 	else
 	{
-		// 親プロセス
-		// pids更新
+		// pid追加
+		pids_push_back(pids, pid);
 	}
 }
 

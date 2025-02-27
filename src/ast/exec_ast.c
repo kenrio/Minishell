@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:21:49 by tishihar          #+#    #+#             */
-/*   Updated: 2025/02/27 17:22:07 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/02/27 18:01:34 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,20 @@
 // you should pass ast_top_node.
 int	run_ast(t_ast *ast_node)
 {
-	// この関数でpidsを用意してexecute_astを行う
-	
+	t_pids	*pids;
 
-	// ast_top_nodeがcmdtypeの場合(build_in関数)はここに記述
+	init_pids(pids);
 
 	// normal_execute()
 	if (execute_ast(ast_node, STDIN_FILENO, pids))
 	{
-		// パイプとかがうまく行かなくてエラー戻りしてきた場合の処理
+		destroy_and_wait_pids(pids);
+		return (1);
 	}
 
 
-	// wait処理
+	// pidsができているのでここでwaitできる。
+	destroy_and_wait_pids(pids);
 
 
 	return (0);

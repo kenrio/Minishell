@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:27:01 by tishihar          #+#    #+#             */
-/*   Updated: 2025/02/27 17:44:17 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:59:40 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	pids_push_back(t_pids *pids, pid_t pid)
 	return (0);
 }
 
-void	destroy_pids(t_pids	*pids)
+void	destroy_and_wait_pids(t_pids	*pids)
 {
 	t_pid_node	*curr;
 	t_pid_node	*next;
@@ -51,6 +51,7 @@ void	destroy_pids(t_pids	*pids)
 	while (curr)
 	{
 		next = curr->next;
+		waitpid(curr->pid, NULL, 0);
 		free(curr);
 		curr = next;
 	}
