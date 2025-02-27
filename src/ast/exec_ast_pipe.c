@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:31:27 by tishihar          #+#    #+#             */
-/*   Updated: 2025/02/26 20:26:06 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/02/27 13:04:20 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 
 // this function create pipe, and execute left cmd and right node .
-int	exec_ast_pipe(t_ast *ast_node, int fd_in, int fd_out, pid_t *pids)
+int	exec_ast_pipe(t_ast *ast_node, int fd_in, pid_t *pids)
 {
 	int	fd_pipe[2];
 
@@ -26,15 +26,14 @@ int	exec_ast_pipe(t_ast *ast_node, int fd_in, int fd_out, pid_t *pids)
 	}
 
 	// 左コマンドの実行
-	if (exec_l_cmd(ast_node, fd_in, fd_pipe, pids))
+	if (exec_left_cmd(ast_node, fd_in, fd_pipe, pids))
 		return (1);
 
 	// close[0]
 	close(fd_pipe[0]);
 
-
 	// 右ノードの実行;
-	if (execute_ast(ast_node->data.pipe.right, fd_pipe[0], fd_out, pids))
+	if (execute_ast(ast_node->data.pipe.right, fd_pipe[0], pids))
 		return (1);
 
 	return (0);
