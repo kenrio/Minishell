@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/02/27 14:36:26 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:26:12 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,20 @@ typedef	struct u_ast
 		
 	} data;
 } t_ast;
+
+
+// pids
+typedef	struct s_pid_node
+{
+	pid_t		pid;
+	struct s_pid_node	*next;
+} t_pid_node;
+
+typedef struct s_pids
+{
+	t_pid_node	*head;
+	t_pid_node	*tail;
+} t_pids;
 
 // -------------------- functions --------------------
 // ast
