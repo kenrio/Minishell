@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/02/27 13:11:30 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:36:26 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef	struct u_ast
 			char		*name;
 			char		*path;
 			char		**argv;
+			char		*envp;
 			t_ridirect	*redirects;
 		} cmd;
 		

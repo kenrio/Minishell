@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:21:49 by tishihar          #+#    #+#             */
-/*   Updated: 2025/02/27 13:24:40 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:04:24 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ int    execute_ast(t_ast *ast_node, int fd_in, pid_t *pids)
 	}
     else if (ast_node->type == NODE_CMD)
 	{
-		if (exec_right_cmd(ast_node, fd_in, pids))
-			return (1);
+		exec_right_cmd(ast_node, fd_in, pids);
 		return (0);
 	}
     else

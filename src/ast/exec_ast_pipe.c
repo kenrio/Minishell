@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:31:27 by tishihar          #+#    #+#             */
-/*   Updated: 2025/02/27 13:30:20 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:04:50 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ int	exec_ast_pipe(t_ast *ast_node, int fd_in, pid_t *pids)
 		perror("create pipe failed.");
 		return (1);
 	}
-	if (exec_left_cmd(ast_node, fd_in, fd_pipe, pids))
-		return (1);
+	exec_left_cmd(ast_node, fd_in, fd_pipe, pids);
 	close(fd_pipe[1]);
 	if (execute_ast(ast_node->data.pipe.right, fd_pipe[0], pids))
 		return (1);
+	close(fd_pipe[0]);
 	return (0);
 }
 
