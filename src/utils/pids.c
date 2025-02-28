@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:27:01 by tishihar          #+#    #+#             */
-/*   Updated: 2025/02/28 11:38:03 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/02/28 15:42:31 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	wait_pids(t_pids *pids, int *status)
 	while (curr)
 	{
 		next = curr->next;
-
 		if (curr->next == NULL)
 			wait_pid(curr->pid, status, 0);
 		else
@@ -59,7 +58,7 @@ void	wait_pids(t_pids *pids, int *status)
 		curr = next;
 	}
 	pids->head = NULL;
-	pids->tail = NULL; 
+	pids->tail = NULL;
 }
 
 void	destroy_pids(t_pids	*pids)
@@ -75,6 +74,5 @@ void	destroy_pids(t_pids	*pids)
 		curr = next;
 	}
 	pids->head = NULL;
-	pids->tail = NULL; 
+	pids->tail = NULL;
 }
-

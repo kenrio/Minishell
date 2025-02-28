@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 12:21:20 by tishihar          #+#    #+#             */
-/*   Updated: 2025/02/28 15:29:03 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/02/28 15:43:33 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static	int	handle_r_out(int *fd_out, char *file_name)
 	if (temp < 0)
 	{
 		perror("file open failed.");
-		return (1);	
+		return (1);
 	}
 	if (*fd_out != STDOUT_FILENO)
 		close(*fd_out);
@@ -73,7 +73,7 @@ static	int	handle_r_out_append(int *fd_out, char *file_name)
 	if (temp < 0)
 	{
 		perror("file open failed.");
-		return (1);	
+		return (1);
 	}
 	if (*fd_out != STDOUT_FILENO)
 		close(*fd_out);
@@ -89,7 +89,7 @@ static	int	handle_r_in(int *fd_in, char *file_name)
 	if (temp < 0)
 	{
 		perror("file open failed.");
-		return (1);	
+		return (1);
 	}
 	if (*fd_in != STDIN_FILENO)
 		close(*fd_in);
