@@ -6,15 +6,15 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:21:49 by tishihar          #+#    #+#             */
-/*   Updated: 2025/02/27 18:01:34 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/02/28 11:41:45 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // this func() can run ast_node.
-// you should pass ast_top_node.
-int	run_ast(t_ast *ast_node)
+// you should pass ast_top_node and ast_status_poipnter.
+int	run_ast(t_ast *ast_node, int *status)
 {
 	t_pids	*pids;
 
@@ -23,15 +23,15 @@ int	run_ast(t_ast *ast_node)
 	// normal_execute()
 	if (execute_ast(ast_node, STDIN_FILENO, pids))
 	{
-		destroy_and_wait_pids(pids);
+		wait_pids(pids, status);
+		destroy_pids(pids);
 		return (1);
 	}
 
 
 	// pidsができているのでここでwaitできる。
-	destroy_and_wait_pids(pids);
-
-
+	wait_pids(pids, status);
+	destroy_pids(pids);
 	return (0);
 }
 

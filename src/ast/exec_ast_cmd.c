@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:07:58 by tishihar          #+#    #+#             */
-/*   Updated: 2025/02/27 18:03:53 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/02/28 11:28:40 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ static	void	setup_child_fd(int fd_in, int fd_out)
 
 
 
-//TODO:redirect対応とpids登録
+//TODO:redirect対応
 
 
 
