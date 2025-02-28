@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 12:21:20 by tishihar          #+#    #+#             */
-/*   Updated: 2025/02/28 15:43:33 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/02/28 18:55:41 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,7 @@ int	handle_redirects(t_ast *node, int *fd_in_, int *fd_out_)
 		else if (curr->type == R_IN)
 			ret = handle_r_in(fd_in_, curr->file_name);
 		else
-		{
-			// ヒアどく
-			// 一旦r_in
-			ret = handle_r_in(fd_in_, curr->file_name);
-		}
+			ret = handle_heredoc(fd_in_, curr->file_name);
 		if (ret == 1)
 			return (1);
 		curr = curr->next;
