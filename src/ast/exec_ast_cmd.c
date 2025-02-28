@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:07:58 by tishihar          #+#    #+#             */
-/*   Updated: 2025/02/28 11:28:40 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/02/28 12:33:06 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,11 @@ static	void	check_fd(int fd_in, int fd_out);
 void	exec_right_cmd(t_ast *node, int fd_in, pid_t *pids)
 {
 	pid_t	pid;
+	int		fd_out;
 
-	// fork()して子プロセスで処理をする
-	// fd_inとリダイレクト先(fd_out)を付け替えてから実行
+	fd_out = STDOUT_FILENO;
+	// リダイレクトがあるならここで処理する
+
 	pid = fork();
 	if (pid < 0)
 	{
@@ -39,28 +41,27 @@ void	exec_right_cmd(t_ast *node, int fd_in, pid_t *pids)
 	}
 	else if (pid == 0)
 	{
-		check_fd(fd_in, STDOUT_FILENO);
-		setup_child_fd(fd_in, STDOUT_FILENO);
+		check_fd(fd_in, fd_out);
+		setup_child_fd(fd_in, fd_out);
 		execve(node->data.cmd.path, node->data.cmd.argv, node->data.cmd.envp);
 		perror("execve failed");
 		exit(EXIT_FAILURE);
 	}
 	else
-	{
-		// pid追加
 		pids_push_back(pids, pid);
-	}
-	
 }
 
 
 // this func() execute cmd, and update pids.
+// input by fd_in, output to fd_pipe[1];
 void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], pid_t *pids)
 {
 	pid_t	pid;
+	int		fd_out;
 
-	// fork()して子プロセスで処理をする
-	// fd_inとfd_pipe[1]に入出力先を入れ替えてから実行している。
+	fd_out = fd_pipe[1];
+	// もしリダイレクトリストがあるならここで付け替える。
+
 	pid = fork();
 	if (pid < 0)
 	{
@@ -70,17 +71,14 @@ void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], pid_t *pids)
 	else if (pid == 0)
 	{
 		close(fd_pipe[0]);
-		check_fd(fd_in, fd_pipe[1]);
-		setup_child_fd(fd_in, fd_pipe[1]);
+		check_fd(fd_in, fd_out);
+		setup_child_fd(fd_in, fd_out);
 		execve(node->data.cmd.path, node->data.cmd.argv, node->data.cmd.envp);
 		perror("execve failed");
 		exit(EXIT_FAILURE);
 	}
 	else
-	{
-		// pid追加
 		pids_push_back(pids, pid);
-	}
 }
 
 
@@ -103,7 +101,7 @@ static	void	check_fd(int fd_in, int fd_out)
 // if in or out isn't right shape, this is not the case.
 static	void	setup_child_fd(int fd_in, int fd_out)
 {
-	// ここでfd_inが-1になるケースはリダイレクトが-1, もしくは初期inが-1か。
+	// ここでfd_inが-1になるケースはリダイレクトが-1.
 	if (fd_in != -1 || fd_in != STDIN_FILENO)
 	{
 		dup2(fd_in, STDIN_FILENO);
