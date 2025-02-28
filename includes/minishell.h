@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/02/28 15:12:10 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/02/28 19:37:21 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	destroy_pids(t_pids	*pids);
 
 // redirect
 int		handle_redirects(t_ast *node, int *fd_in_, int *fd_out_);
-
+int		handle_heredoc(int *fd_in_, char *delimiter);
 
 
 
