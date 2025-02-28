@@ -3,23 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:07:58 by tishihar          #+#    #+#             */
-/*   Updated: 2025/02/28 15:29:52 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/02/28 21:39:22 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
 static	void	setup_child_fd(int fd_in, int fd_out);
 static	void	check_fd(int fd_in, int fd_out);
-
-
-
-
-
 
 // exec_ast_cmd() is used as follows.
 // step1. if there is a redirect arrays, replace fd_in and fd_out.
@@ -99,9 +93,9 @@ static	void	check_fd(int fd_in, int fd_out)
 
 // this func() is set "fd_in" to STDIN, and "fd_out" to STD_OUT
 // if in or out isn't right shape, this is not the case.
+// The case where fd_in is -1 here is the case where the redirection is -1.
 static	void	setup_child_fd(int fd_in, int fd_out)
 {
-	// ここでfd_inが-1になるケースはリダイレクトが-1.
 	if (fd_in != -1 || fd_in != STDIN_FILENO)
 	{
 		dup2(fd_in, STDIN_FILENO);

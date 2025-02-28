@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 12:21:20 by tishihar          #+#    #+#             */
-/*   Updated: 2025/02/28 18:55:41 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/02/28 21:41:47 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	handle_redirects(t_ast *node, int *fd_in_, int *fd_out_)
 	return (0);
 }
 
-// 書き出し >
+// >
 static	int	handle_r_out(int *fd_out, char *file_name)
 {
 	int	temp;
@@ -61,6 +61,7 @@ static	int	handle_r_out(int *fd_out, char *file_name)
 	return (0);
 }
 
+// >>
 static	int	handle_r_out_append(int *fd_out, char *file_name)
 {
 	int	temp;
@@ -77,6 +78,7 @@ static	int	handle_r_out_append(int *fd_out, char *file_name)
 	return (0);
 }
 
+// <
 static	int	handle_r_in(int *fd_in, char *file_name)
 {
 	int	temp;

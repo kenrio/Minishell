@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:21:49 by tishihar          #+#    #+#             */
-/*   Updated: 2025/02/28 15:44:28 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/02/28 21:40:03 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,6 @@ int	run_ast(t_ast *ast_node, int *status)
 		destroy_pids(pids);
 		return (1);
 	}
-
-
-	// pidsができているのでここでwaitできる。
 	wait_pids(pids, status);
 	destroy_pids(pids);
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 17:31:22 by tishihar          #+#    #+#             */
-/*   Updated: 2025/02/28 19:05:30 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/02/28 21:41:01 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static	int	create_heredoc_pipe(const char *delimiter);
 
 // <<
-// fd_inを書き換える
 int	handle_heredoc(int *fd_in_, char *delimiter)
 {
 	int	temp;
@@ -45,10 +44,10 @@ static	int	create_heredoc_pipe(const char *delimiter)
 	}
 	while (1)
 	{
-		line = readline("> ");// 改行毎に前の入力が入る// "> abcde"
+		line = readline("> ");
 
-		// ベースケース
-		if (!line || ft_strncmp(line, delimiter, ft_strlen(line)) == 0)// 32
+		// base_case
+		if (!line || ft_strncmp(line, delimiter, ft_strlen(line)) == 0)
 		{
 			free(line);
 			break;
