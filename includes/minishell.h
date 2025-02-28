@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/02/28 12:10:37 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/02/28 15:12:10 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,14 @@ int		exec_ast_pipe(t_ast *ast_node, int fd_in, pid_t *pids);
 void	exec_right_cmd(t_ast *ast_node, int fd_in, pid_t *pids);
 void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], pid_t *pids);
 
-// utils
+// pids
 void	init_pids(t_pids *pids);
 int		pids_push_back(t_pids *pids, pid_t pid);
 void	wait_pids(t_pids *pids, int *status);
 void	destroy_pids(t_pids	*pids);
+
+// redirect
+int		handle_redirects(t_ast *node, int *fd_in_, int *fd_out_);
 
 
 

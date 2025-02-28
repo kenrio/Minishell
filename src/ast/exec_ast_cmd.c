@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:07:58 by tishihar          #+#    #+#             */
-/*   Updated: 2025/02/28 12:33:06 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/02/28 15:29:52 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void	exec_right_cmd(t_ast *node, int fd_in, pid_t *pids)
 	int		fd_out;
 
 	fd_out = STDOUT_FILENO;
-	// リダイレクトがあるならここで処理する
-
+	if (node->data.cmd.redirects)
+		handle_redirects(node, &fd_in, &fd_out);
 	pid = fork();
 	if (pid < 0)
 	{
@@ -60,8 +60,8 @@ void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], pid_t *pids)
 	int		fd_out;
 
 	fd_out = fd_pipe[1];
-	// もしリダイレクトリストがあるならここで付け替える。
-
+	if (node->data.cmd.redirects)
+		handle_redirects(node, &fd_in, &fd_out);
 	pid = fork();
 	if (pid < 0)
 	{
@@ -113,12 +113,5 @@ static	void	setup_child_fd(int fd_in, int fd_out)
 		close(fd_out);
 	}
 }
-
-
-
-//TODO:redirect対応
-
-
-
 
 
