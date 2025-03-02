@@ -6,37 +6,41 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:08:21 by keishii           #+#    #+#             */
-/*   Updated: 2025/02/26 18:42:56 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/03 04:09:52 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	main_loop(char *input_line);
+static int	main_loop(char *input_line, int *exit_status);
 static char	*get_input_line(void);
 
 int	main(int argc, char **argv, char **envp)
 {
+	int		exit_status;
 	char	*input_line;
 
 	(void)argc;
 	(void)argv;
 	(void)envp;
+	exit_status = 0;
 	input_line = NULL;
-	main_loop(input_line);
-	exit(0);
+	exit_status = main_loop(input_line, &exit_status);
+	exit(exit_status);
 }
 
-static void	main_loop(char *input_line)
+static int	main_loop(char *input_line, int *exit_status)
 {
 	while (1)
 	{
 		input_line = get_input_line();
 		if (!input_line)
 			break ;
-		lexer(input_line);
+		*exit_status = lexer(input_line, exit_status);
 		free(input_line);
+		printf("\nexit_status: %d\n\n", *exit_status);
 	}
+	return (*exit_status);
 }
 
 static char	*get_input_line(void)

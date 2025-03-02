@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/02/26 18:42:04 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/03 05:03:20 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,15 @@ typedef struct	s_token_list
 	int		num;
 }				t_token_list;
 
-typedef struct	s_lexer_flag
+typedef struct	s_token_state
 {
 	bool	in_squote;
 	bool	in_dquote;
 	bool	new_token;
-}				t_lexer_flag;
+	int		start_index;
+	int		current_index;
+	int		token_index;
+}				t_token_state;
 
 // AST
 // AST structure can take "cmd_node" or "pipe_node".
@@ -114,4 +117,4 @@ int		ft_isspace(char c);
 
 // lexer functions
 
-int		lexer(char *input_line);
+int		lexer(char *input_line, int *exit_status);
