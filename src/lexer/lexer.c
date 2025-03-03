@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:01:33 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/03 05:00:00 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/03 16:47:06 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	lexer(char *input_line, int *exit_status)
 	t_token_list	token_list;
 	t_token_state	check_state;
 
-	// printf("input_line: %s\n", input_line);
 	token_list.token_list = NULL;
 	token_list.num = 0;
 	count_tokens(input_line, &token_list);
@@ -53,13 +52,10 @@ int	lexer(char *input_line, int *exit_status)
 		return (*exit_status);
 	}
 	*exit_status = tokenize(input_line, &token_list);
-	// *exit_status = lexer_split(input_line, &token_list);
 	printf("\ntoken_list->num: %d\n", token_list.num);
 	printf("\n");
 	for (int i = 0; i < token_list.num; i++)
-	{
 		printf("token_list[%d]: %s\n", i, token_list.token_list[i].token);
-	}
 	return (*exit_status);
 }
 
@@ -80,6 +76,10 @@ static void	count_tokens(char *line, t_token_list *list)
 				list->num++;
 			}
 			handle_quote(line, &state);
+			if (line[state.current_index + 1]
+				&& !ft_isspace(line[state.current_index + 1])
+				&& !is_operator(line[state.current_index + 1]))
+				state.new_token = true;
 		}
 		else if (!state.in_squote && !state.in_dquote)
 		{
@@ -146,16 +146,9 @@ static int	tokenize(char *line, t_token_list *list)
 				state.new_token = false;
 			}
 			handle_quote(line, &state);
-			if ((line[state.current_index] == '\''
-				|| line[state.current_index] == '"')
-				&& !state.in_squote && !state.in_dquote)
-			{
-				state.current_index++;
-				add_token(line, list, &state);
-				state.new_token = true;
-				state.start_index = state.current_index;
-				continue ;
-			}
+			if (line[state.current_index + 1]
+				&& (!is_operator(line[state.current_index + 1])))
+				state.new_token = false;
 		}
 		else if (!state.in_squote && !state.in_dquote)
 		{
