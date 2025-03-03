@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:01:33 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/03 16:47:06 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/03 19:27:46 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static int	is_operator(char c);
 static int	is_double_operator(char *line, int index);
 static int	tokenize(char *line, t_token_list *list);
 static int	add_token(char *line, t_token_list *list, t_token_state *state);
+static void	assign_token_type(t_token_list *list);
+static int	ft_strcmp(char *s1, char *s2);
 
 int	lexer(char *input_line, int *exit_status)
 {
@@ -54,8 +56,12 @@ int	lexer(char *input_line, int *exit_status)
 	*exit_status = tokenize(input_line, &token_list);
 	printf("\ntoken_list->num: %d\n", token_list.num);
 	printf("\n");
+	assign_token_type(&token_list);
 	for (int i = 0; i < token_list.num; i++)
+	{
 		printf("token_list[%d]: %s\n", i, token_list.token_list[i].token);
+		printf("token_type: %d\n\n", token_list.token_list[i].token_type);
+	}
 	return (*exit_status);
 }
 
@@ -202,5 +208,49 @@ static int	add_token(char *line, t_token_list *list, t_token_state *state)
 			&line[state->start_index], len + 1);
 	list->token_list[state->token_index].token[len] = '\0';
 	state->token_index++;
+	return (0);
+}
+
+static void	assign_token_type(t_token_list *list)
+{
+	int	i;
+	t_token	*token;
+
+	i = 0;
+	while ((*list).token_list[i].token)
+	{
+		token = &list->token_list[i];
+		if (ft_strcmp(token->token, ">") == 0)
+			token->token_type = REDIRECT_OUT;
+		else if (ft_strcmp(token->token, "<") == 0)
+			token->token_type = REDIRECT_IN;
+		else if (ft_strcmp(token->token, ">>") == 0)
+			token->token_type = REDIRECT_APPEND;
+		else if (ft_strcmp(token->token, "<<") == 0)
+			token->token_type = REDIRECT_HEREDOC;
+		else if (ft_strcmp(token->token, "|") == 0)
+			token->token_type = PIPE;
+		else
+			token->token_type = WORD;
+		i++;
+	}
+}
+
+static int	ft_strcmp(char *s1, char *s2)
+{
+	unsigned char	*c1;
+	unsigned char	*c2;
+
+	if (!s1 || !s2)
+		return (-1);
+	c1 = (unsigned char *)s1;
+	c2 = (unsigned char *)s2;
+	while (*c1 || *c2)
+	{
+		if (*c1 != *c2)
+			return (*c1 - *c2);
+		c1++;
+		c2++;
+	}
 	return (0);
 }
