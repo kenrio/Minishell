@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:01:33 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/03 19:27:46 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/05 02:20:34 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,12 @@ static void	handle_quote(char *line, t_token_state *state);
 static int	is_operator(char c);
 static int	is_double_operator(char *line, int index);
 static int	tokenize(char *line, t_token_list *list);
+static void	handle_quoted_token(char *line, t_token_state *state);
+static int	handle_delimiter(char *line,
+		t_token_list *list, t_token_state *state);
 static int	add_token(char *line, t_token_list *list, t_token_state *state);
 static void	assign_token_type(t_token_list *list);
-static int	ft_strcmp(char *s1, char *s2);
+static int	ft_strcmp(const char *s1, const char *s2);
 
 int	lexer(char *input_line, int *exit_status)
 {
@@ -59,8 +62,9 @@ int	lexer(char *input_line, int *exit_status)
 	assign_token_type(&token_list);
 	for (int i = 0; i < token_list.num; i++)
 	{
-		printf("token_list[%d]: %s\n", i, token_list.token_list[i].token);
-		printf("token_type: %d\n\n", token_list.token_list[i].token_type);
+		printf("token_list[%d]: %-10s token_type: %d\n",
+			i, token_list.token_list[i].token,
+			token_list.token_list[i].token_type);
 	}
 	return (*exit_status);
 }
@@ -145,51 +149,60 @@ static int	tokenize(char *line, t_token_list *list)
 	{
 		if ((line[state.current_index] == '\'' && !state.in_dquote)
 			|| (line[state.current_index] == '"' && !state.in_squote))
-		{
-			if (!state.in_squote && !state.in_dquote && state.new_token)
-			{
-				state.start_index = state.current_index;
-				state.new_token = false;
-			}
-			handle_quote(line, &state);
-			if (line[state.current_index + 1]
-				&& (!is_operator(line[state.current_index + 1])))
-				state.new_token = false;
-		}
+			handle_quoted_token(line, &state);
 		else if (!state.in_squote && !state.in_dquote)
-		{
-			if (ft_isspace(line[state.current_index]))
-			{
-				if (!state.new_token)
-				{
-					add_token(line, list, &state);
-					state.new_token = true;
-				}
-				state.start_index = state.current_index + 1;
-			}
-			else if (is_operator(line[state.current_index]))
-			{
-				if (!state.new_token)
-					add_token(line, list, &state);
-				state.start_index = state.current_index;
-				if (is_double_operator(line, state.current_index))
-					state.current_index++;
-				state.current_index++;
-				add_token(line, list, &state);
-				state.new_token = true;
-				state.start_index = state.current_index;
+			if (handle_delimiter(line, list, &state) == 1)
 				continue ;
-			}
-			else if (state.new_token)
-			{
-				state.start_index = state.current_index;
-				state.new_token = false;
-			}
-		}
 		state.current_index++;
 	}
 	if (!state.new_token)
 		add_token(line, list, &state);
+	return (0);
+}
+
+static void	handle_quoted_token(char *line, t_token_state *state)
+{
+	if (!state->in_squote && !state->in_dquote && state->new_token)
+	{
+		state->start_index = state->current_index;
+		state->new_token = false;
+	}
+	handle_quote(line, state);
+	if (line[state->current_index + 1]
+		&& (!is_operator(line[state->current_index + 1])))
+		state->new_token = false;
+}
+
+static int	handle_delimiter(char *line,
+		t_token_list *list, t_token_state *state)
+{
+	if (ft_isspace(line[state->current_index]))
+	{
+		if (!state->new_token)
+		{
+			add_token(line, list, state);
+			state->new_token = true;
+		}
+		state->start_index = state->current_index + 1;
+	}
+	else if (is_operator(line[state->current_index]))
+	{
+		if (!state->new_token)
+			add_token(line, list, state);
+		state->start_index = state->current_index;
+		if (is_double_operator(line, state->current_index))
+			state->current_index++;
+		state->current_index++;
+		add_token(line, list, state);
+		state->new_token = true;
+		state->start_index = state->current_index;
+		return (1);
+	}
+	else if (state->new_token)
+	{
+		state->start_index = state->current_index;
+		state->new_token = false;
+	}
 	return (0);
 }
 
@@ -236,7 +249,7 @@ static void	assign_token_type(t_token_list *list)
 	}
 }
 
-static int	ft_strcmp(char *s1, char *s2)
+static int	ft_strcmp(const char *s1, const char *s2)
 {
 	unsigned char	*c1;
 	unsigned char	*c2;
