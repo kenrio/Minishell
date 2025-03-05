@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/03 05:03:20 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/05 21:54:44 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,15 @@ typedef	struct u_ast
 
 void	print_message(void);
 int		ft_isspace(char c);
+int		ft_strcmp(const char *s1, const char *s2);
 
 // lexer functions
 
 int		lexer(char *input_line, int *exit_status);
+int		tokenize(char *line, t_token_list *list);
+int		add_token(char *line, t_token_list *list, t_token_state *state);
+void	assign_token_type(t_token_list *list);
+void	init_token_state(t_token_state *state);
+void	handle_quote(char *line, t_token_state *state);
+int		is_operator(char c);
+int		is_double_operator(char *line, int index);

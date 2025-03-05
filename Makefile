@@ -6,7 +6,7 @@
 #    By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/02/22 15:21:10 by keishii          ###   ########.fr        #
+#    Updated: 2025/03/05 21:55:07 by keishii          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,10 +29,15 @@ OBJ_DIR			= obj
 
 SRC_LEXER		= \
 				lexer.c \
+				tokenize.c \
+				add_token.c \
+				assign_token_type.c \
+				lexer_utils.c \
 
 
 SRC_UTILS		= \
 				utils.c \
+				ft_strcmp.c \
 
 
 SRC				= \
