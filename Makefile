@@ -41,16 +41,19 @@ SRC_UTILS		= \
 				utils.c \
 				ft_strcmp.c \
 
+SRC_AST			= \
+				exec_ast.c \
 
+# SRC&OBJ
 SRC				= \
 				main.c \
 				$(addprefix utils/, $(SRC_UTILS)) \
-				$(addprefix lexer/, $(SRC_LEXER)) \
-
+				$(addprefix ast/, $(SRC_AST)) \
+        $(addprefix lexer/, $(SRC_LEXER)) \
+        
 
 OBJ				= ${addprefix ${OBJ_DIR}/, \
 				${SRC:.c=.o}}
-
 
 # **************************************************************************** #
 # LIBRARIES & FRAMEWORKS
