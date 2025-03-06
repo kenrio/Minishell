@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 21:38:15 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/05 21:43:57 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/06 18:59:39 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 static void	handle_quoted_token(char *line, t_token_state *state);
 static int	handle_delimiter(char *line,
-		t_token_list *list, t_token_state *state);
+		t_token_list *list, t_token_state *state, int *exit_status);
 static int	handle_space_delimiter(char *line,
-		t_token_list *list, t_token_state *state);
+		t_token_list *list, t_token_state *state, int *exit_status);
 static int	handle_operator(char *line,
-		t_token_list *list, t_token_state *state);
+		t_token_list *list, t_token_state *state, int *exit_status);
 
-int	tokenize(char *line, t_token_list *list)
+int	tokenize(char *line, t_token_list *list, int *exit_status)
 {
 	t_token_state	state;
 
@@ -31,12 +31,13 @@ int	tokenize(char *line, t_token_list *list)
 			|| (line[state.current_index] == '"' && !state.in_squote))
 			handle_quoted_token(line, &state);
 		else if (!state.in_squote && !state.in_dquote)
-			if (handle_delimiter(line, list, &state) == 1)
+			if (handle_delimiter(line, list, &state, exit_status) == -1)
 				continue ;
 		state.current_index++;
 	}
 	if (!state.new_token)
-		add_token(line, list, &state);
+		if (add_token(line, list, &state, exit_status))
+			return (1);
 	return (0);
 }
 
@@ -54,12 +55,12 @@ static void	handle_quoted_token(char *line, t_token_state *state)
 }
 
 static int	handle_delimiter(char *line,
-		t_token_list *list, t_token_state *state)
+		t_token_list *list, t_token_state *state, int *exit_status)
 {
 	if (ft_isspace(line[state->current_index]))
-		return (handle_space_delimiter(line, list, state));
+		return (handle_space_delimiter(line, list, state, exit_status));
 	else if (is_operator(line[state->current_index]))
-		return (handle_operator(line, list, state));
+		return (handle_operator(line, list, state, exit_status));
 	else if (state->new_token)
 	{
 		state->start_index = state->current_index;
@@ -69,11 +70,12 @@ static int	handle_delimiter(char *line,
 }
 
 static int	handle_space_delimiter(char *line,
-	t_token_list *list, t_token_state *state)
+	t_token_list *list, t_token_state *state, int *exit_status)
 {
 	if (!state->new_token)
 	{
-		add_token(line, list, state);
+		if (add_token(line, list, state, exit_status))
+			return (1);
 		state->new_token = true;
 	}
 	state->start_index = state->current_index + 1;
@@ -81,16 +83,18 @@ static int	handle_space_delimiter(char *line,
 }
 
 static int	handle_operator(char *line,
-	t_token_list *list, t_token_state *state)
+	t_token_list *list, t_token_state *state, int *exit_status)
 {
 	if (!state->new_token)
-		add_token(line, list, state);
+		if (add_token(line, list, state, exit_status))
+			return (1);
 	state->start_index = state->current_index;
 	if (is_double_operator(line, state->current_index))
 		state->current_index++;
 	state->current_index++;
-	add_token(line, list, state);
+	if (add_token(line, list, state, exit_status))
+		return (1);
 	state->new_token = true;
 	state->start_index = state->current_index;
-	return (1);
+	return (-1);
 }
