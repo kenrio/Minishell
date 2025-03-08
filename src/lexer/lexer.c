@@ -48,7 +48,6 @@ static int	check_quote_state(char *line, int *exit_status)
 	t_token_state	check_state;
 	
 	init_token_state(&check_state);
-	check_state.current_index = 0;
 	while (line[check_state.current_index])
 	{
 		handle_quote(line, &check_state);
