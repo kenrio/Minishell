@@ -21,9 +21,7 @@ int	add_token(char *line, t_token_list *list,
 	if (len <= 0)
 		return (0);
 	list->token_list[state->token_index].token
-		= NULL;
-	// list->token_list[state->token_index].token
-	// 	= (char *)malloc(sizeof(char) * (len + 1));
+		= (char *)malloc(sizeof(char) * (len + 1));
 	if (!list->token_list[state->token_index].token)
 	{
 		printf("error: malloc\n");
