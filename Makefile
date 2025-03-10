@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+         #
+#    By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/02/22 15:24:40 by tishihar         ###   ########.fr        #
+#    Updated: 2025/03/06 19:09:44 by keishii          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,21 +25,32 @@ OBJ_DIR			= obj
 
 # **************************************************************************** #
 # SOURCES
+
+
+SRC_LEXER		= \
+				lexer.c \
+				count_tokens.c \
+				tokenize.c \
+				add_token.c \
+				assign_token_type.c \
+				free_token_list.c \
+				lexer_utils.c \
+
+
 SRC_UTILS		= \
 				utils.c \
+				ft_strcmp.c \
 
 SRC_AST			= \
 				exec_ast.c \
-
-SRC				= \
-				main.c \
-				$(addprefix utils/, $(SRC_UTILS)) \
 
 # SRC&OBJ
 SRC				= \
 				main.c \
 				$(addprefix utils/, $(SRC_UTILS)) \
 				$(addprefix ast/, $(SRC_AST)) \
+        $(addprefix lexer/, $(SRC_LEXER)) \
+        
 
 OBJ				= ${addprefix ${OBJ_DIR}/, \
 				${SRC:.c=.o}}
@@ -54,10 +65,14 @@ LIBFT		= ${LIBFT_DIR}/libft.a
 
 LFLAGS		= -lreadline
 
+
 # **************************************************************************** #
 # INCLUDES
+
+
 INC_DIR := includes
 INCLUDES := -I$(INC_DIR) -I$(LIBFT_INC_DIR)
+
 
 # **************************************************************************** #
 # RULES

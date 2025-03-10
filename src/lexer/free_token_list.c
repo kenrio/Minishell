@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   free_token_list.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/05 14:22:39 by keishii           #+#    #+#             */
-/*   Updated: 2025/02/25 15:47:34 by keishii          ###   ########.fr       */
+/*   Created: 2025/03/06 19:03:28 by keishii           #+#    #+#             */
+/*   Updated: 2025/03/06 19:09:01 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_message(void)
+void	free_token_list(t_token_list *list)
 {
-	printf("hello minishell\n");
-}
+	int	i;
 
-int	ft_isspace(char c)
-{
-	return (c == ' ' || c == '\t');
+	i = 0;
+	if (!list || !list->token_list)
+		return ;
+	while (i < list->num)
+	{
+		if (list->token_list[i].token)
+			free(list->token_list[i].token);
+		i++;
+	}
+	free(list->token_list);
+	list->token_list = NULL;
 }
