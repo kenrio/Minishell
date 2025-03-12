@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 21:42:57 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/12 15:16:43 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/12 19:14:09 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	add_token(char *line, t_token_list *list,
 		= (char *)ft_calloc(len + 1, sizeof(char));
 	if (!list->token_list[state->token_index].token)
 	{
-		printf("error: malloc\n");
+		perror("ft_calloc");
 		*exit_status = 1;
 		return (1);
 	}

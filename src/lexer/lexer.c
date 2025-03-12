@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:01:33 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/12 16:58:26 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/12 19:13:12 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,13 @@ int	lexer(char *input_line, int *exit_status)
 		= (t_token *)ft_calloc(token_list.num + 1, sizeof(t_token));
 	if (!token_list.token_list)
 	{
-		printf("error: malloc\n");
-		*exit_status = 1;
-		return (*exit_status);
+		perror("ft_callloc");
+		return (1);
 	}
 	if (tokenize(input_line, &token_list, exit_status))
 	{
 		free_token_list(&token_list);
-		return (*exit_status);
+		return (1);
 	}
 	assign_token_type(&token_list);
 	debug_show_token_list(&token_list);
@@ -55,9 +54,9 @@ static int	check_opened_quotes(char *line, int *exit_status)
 	if (check_state.in_squote || check_state.in_dquote)
 	{
 		if (check_state.in_squote)
-			printf("minishell$: syntax error: looking for matching \'\n");
+			perror("minishell$: syntax error: looking for matching \'");
 		else
-			printf("minishell$: syntax error: looking for matching \"\n");
+			perror("minishell$: syntax error: looking for matching \"");
 		*exit_status = 1;
 		return (1);
 	}
