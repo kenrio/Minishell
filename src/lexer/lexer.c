@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:01:33 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/06 19:09:18 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/12 14:11:08 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	lexer(char *input_line, int *exit_status)
 	if (count_tokens(input_line, &token_list) == 0)
 		return (*exit_status);
 	token_list.token_list
-		= (t_token *)malloc(sizeof(t_token) * (token_list.num + 1));
+		= (t_token *)ft_calloc(token_list.num, sizeof(t_token));
 	if (!token_list.token_list)
 	{
 		printf("error: malloc\n");
