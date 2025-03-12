@@ -6,18 +6,18 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 21:38:15 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/12 14:47:13 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/12 16:41:55 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	handle_quoted_token(char *line, t_token_state *state);
-static int	handle_delimiter(char *line, t_token_list *list,
+static void	start_quoted_token(char *line, t_token_state *state);
+static int	handle_non_quoted_token(char *line, t_token_list *list,
 				t_token_state *state, int *exit_status);
-static int	handle_space_delimiter(char *line, t_token_list *list,
+static int	end_token_at_space(char *line, t_token_list *list,
 				t_token_state *state, int *exit_status);
-static int	handle_operator(char *line, t_token_list *list,
+static int	extract_operator_token(char *line, t_token_list *list,
 				t_token_state *state, int *exit_status);
 
 int	tokenize(char *line, t_token_list *list, int *exit_status)
@@ -29,9 +29,9 @@ int	tokenize(char *line, t_token_list *list, int *exit_status)
 	{
 		if ((line[state.current_index] == '\'' && !state.in_dquote)
 			|| (line[state.current_index] == '"' && !state.in_squote))
-			handle_quoted_token(line, &state);
+			start_quoted_token(line, &state);
 		else if (!state.in_squote && !state.in_dquote)
-			if (handle_delimiter(line, list, &state, exit_status) == -1)
+			if (handle_non_quoted_token(line, list, &state, exit_status) == -1)
 				continue ;
 		state.current_index++;
 	}
@@ -41,7 +41,7 @@ int	tokenize(char *line, t_token_list *list, int *exit_status)
 	return (0);
 }
 
-static void	handle_quoted_token(char *line, t_token_state *state)
+static void	start_quoted_token(char *line, t_token_state *state)
 {
 	if (!state->in_squote && !state->in_dquote && !state->new_token)
 	{
@@ -55,13 +55,13 @@ static void	handle_quoted_token(char *line, t_token_state *state)
 		state->new_token = true;
 }
 
-static int	handle_delimiter(char *line,
+static int	handle_non_quoted_token(char *line,
 		t_token_list *list, t_token_state *state, int *exit_status)
 {
 	if (ft_isspace(line[state->current_index]))
-		return (handle_space_delimiter(line, list, state, exit_status));
+		return (end_token_at_space(line, list, state, exit_status));
 	else if (is_operator(line[state->current_index]))
-		return (handle_operator(line, list, state, exit_status));
+		return (extract_operator_token(line, list, state, exit_status));
 	else if (!state->new_token)
 	{
 		state->start_index = state->current_index;
@@ -70,7 +70,7 @@ static int	handle_delimiter(char *line,
 	return (0);
 }
 
-static int	handle_space_delimiter(char *line,
+static int	end_token_at_space(char *line,
 	t_token_list *list, t_token_state *state, int *exit_status)
 {
 	if (state->new_token)
@@ -83,7 +83,7 @@ static int	handle_space_delimiter(char *line,
 	return (0);
 }
 
-static int	handle_operator(char *line,
+static int	extract_operator_token(char *line,
 	t_token_list *list, t_token_state *state, int *exit_status)
 {
 	if (state->new_token)
