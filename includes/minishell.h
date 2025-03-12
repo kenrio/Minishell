@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/12 15:14:27 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/12 15:26:38 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,3 +127,7 @@ void	init_token_state(t_token_state *state);
 void	handle_quote(char *line, t_token_state *state);
 int		is_operator(char c);
 int		is_double_operator(char *line, int index);
+
+// debug functions
+
+void	debug_check_token(t_token_list *list);
