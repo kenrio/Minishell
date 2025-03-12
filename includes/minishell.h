@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/12 15:26:38 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/12 16:58:11 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,4 +130,4 @@ int		is_double_operator(char *line, int index);
 
 // debug functions
 
-void	debug_check_token(t_token_list *list);
+void	debug_show_token_list(t_token_list *list);
