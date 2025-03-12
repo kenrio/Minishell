@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 21:42:57 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/12 14:30:19 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/12 15:16:43 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	add_token(char *line, t_token_list *list,
 		return (1);
 	}
 	ft_strlcpy(list->token_list[state->token_index].token,
-			&line[state->start_index], len + 1);
+		&line[state->start_index], len + 1);
 	list->token_list[state->token_index].token[len] = '\0';
 	state->token_index++;
 	return (0);

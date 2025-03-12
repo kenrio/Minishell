@@ -6,19 +6,19 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 21:38:15 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/06 18:59:39 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/12 14:47:13 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	handle_quoted_token(char *line, t_token_state *state);
-static int	handle_delimiter(char *line,
-		t_token_list *list, t_token_state *state, int *exit_status);
-static int	handle_space_delimiter(char *line,
-		t_token_list *list, t_token_state *state, int *exit_status);
-static int	handle_operator(char *line,
-		t_token_list *list, t_token_state *state, int *exit_status);
+static int	handle_delimiter(char *line, t_token_list *list,
+				t_token_state *state, int *exit_status);
+static int	handle_space_delimiter(char *line, t_token_list *list,
+				t_token_state *state, int *exit_status);
+static int	handle_operator(char *line, t_token_list *list,
+				t_token_state *state, int *exit_status);
 
 int	tokenize(char *line, t_token_list *list, int *exit_status)
 {

@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 21:51:14 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/05 21:51:41 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/12 14:44:36 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	assign_token_type(t_token_list *list)
 {
-	int	i;
+	int		i;
 	t_token	*token;
 
 	i = 0;

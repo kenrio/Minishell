@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 21:45:55 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/05 21:57:10 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/12 14:45:29 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@ int	is_operator(char c)
 {
 	return (c == '|' || c == '>' || c == '<');
 }
+
 int	is_double_operator(char *line, int index)
 {
 	return ((line[index] == '>' && line[index + 1] == '>')
-			|| (line[index] == '<' && line[index + 1] == '<'));
+		|| (line[index] == '<' && line[index + 1] == '<'));
 }

@@ -6,14 +6,16 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 13:19:27 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/06 15:58:19 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/12 14:46:23 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	count_quoted_token(char *line, t_token_list *list, t_token_state *state);
-static void	count_normal_token(char *line, t_token_list *list, t_token_state *state);
+static void	count_quoted_token(char *line,
+				t_token_list *list, t_token_state *state);
+static void	count_normal_token(char *line,
+				t_token_list *list, t_token_state *state);
 
 int	count_tokens(char *line, t_token_list *list)
 {
