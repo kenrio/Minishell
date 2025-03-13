@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+         #
+#    By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/03/06 19:09:44 by keishii          ###   ########.fr        #
+#    Updated: 2025/03/13 15:24:04 by tishihar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRC_LEXER		= \
 
 SRC_UTILS		= \
 				utils.c \
+				boundary_split.c \
 				ft_strcmp.c \
 
 SRC_AST			= \
