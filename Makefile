@@ -6,7 +6,7 @@
 #    By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/03/06 19:09:44 by keishii          ###   ########.fr        #
+#    Updated: 2025/03/13 20:55:40 by keishii          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,6 @@ SRC_LEXER		= \
 				free_token_list.c \
 				lexer_utils.c \
 
-
 SRC_UTILS		= \
 				utils.c \
 				ft_strcmp.c \
@@ -44,12 +43,16 @@ SRC_UTILS		= \
 SRC_AST			= \
 				exec_ast.c \
 
+SRC_PARSER		= \
+				parser.c \
+
 # SRC&OBJ
 SRC				= \
 				main.c \
 				$(addprefix utils/, $(SRC_UTILS)) \
 				$(addprefix ast/, $(SRC_AST)) \
         $(addprefix lexer/, $(SRC_LEXER)) \
+				$(addprefix parser/, $(SRC_PARSER)) \
         
 
 OBJ				= ${addprefix ${OBJ_DIR}/, \

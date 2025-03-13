@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/06 19:02:52 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/13 21:13:12 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,3 +129,7 @@ void	init_token_state(t_token_state *state);
 void	handle_quote(char *line, t_token_state *state);
 int		is_operator(char c);
 int		is_double_operator(char *line, int index);
+
+// parser functions
+
+int		parser(void);
