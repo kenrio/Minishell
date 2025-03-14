@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/14 17:46:18 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/14 18:44:37 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ char	**boundary_split(char const *str, int (*is_boundary)(int));
 char	**destroy_split(char **array);
 
 // get_path
-char	*get_path(char **envp, char	*name);
+char	*get_cmd_path(char **envp, char	*name);
 char	*get_env_value_bykey(char **envp, char *key);
 
 // lexer functions

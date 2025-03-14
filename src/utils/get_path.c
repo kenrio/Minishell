@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 17:02:52 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/14 17:41:52 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/14 18:44:19 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,38 +25,42 @@ char	*get_env_value_bykey(char **envp, char *key)
 	len = ft_strlen(key);
 	while (*envp)
 	{
-		if (ft_strncmp(*envp, key, len) == 0)
+		if (ft_strncmp(*envp, key, len) == 0 && *(*envp + len) == '=')
 			return (find_value(*envp, len + 1));
 		envp++;
 	}
+
 	return (NULL);
 }
 
 // we give "name" to this get_path(), and we get FULL_PATH.
 // ex ) "ls" -> "/usr/bin/ls" , "/usr/bin/ls" -> "/usr/bin/ls"
-char	*get_path(char **envp, char	*name)
+char	*get_cmd_path(char **envp, char	*name)
 {
 	char	**path;
 	char	*result;
 
-	if (*name == '/')
+	if (*name == '/' || *name == '.')
 	{
 		result = ft_strdup(name);
 		if (access(result, X_OK) == 0)
 			return (result);
 		else
+		{
+			free(result);
 			return (NULL);
+		}
 	}
-	path = ft_split(get_value_by_key(envp, "PATH"), ':');
+	path = ft_split(get_env_value_bykey(envp, "PATH"), ':');
 	if (!path)
 		return (NULL);
 	result = validate_and_get_path(path, name);
 	if (!result)
 	{
-		clean_split(path);
+		destroy_split(path);
 		return (NULL);
 	}
-	clean_split(path);
+	destroy_split(path);
 	return (result);
 }
 
