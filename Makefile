@@ -6,7 +6,7 @@
 #    By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/03/12 15:37:34 by keishii          ###   ########.fr        #
+#    Updated: 2025/03/14 15:33:19 by keishii          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,9 +31,9 @@ SRC_LEXER		= \
 				lexer.c \
 				count_tokens.c \
 				tokenize.c \
-				add_token.c \
+				add_token_to_array.c \
 				assign_token_type.c \
-				free_token_list.c \
+				free_token_array.c \
 				lexer_utils.c \
 
 SRC_UTILS		= \
