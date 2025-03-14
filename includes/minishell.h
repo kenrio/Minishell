@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/12 16:58:11 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/14 15:15:07 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,11 @@ typedef struct s_token
 	t_token_type	token_type;
 }			t_token;
 
-typedef struct s_token_list
+typedef struct s_token_array
 {
-	t_token	*token_list;
-	int		num;
-}			t_token_list;
+	t_token	*tokens;
+	int		len;
+}			t_token_array;
 
 typedef struct s_token_state
 {
@@ -117,17 +117,17 @@ int		ft_strcmp(const char *s1, const char *s2);
 // lexer functions
 
 int		lexer(char *input_line, int *exit_status);
-int		count_tokens(char *line, t_token_list *list);
-int		tokenize(char *line, t_token_list *list, int *exit_status);
-int		add_token(char *line, t_token_list *list,
+int		count_tokens(char *line, t_token_array *array);
+int		tokenize(char *line, t_token_array *array, int *exit_status);
+int		add_token_to_array(char *line, t_token_array *array,
 			t_token_state *state, int *exit_status);
-void	assign_token_type(t_token_list *list);
-void	free_token_list(t_token_list *list);
+void	assign_token_type(t_token_array *array);
+void	free_token_array(t_token_array *array);
 void	init_token_state(t_token_state *state);
-void	handle_quote(char *line, t_token_state *state);
+void	toggle_quote_state(char *line, t_token_state *state);
 int		is_operator(char c);
 int		is_double_operator(char *line, int index);
 
 // debug functions
 
-void	debug_show_token_list(t_token_list *list);
+void	debug_show_token_array(t_token_array *array);

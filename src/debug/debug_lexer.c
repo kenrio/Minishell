@@ -6,24 +6,24 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:24:58 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/12 16:57:56 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/14 15:22:24 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	debug_show_token_list(t_token_list *list)
+void	debug_show_token_array(t_token_array *array)
 {
 	int	i;
 
-	printf("\ntoken_list->num: %d\n", list->num);
+	printf("\ntoken_array->len: %d\n", array->len);
 	printf("\n");
 	i = 0;
-	while (i < list->num)
+	while (i < array->len)
 	{
-		printf("token_list[%d]: %-10s token_type: %d\n",
-			i, list->token_list[i].token,
-			list->token_list[i].token_type);
+		printf("tokens[%d]: %-10s token_type: %d\n",
+			i, array->tokens[i].token,
+			array->tokens[i].token_type);
 		i++;
 	}
 }
