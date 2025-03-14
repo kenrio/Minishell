@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/06 19:02:52 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/14 17:46:18 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,13 +111,20 @@ typedef	struct u_ast
 // -------------------- functions --------------------
 
 // utils functions
-
 void	print_message(void);
 int		ft_isspace(char c);
+int		is_doller(char	c);
 int		ft_strcmp(const char *s1, const char *s2);
 
-// lexer functions
+// boundary_split
+char	**boundary_split(char const *str, int (*is_boundary)(int));
+char	**destroy_split(char **array);
 
+// get_path
+char	*get_path(char **envp, char	*name);
+char	*get_env_value_bykey(char **envp, char *key);
+
+// lexer functions
 int		lexer(char *input_line, int *exit_status);
 int		count_tokens(char *line, t_token_list *list);
 int		tokenize(char *line, t_token_list *list, int *exit_status);
@@ -129,3 +136,6 @@ void	init_token_state(t_token_state *state);
 void	handle_quote(char *line, t_token_state *state);
 int		is_operator(char c);
 int		is_double_operator(char *line, int index);
+
+// expantion
+char	*expand_doller(char **envp, char *str);

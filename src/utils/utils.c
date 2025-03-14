@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 14:22:39 by keishii           #+#    #+#             */
-/*   Updated: 2025/02/25 15:47:34 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/14 17:24:41 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,9 @@ void	print_message(void)
 int	ft_isspace(char c)
 {
 	return (c == ' ' || c == '\t');
+}
+
+int	is_doller(char	c)
+{
+	return (c == '$');
 }
