@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:01:33 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/12 19:13:12 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/14 14:03:50 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	lexer(char *input_line, int *exit_status)
 		return (1);
 	}
 	assign_token_type(&token_list);
-	debug_show_token_list(&token_list);
+	free(input_line);
 	return (*exit_status);
 }
 

@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 21:38:15 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/12 16:41:55 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/14 13:38:35 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,12 @@ int	tokenize(char *line, t_token_list *list, int *exit_status)
 			|| (line[state.current_index] == '"' && !state.in_squote))
 			start_quoted_token(line, &state);
 		else if (!state.in_squote && !state.in_dquote)
+		{
 			if (handle_non_quoted_token(line, list, &state, exit_status) == -1)
 				continue ;
+			else if (*exit_status == 1)
+				return (1);
+		}
 		state.current_index++;
 	}
 	if (state.new_token)
