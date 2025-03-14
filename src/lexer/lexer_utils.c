@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 21:45:55 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/05 21:57:10 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/14 15:15:33 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	init_token_state(t_token_state *state)
 	state->token_index = 0;
 }
 
-void	handle_quote(char *line, t_token_state *state)
+void	toggle_quote_state(char *line, t_token_state *state)
 {
 	if (line[state->current_index] == '\'' && !state->in_dquote)
 		state->in_squote = !state->in_squote;
@@ -34,8 +34,9 @@ int	is_operator(char c)
 {
 	return (c == '|' || c == '>' || c == '<');
 }
+
 int	is_double_operator(char *line, int index)
 {
 	return ((line[index] == '>' && line[index + 1] == '>')
-			|| (line[index] == '<' && line[index + 1] == '<'));
+		|| (line[index] == '<' && line[index + 1] == '<'));
 }
