@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/14 18:44:37 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/14 19:20:10 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,12 +113,12 @@ typedef	struct u_ast
 // utils functions
 void	print_message(void);
 int		ft_isspace(char c);
-int		is_doller(char	c);
+int		is_doller(int	c);
 int		ft_strcmp(const char *s1, const char *s2);
 
 // boundary_split
 char	**boundary_split(char const *str, int (*is_boundary)(int));
-char	**destroy_split(char **array);
+void	destroy_split(char **array);
 
 // get_path
 char	*get_cmd_path(char **envp, char	*name);

@@ -6,15 +6,15 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:19:27 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/14 17:46:22 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/14 19:18:20 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
 static	char	*join_all_split(char **array);
-static	void	update_quote_state(char *e, int *in_single, int *in_double);
-static	int		*update_elements(char **envp, char **elements, char *in_single, char *in_double);
+static	void	update_quote_state(char *e, bool *in_single, bool *in_double);
+static	int		update_elements(char **envp, char **elements, bool*in_single, bool *in_double);
 static	char	*create_expand_line(char **envp, char *str);
 
 // we give string, this func() expand string based on appropriate $.
@@ -39,7 +39,7 @@ char	*expand_doller(char **envp, char *str)
 	return (result);
 }
 
-static	void	update_quote_state(char *e, int *in_single, int *in_double)
+static	void	update_quote_state(char *e, bool *in_single, bool *in_double)
 {
 	while (*e)
 	{
@@ -71,7 +71,7 @@ static	char	*join_all_split(char **array)
 	return (result);
 }
 
-static	int	*update_elements(char **envp, char **elements, char *in_single, char *in_double)
+static	int	update_elements(char **envp, char **elements, bool *in_single, bool *in_double)
 {
 	char	*temp;
 

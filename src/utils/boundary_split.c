@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:37:56 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/13 15:53:27 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/14 19:19:40 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	**boundary_split(char const *str, int (*is_boundary)(int))
 	return (array);
 }
 
-char	**destroy_split(char **array)
+void	destroy_split(char **array)
 {
 	char	**origin;
 

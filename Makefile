@@ -6,7 +6,7 @@
 #    By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/03/14 18:50:57 by tishihar         ###   ########.fr        #
+#    Updated: 2025/03/14 19:08:36 by tishihar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ SRC				= \
 				main.c \
 				$(addprefix ast/, $(SRC_AST)) \
         		$(addprefix lexer/, $(SRC_LEXER)) \
-        		$(addprefix expantion/, $(SRC_LEXER)) \
+        		$(addprefix expantion/, $(SRC_EXPANTION)) \
 				$(addprefix utils/, $(SRC_UTILS)) \
         
 
