@@ -6,7 +6,7 @@
 #    By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/03/13 15:24:04 by tishihar         ###   ########.fr        #
+#    Updated: 2025/03/14 18:50:57 by tishihar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,20 +37,26 @@ SRC_LEXER		= \
 				lexer_utils.c \
 
 
-SRC_UTILS		= \
-				utils.c \
-				boundary_split.c \
-				ft_strcmp.c \
-
 SRC_AST			= \
 				exec_ast.c \
 
+SRC_EXPANTION	= \
+				expand_doller.c \
+
+
+SRC_UTILS		= \
+				boundary_split.c \
+				ft_strcmp.c \
+				get_path.c \
+				utils.c \
+				
 # SRC&OBJ
 SRC				= \
 				main.c \
-				$(addprefix utils/, $(SRC_UTILS)) \
 				$(addprefix ast/, $(SRC_AST)) \
-        $(addprefix lexer/, $(SRC_LEXER)) \
+        		$(addprefix lexer/, $(SRC_LEXER)) \
+        		$(addprefix expantion/, $(SRC_LEXER)) \
+				$(addprefix utils/, $(SRC_UTILS)) \
         
 
 OBJ				= ${addprefix ${OBJ_DIR}/, \
