@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/14 15:15:07 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/15 15:19:46 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,38 @@ typedef struct s_token_state
 	int		token_index;
 }			t_token_state;
 
+typedef enum	e_token_type
+{
+	WORD,
+	REDIRECT_OUT,
+	REDIRECT_IN,
+	REDIRECT_APPEND,
+	REDIRECT_HEREDOC,
+	PIPE,
+}				t_token_type;
+
+typedef struct	s_token
+{
+	char			*token;
+	t_token_type	token_type;
+}				t_token;
+
+typedef struct	s_token_list
+{
+	t_token	*token_list;
+	int		num;
+}				t_token_list;
+
+typedef struct	s_token_state
+{
+	bool	in_squote;
+	bool	in_dquote;
+	bool	new_token;
+	int		start_index;
+	int		current_index;
+	int		token_index;
+}				t_token_state;
+
 // AST
 // AST structure can take "cmd_node" or "pipe_node".
 // cmd_node must have "redirects" member.
@@ -131,3 +163,7 @@ int		is_double_operator(char *line, int index);
 // debug functions
 
 void	debug_show_token_array(t_token_array *array);
+
+// parser functions
+
+int		parser(void);

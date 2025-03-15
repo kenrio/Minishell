@@ -6,7 +6,7 @@
 #    By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/03/14 15:33:19 by keishii          ###   ########.fr        #
+#    Updated: 2025/03/15 15:22:12 by keishii          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,14 +46,16 @@ SRC_AST			= \
 SRC_DEBUG		= \
 				debug_lexer.c \
 
+SRC_PARSER		= \
+				parser.c \
 
 # SRC&OBJ
 SRC				= \
 				main.c \
 				$(addprefix utils/, $(SRC_UTILS)) \
-				$(addprefix ast/,   $(SRC_AST)) \
-		        $(addprefix lexer/, $(SRC_LEXER)) \
-				$(addprefix debug/, $(SRC_DEBUG)) \
+				$(addprefix ast/, $(SRC_AST)) \
+        		$(addprefix lexer/, $(SRC_LEXER)) \
+				$(addprefix parser/, $(SRC_PARSER)) \
         
 
 OBJ				= ${addprefix ${OBJ_DIR}/, \
