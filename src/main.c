@@ -6,7 +6,7 @@
 /*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:08:21 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/17 16:24:13 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/17 16:55:14 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	main(int argc, char **argv, char **envp)
 	// testーーーーーーーーーーーーーーーーーーーー~
 	printf("\nここからテスト開始\n");
 	char *str = "echo $ $? \"$USER\", '$USER', $USER!!";
+	int	 status = 1;
 	
 	// // split
 	char **array = boundary_split(str, is_doller);
@@ -65,7 +66,7 @@ int	main(int argc, char **argv, char **envp)
 	// printf("name: %s, path: %s\n", "/bin/ls", get_cmd_path(envp, "/bin/ls"));
 
 	// expand
-	printf("origin: %s\nexpantion: %s\n", str, expand_doller(envp, str));
+	printf("origin: %s\nexpantion: %s\n", str, expand_doller(str, envp, &status));
 
 	printf("ここまでテスト\n\n");
 	// test_finーーーーーーーーーーーーーーーーーーーーーーーーー

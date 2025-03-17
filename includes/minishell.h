@@ -6,7 +6,7 @@
 /*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/17 16:07:53 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/17 16:54:09 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,4 +139,4 @@ int		is_operator(char c);
 int		is_double_operator(char *line, int index);
 
 // expantion
-char	*expand_doller(char **envp, char *str);
+char	*expand_doller(char *str, char **envp, int *status_p);

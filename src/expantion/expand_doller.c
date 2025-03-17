@@ -6,7 +6,7 @@
 /*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:19:27 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/17 16:38:02 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/17 16:53:09 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 static	char	*join_all_split(char **array);
 static	void	update_quote_state(char *e, bool *in_single, bool *in_double);
-static	int		update_elements(char **envp, char **elements, bool*in_single, bool *in_double);
+static	int		update_elements(char **envp, char **elements, int *status_p, bool *in_single, bool *in_double);
 static	char	*create_expand_line(char **envp, char *str);
 
 // we give string, this func() expand string based on appropriate $.
-char	*expand_doller(char **envp, char *str)
+char	*expand_doller(char *str, char **envp, int *status_p)
 {
 	char	*result;
 	char	**elements;
@@ -30,7 +30,7 @@ char	*expand_doller(char **envp, char *str)
 	elements = boundary_split(str, is_doller);
 	if (!elements)
 		return (NULL);
-	if (update_elements(envp, elements, &in_single_quote, &in_double_quote))
+	if (update_elements(envp, elements, status_p,  &in_single_quote, &in_double_quote))
 		return (NULL);
 	result = join_all_split(elements);
 	if (!result)
@@ -73,7 +73,7 @@ static	char	*join_all_split(char **array)
 
 // if you can find appropriate doller, this func() expand doller in if　statement.
 // Only go into an if statement when it should be expand doller. 
-static	int	update_elements(char **envp, char **elements, bool *in_single, bool *in_double)
+static	int	update_elements(char **envp, char **elements, int *status_p, bool *in_single, bool *in_double)
 {
 	char	*temp;
 
@@ -83,7 +83,7 @@ static	int	update_elements(char **envp, char **elements, bool *in_single, bool *
 		if (is_doller(**elements) && (*(*elements + 1) == '?'))
 		{
 			temp = *elements;
-			*elements = ft_strjoin("EXIT_STATUS", *elements + 2);
+			*elements = ft_strjoin(ft_itoa(*status_p), *elements + 2);
 			if (!(*elements))
 				return (1);
 			free(temp);
