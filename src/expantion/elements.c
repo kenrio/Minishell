@@ -6,7 +6,7 @@
 /*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:59:47 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/17 18:02:48 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:12:56 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ int	update_elements(char **envp, char **elements, int *status_p, t_quote_state *
 			free(status_str);
 			free(temp);
 		}
-		else if (is_doller(**elements) && is_env_char(*(*elements + 1)) && (!(quote_state->in_single_quote) || quote_state->in_double_quote))
+		else if (
+			is_doller(**elements)
+			&& is_env_char(*(*elements + 1))
+			&& (!(quote_state->in_single_quote) || quote_state->in_double_quote))
 		{
 			temp = *elements; //$USER akfdj
 			*elements = create_expand_line(envp, *elements);// tishihar akfdjに上書きされる
@@ -73,7 +76,6 @@ static	char	*create_expand_line(char **envp, char *str)
 	free(env_key);
 	return (result);
 }
-
 
 static	void	update_quote_state(char *e, t_quote_state *quote_state)
 {
