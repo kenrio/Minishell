@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/14 19:20:10 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/17 16:07:53 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ typedef	struct u_ast
 void	print_message(void);
 int		ft_isspace(char c);
 int		is_doller(int	c);
+int		is_env_char(int	c);
 int		ft_strcmp(const char *s1, const char *s2);
 
 // boundary_split

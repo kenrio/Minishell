@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_doller.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:19:27 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/14 19:18:20 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/17 16:38:02 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*expand_doller(char **envp, char *str)
 	if (!elements)
 		return (NULL);
 	if (update_elements(envp, elements, &in_single_quote, &in_double_quote))
-		return (NULL);	
+		return (NULL);
 	result = join_all_split(elements);
 	if (!result)
 		return (NULL);
@@ -71,13 +71,24 @@ static	char	*join_all_split(char **array)
 	return (result);
 }
 
+// if you can find appropriate doller, this func() expand doller in if　statement.
+// Only go into an if statement when it should be expand doller. 
 static	int	update_elements(char **envp, char **elements, bool *in_single, bool *in_double)
 {
 	char	*temp;
 
-	while (*elements)
+	while (*elements)// &? 
 	{
-		if (is_doller(**elements) && (!(*in_single) || *in_double))
+		// ?として展開する必要がある。
+		if (is_doller(**elements) && (*(*elements + 1) == '?'))
+		{
+			temp = *elements;
+			*elements = ft_strjoin("EXIT_STATUS", *elements + 2);
+			if (!(*elements))
+				return (1);
+			free(temp);
+		}
+		else if (is_doller(**elements) && is_env_char(*(*elements + 1)) && (!(*in_single) || *in_double))
 		{
 			temp = *elements; //$USER akfdj
 			*elements = create_expand_line(envp, *elements);// tishihar akfdjに上書きされる
@@ -85,7 +96,7 @@ static	int	update_elements(char **envp, char **elements, bool *in_single, bool *
 				return (1);
 			free(temp);
 		}
-		update_quote_state(*elements, in_double, in_single);
+		update_quote_state(*elements, in_single, in_double);
 		elements++;
 	}
 	return (0);
@@ -99,7 +110,7 @@ static	char	*create_expand_line(char **envp, char *str)
 	char	*result;
 
 	start = ++str;
-	while (*str && (ft_isalpha(*str) || (*str == '_')))
+	while (*str && is_env_char(*str))
 		str++;
 	
 	// この時点でスペースに今はいるはず

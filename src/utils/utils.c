@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 14:22:39 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/14 19:14:04 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/17 16:00:46 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,9 @@ int	ft_isspace(char c)
 int	is_doller(int	c)
 {
 	return (c == '$');
+}
+
+int	is_env_char(int	c)
+{
+	return (ft_isalnum(c) || (c == '_'));
 }
