@@ -6,7 +6,7 @@
 /*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/17 16:54:09 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/17 17:03:21 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,28 +27,7 @@
 # define PROMPT "minishell$ "
 
 // -------------------- define struct --------------------
-
-typedef enum e_node_type
-{
-	NODE_CMD,
-	NODE_PIPE,
-} t_node_type;
-
-typedef	enum e_redir_type
-{
-	R_OUT,
-	R_OUT_APPEND,
-	R_IN,
-	R_HEREDOC,
-}	t_redir_type;
-
-typedef struct s_redirect
-{
-	t_redir_type		type;
-	char				*file_name;
-	struct	s_redirect	*next;
-} t_ridirect;
-
+// lexer_token
 typedef enum	e_token_type
 {
 	WORD,
@@ -81,10 +60,39 @@ typedef struct	s_token_state
 	int		token_index;
 }				t_token_state;
 
+// expantion
+typedef struct s_quote_state
+{
+	bool	in_double_quote;
+	bool	in_single_quote;
+}	t_quote_state;
+
 // AST
 // AST structure can take "cmd_node" or "pipe_node".
 // cmd_node must have "redirects" member.
 // we can use this to judge we shold handle "redirect" or not. 
+
+typedef enum e_node_type
+{
+	NODE_CMD,
+	NODE_PIPE,
+} t_node_type;
+
+typedef	enum e_redir_type
+{
+	R_OUT,
+	R_OUT_APPEND,
+	R_IN,
+	R_HEREDOC,
+}	t_redir_type;
+
+typedef struct s_redirect
+{
+	t_redir_type		type;
+	char				*file_name;
+	struct	s_redirect	*next;
+} t_ridirect;
+
 typedef	struct u_ast
 {
 	t_node_type type;

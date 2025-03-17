@@ -6,15 +6,15 @@
 /*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:19:27 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/17 16:53:09 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/17 17:48:29 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
 static	char	*join_all_split(char **array);
-static	void	update_quote_state(char *e, bool *in_single, bool *in_double);
-static	int		update_elements(char **envp, char **elements, int *status_p, bool *in_single, bool *in_double);
+static	void	update_quote_state(char *e, t_quote_state *quote_state);
+static	int	update_elements(char **envp, char **elements, int *status_p, t_quote_state *quote_state);
 static	char	*create_expand_line(char **envp, char *str);
 
 // we give string, this func() expand string based on appropriate $.
@@ -22,25 +22,35 @@ char	*expand_doller(char *str, char **envp, int *status_p)
 {
 	char	*result;
 	char	**elements;
-	bool	in_double_quote;
-	bool	in_single_quote;
+	t_quote_state	quote_state;
 
-	in_double_quote = false;
-	in_single_quote = false;
+	quote_state.in_double_quote = false;
+	quote_state.in_single_quote = false;
 	elements = boundary_split(str, is_doller);
 	if (!elements)
 		return (NULL);
-	if (update_elements(envp, elements, status_p,  &in_single_quote, &in_double_quote))
+	if (update_elements(envp, elements, status_p, &quote_state))
+	{
+		destroy_split(elements);
 		return (NULL);
+	}
 	result = join_all_split(elements);
 	if (!result)
+	{
+		destroy_split(elements);
 		return (NULL);
+	}
 	destroy_split(elements);
 	return (result);
 }
 
-static	void	update_quote_state(char *e, bool *in_single, bool *in_double)
+static	void	update_quote_state(char *e, t_quote_state *quote_state)
 {
+	bool	*in_double;
+	bool	*in_single;
+
+	in_double = &quote_state->in_double_quote;
+	in_single = &quote_state->in_single_quote;
 	while (*e)
 	{
 		if (*e == '\"')
@@ -73,22 +83,29 @@ static	char	*join_all_split(char **array)
 
 // if you can find appropriate doller, this func() expand doller in if　statement.
 // Only go into an if statement when it should be expand doller. 
-static	int	update_elements(char **envp, char **elements, int *status_p, bool *in_single, bool *in_double)
+static	int	update_elements(char **envp, char **elements, int *status_p, t_quote_state *quote_state)
 {
 	char	*temp;
+	char	*status_str;
 
-	while (*elements)// &? 
+	while (*elements)
 	{
-		// ?として展開する必要がある。
 		if (is_doller(**elements) && (*(*elements + 1) == '?'))
 		{
 			temp = *elements;
-			*elements = ft_strjoin(ft_itoa(*status_p), *elements + 2);
-			if (!(*elements))
+			status_str = ft_itoa(*status_p);
+			if (!status_str)
 				return (1);
+			*elements = ft_strjoin(status_str, *elements + 2);
+			if (!(*elements))
+			{
+				free(status_str);
+				return (1);
+			}
+			free(status_str);
 			free(temp);
 		}
-		else if (is_doller(**elements) && is_env_char(*(*elements + 1)) && (!(*in_single) || *in_double))
+		else if (is_doller(**elements) && is_env_char(*(*elements + 1)) && (!(quote_state->in_single_quote) || quote_state->in_double_quote))
 		{
 			temp = *elements; //$USER akfdj
 			*elements = create_expand_line(envp, *elements);// tishihar akfdjに上書きされる
@@ -96,7 +113,7 @@ static	int	update_elements(char **envp, char **elements, int *status_p, bool *in
 				return (1);
 			free(temp);
 		}
-		update_quote_state(*elements, in_single, in_double);
+		update_quote_state(*elements, quote_state);
 		elements++;
 	}
 	return (0);
