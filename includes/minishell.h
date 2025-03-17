@@ -6,7 +6,7 @@
 /*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/17 17:03:21 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/17 18:07:03 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,9 @@ int		ft_strcmp(const char *s1, const char *s2);
 char	**boundary_split(char const *str, int (*is_boundary)(int));
 void	destroy_split(char **array);
 
+// join_all_split
+char	*join_all_split(char **array);
+
 // get_path
 char	*get_cmd_path(char **envp, char	*name);
 char	*get_env_value_bykey(char **envp, char *key);
@@ -146,5 +149,6 @@ void	handle_quote(char *line, t_token_state *state);
 int		is_operator(char c);
 int		is_double_operator(char *line, int index);
 
-// expantion
+// expantion functions
 char	*expand_doller(char *str, char **envp, int *status_p);
+int	update_elements(char **envp, char **elements, int *status_p, t_quote_state *quote_state);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+         #
+#    By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/03/14 19:08:36 by tishihar         ###   ########.fr        #
+#    Updated: 2025/03/17 18:08:30 by tishihar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,11 +41,13 @@ SRC_AST			= \
 				exec_ast.c \
 
 SRC_EXPANTION	= \
+				elements.c \
 				expand_doller.c \
 
 
 SRC_UTILS		= \
 				boundary_split.c \
+				join_all_split.c \
 				ft_strcmp.c \
 				get_path.c \
 				utils.c \
