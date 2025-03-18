@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:08:21 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/15 15:23:44 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/18 15:51:36 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)envp;
 	exit_status = 0;
 	input_line = NULL;
+	print_message();
 	exit_status = main_loop(input_line, &exit_status);
 	exit(exit_status);
 }
