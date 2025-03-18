@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:08:21 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/17 17:41:47 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/18 13:24:24 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	main(int argc, char **argv, char **envp)
 
 	// testーーーーーーーーーーーーーーーーーーーー~
 	printf("\nここからテスト開始\n");
-	char *str = "echo $USER$USER ,  $ $? \"$USER\", '$USER', $USER!!";
+	char *str = "echo $USER$USER $$USER ,  $ $? \"$USER\", '$USER', $USER!!";
 	int	 status = 1;
 	
 	// // split
