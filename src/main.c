@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:08:21 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/18 13:24:24 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/18 13:47:13 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,29 +47,6 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	(void)envp;
-
-
-	// testーーーーーーーーーーーーーーーーーーーー~
-	printf("\nここからテスト開始\n");
-	char *str = "echo $USER$USER $$USER ,  $ $? \"$USER\", '$USER', $USER!!";
-	int	 status = 1;
-	
-	// // split
-	char **array = boundary_split(str, is_doller);
-	check_split_result(array);
-
-	// // get_env_value
-	// printf("key: %s , value: %s\n", "USER", get_env_value_bykey(envp, "USER"));
-
-	// // get_path
-	// printf("name: %s, path: %s\n", "ls", get_cmd_path(envp, "ls"));
-	// printf("name: %s, path: %s\n", "/bin/ls", get_cmd_path(envp, "/bin/ls"));
-
-	// expand
-	printf("origin: %s\nexpantion: %s\n", str, expand_doller(str, envp, &status));
-
-	printf("ここまでテスト\n\n");
-	// test_finーーーーーーーーーーーーーーーーーーーーーーーーー
 
 	exit_status = 0;
 	input_line = NULL;
