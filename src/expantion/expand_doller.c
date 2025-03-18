@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_doller.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:19:27 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/18 14:07:12 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/18 19:25:26 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,12 @@ char	*expand_doller(char *str, char **envp, int *status_p)
 	}
 	destroy_split(elements);
 	return (result);
+}
+
+// echo $USER$USER , $ $? "$USER" , '$USER', $USER!!
+// |
+// echo tishiahrtishiar , $ 1 "tishihar" , '$USER', tishiahr!!
+char	*dq_expand_doller(char *str, char **envp, int *status_p)
+{
+	
 }

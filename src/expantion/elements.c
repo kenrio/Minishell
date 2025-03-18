@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   elements.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:59:47 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/18 14:30:32 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/18 19:09:27 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static char	*create_expand_line(char **envp, char *str)
 	return (result);
 }
 
+// $? -> 0 etc...
 static char	*create_expand_exit_line(int exit_status, char *str)
 {
 	char	*status_str;
