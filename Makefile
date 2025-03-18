@@ -6,7 +6,7 @@
 #    By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/03/17 18:08:30 by tishihar         ###   ########.fr        #
+#    Updated: 2025/03/18 20:15:49 by tishihar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,7 @@ SRC_UTILS		= \
 				join_all_split.c \
 				ft_strcmp.c \
 				get_path.c \
+				strrmchr.c \
 				utils.c \
 				
 # SRC&OBJ

@@ -6,7 +6,7 @@
 /*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/17 18:07:03 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/18 20:13:29 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ int		ft_isspace(char c);
 int		is_doller(int	c);
 int		is_env_char(int	c);
 int		ft_strcmp(const char *s1, const char *s2);
+char	*strrmchr(char *str, char *set);
 
 // boundary_split
 char	**boundary_split(char const *str, int (*is_boundary)(int));
@@ -149,7 +150,8 @@ int		is_double_operator(char *line, int index);
 
 // expantion functions
 char	*expand_doller(char *str, char **envp, int *status_p);
-int	update_elements(char **envp, char **elements, int *status_p, t_quote_state *quote_state);
+char	*dq_expand_doller(char *str, char **envp, int *status_p);
+int		update_elements(char **envp, char **elements, int *status_p, t_quote_state *quote_state);
 
 // debug functions
 void	debug_show_token_array(t_token_array *array);
