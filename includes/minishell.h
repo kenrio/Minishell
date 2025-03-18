@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/18 18:55:08 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/18 19:30:11 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,28 +27,7 @@
 #define PROMPT "minishell$ "
 
 // -------------------- define struct --------------------
-
-typedef enum e_node_type
-{
-	NODE_CMD,
-	NODE_PIPE,
-}			t_node_type;
-
-typedef enum e_redir_type
-{
-	R_OUT,
-	R_OUT_APPEND,
-	R_IN,
-	R_HEREDOC,
-}			t_redir_type;
-
-typedef struct s_redirect
-{
-	t_redir_type		type;
-	char				*file_name;
-	struct s_redirect	*next;
-}			t_ridirect;
-
+// lexer_token
 typedef struct s_token_state
 {
 	bool	in_squote;
@@ -81,11 +60,40 @@ typedef struct s_token_array
 	int		len;
 }			t_token_array;
 
+// expantion
+typedef struct s_quote_state
+{
+	bool	in_double_quote;
+	bool	in_single_quote;
+}	t_quote_state;
+
 // AST
 // AST structure can take "cmd_node" or "pipe_node".
 // cmd_node must have "redirects" member.
 // we can use this to judge we shold handle "redirect" or not. 
-typedef struct u_ast
+
+typedef enum e_node_type
+{
+	NODE_CMD,
+	NODE_PIPE,
+} t_node_type;
+
+typedef	enum e_redir_type
+{
+	R_OUT,
+	R_OUT_APPEND,
+	R_IN,
+	R_HEREDOC,
+}	t_redir_type;
+
+typedef struct s_redirect
+{
+	t_redir_type		type;
+	char				*file_name;
+	struct	s_redirect	*next;
+} t_ridirect;
+
+typedef	struct u_ast
 {
 	t_node_type	type;
 
@@ -109,13 +117,24 @@ typedef struct u_ast
 // -------------------- functions --------------------
 
 // utils functions
-
 void	print_message(void);
 int		ft_isspace(char c);
+int		is_doller(int	c);
+int		is_env_char(int	c);
 int		ft_strcmp(const char *s1, const char *s2);
 
-// lexer functions
+// boundary_split
+char	**boundary_split(char const *str, int (*is_boundary)(int));
+void	destroy_split(char **array);
 
+// join_all_split
+char	*join_all_split(char **array);
+
+// get_path
+char	*get_cmd_path(char **envp, char	*name);
+char	*get_env_value_bykey(char **envp, char *key);
+
+// lexer functions
 int		lexer(t_token_array *array, char *input_line, int *exit_status);
 int		count_tokens(char *line, t_token_array *array);
 int		tokenize(char *line, t_token_array *array, int *exit_status);
@@ -128,10 +147,13 @@ void	toggle_quote_state(char *line, t_token_state *state);
 int		is_operator(char c);
 int		is_double_operator(char *line, int index);
 
-// debug functions
+// expantion functions
+char	*expand_doller(char *str, char **envp, int *status_p);
+int	update_elements(char **envp, char **elements, int *status_p, t_quote_state *quote_state);
 
+// debug functions
 void	debug_show_token_array(t_token_array *array);
 
 // parser functions
-
 int		parser(t_ast *ast_node, t_token_array *token_array, int *exit_status);
+

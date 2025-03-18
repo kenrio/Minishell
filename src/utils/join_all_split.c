@@ -1,33 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   join_all_split.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/05 14:22:39 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/18 13:57:22 by tishihar         ###   ########.fr       */
+/*   Created: 2025/03/17 18:03:53 by tishihar          #+#    #+#             */
+/*   Updated: 2025/03/18 13:56:55 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_message(void)
+char	*join_all_split(char **array)
 {
-	printf("hello minishell\n");
-}
+	char	*result;
+	char	*temp;
 
-int	ft_isspace(char c)
-{
-	return (c == ' ' || c == '\t');
-}
-
-int	is_doller(int c)
-{
-	return (c == '$');
-}
-
-int	is_env_char(int c)
-{
-	return (ft_isalnum(c) || (c == '_'));
+	result = ft_strdup("");
+	if (!result)
+		return (NULL);
+	while (*array)
+	{
+		temp = result;
+		result = ft_strjoin(result, *array);
+		if (!result)
+			return (NULL);
+		free(temp);
+		array++;
+	}
+	return (result);
 }

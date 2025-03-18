@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+         #
+#    By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/03/18 16:04:48 by keishii          ###   ########.fr        #
+#    Updated: 2025/03/17 18:08:30 by tishihar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,27 +36,38 @@ SRC_LEXER		= \
 				free_token_array.c \
 				lexer_utils.c \
 
-SRC_UTILS		= \
-				utils.c \
-				ft_strcmp.c \
 
 SRC_AST			= \
 				exec_ast.c \
 
+SRC_EXPANTION	= \
+				elements.c \
+				expand_doller.c \
+        
 SRC_DEBUG		= \
 				debug_lexer.c \
 
 SRC_PARSER		= \
 				parser.c \
 
+
+SRC_UTILS		= \
+				boundary_split.c \
+				join_all_split.c \
+				ft_strcmp.c \
+				get_path.c \
+				utils.c \
+				
 # SRC&OBJ
 SRC				= \
 				main.c \
-				$(addprefix utils/, $(SRC_UTILS)) \
-				$(addprefix debug/, $(SRC_DEBUG)) \
 				$(addprefix ast/, $(SRC_AST)) \
         		$(addprefix lexer/, $(SRC_LEXER)) \
-				$(addprefix parser/, $(SRC_PARSER)) \
+        		$(addprefix expantion/, $(SRC_EXPANTION)) \
+            $(addprefix debug/, $(SRC_DEBUG)) \
+				$(addprefix utils/, $(SRC_UTILS)) \
+        $(addprefix parser/, $(SRC_PARSER)) \
+
         
 
 OBJ				= ${addprefix ${OBJ_DIR}/, \
