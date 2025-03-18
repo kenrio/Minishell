@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/15 15:19:46 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/18 16:01:49 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,28 +49,6 @@ typedef struct s_redirect
 	struct s_redirect	*next;
 }			t_ridirect;
 
-typedef enum e_token_type
-{
-	WORD,
-	REDIRECT_OUT,
-	REDIRECT_IN,
-	REDIRECT_APPEND,
-	REDIRECT_HEREDOC,
-	PIPE,
-}			t_token_type;
-
-typedef struct s_token
-{
-	char			*token;
-	t_token_type	token_type;
-}			t_token;
-
-typedef struct s_token_array
-{
-	t_token	*tokens;
-	int		len;
-}			t_token_array;
-
 typedef struct s_token_state
 {
 	bool	in_squote;
@@ -97,21 +75,11 @@ typedef struct	s_token
 	t_token_type	token_type;
 }				t_token;
 
-typedef struct	s_token_list
+typedef struct s_token_array
 {
-	t_token	*token_list;
-	int		num;
-}				t_token_list;
-
-typedef struct	s_token_state
-{
-	bool	in_squote;
-	bool	in_dquote;
-	bool	new_token;
-	int		start_index;
-	int		current_index;
-	int		token_index;
-}				t_token_state;
+	t_token	*tokens;
+	int		len;
+}			t_token_array;
 
 // AST
 // AST structure can take "cmd_node" or "pipe_node".

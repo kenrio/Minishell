@@ -6,7 +6,7 @@
 #    By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/03/15 15:22:12 by keishii          ###   ########.fr        #
+#    Updated: 2025/03/18 16:04:48 by keishii          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ SRC_PARSER		= \
 SRC				= \
 				main.c \
 				$(addprefix utils/, $(SRC_UTILS)) \
+				$(addprefix debug/, $(SRC_DEBUG)) \
 				$(addprefix ast/, $(SRC_AST)) \
         		$(addprefix lexer/, $(SRC_LEXER)) \
 				$(addprefix parser/, $(SRC_PARSER)) \
