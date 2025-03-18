@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/18 17:08:06 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/18 18:55:08 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct s_token_state
 	int		token_index;
 }			t_token_state;
 
-typedef enum	e_token_type
+typedef enum e_token_type
 {
 	WORD,
 	REDIRECT_OUT,
@@ -69,7 +69,7 @@ typedef enum	e_token_type
 	PIPE,
 }				t_token_type;
 
-typedef struct	s_token
+typedef struct s_token
 {
 	char			*token;
 	t_token_type	token_type;
@@ -134,4 +134,4 @@ void	debug_show_token_array(t_token_array *array);
 
 // parser functions
 
-int		parser(t_token_array *token_array, int *exit_status);
+int		parser(t_ast *ast_node, t_token_array *token_array, int *exit_status);
