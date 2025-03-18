@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/18 16:01:49 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/18 17:08:06 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int		ft_strcmp(const char *s1, const char *s2);
 
 // lexer functions
 
-int		lexer(char *input_line, int *exit_status);
+int		lexer(t_token_array *array, char *input_line, int *exit_status);
 int		count_tokens(char *line, t_token_array *array);
 int		tokenize(char *line, t_token_array *array, int *exit_status);
 int		add_token_to_array(char *line, t_token_array *array,
@@ -134,4 +134,4 @@ void	debug_show_token_array(t_token_array *array);
 
 // parser functions
 
-int		parser(void);
+int		parser(t_token_array *token_array, int *exit_status);
