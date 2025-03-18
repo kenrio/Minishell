@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 17:02:52 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/14 18:44:19 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/18 13:56:36 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static	char	*find_value(char *str, int shift);
 static	char	*join_path(char *dir, char *name);
 static	char	*validate_and_get_path(char **paths, char *name);
-
 
 // serch key in envp_array, and get value.
 char	*get_env_value_bykey(char **envp, char *key)
@@ -29,7 +28,6 @@ char	*get_env_value_bykey(char **envp, char *key)
 			return (find_value(*envp, len + 1));
 		envp++;
 	}
-
 	return (NULL);
 }
 

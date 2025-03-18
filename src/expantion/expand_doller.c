@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_doller.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:19:27 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/17 18:04:23 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/18 14:07:12 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 // we give string, this func() expand string based on appropriate $.
 char	*expand_doller(char *str, char **envp, int *status_p)
 {
-	char	*result;
-	char	**elements;
+	char			*result;
+	char			**elements;
 	t_quote_state	quote_state;
 
 	quote_state.in_double_quote = false;
@@ -38,5 +38,3 @@ char	*expand_doller(char *str, char **envp, int *status_p)
 	destroy_split(elements);
 	return (result);
 }
-
-

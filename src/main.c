@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:08:21 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/18 13:47:13 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/18 13:50:21 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,6 @@ void	check_split_result(char **split_array)
 		i++;
 	}
 }
-
-
-
-
-
 
 int	main(int argc, char **argv, char **envp)
 {

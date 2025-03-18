@@ -6,24 +6,22 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:37:56 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/14 19:19:40 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/18 13:56:10 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include"minishell.h"
 
-static	size_t	count_element(const char *str, int (*is_boundary)(int));
-static	int		grow_array(char *str,char **array, int (*is_boundary)(int));
-static	void	destroy_all(char **origin, char **curr);
-
+static size_t	count_element(const char *str, int (*is_boundary)(int));
+static int		grow_array(char *str, char **array, int (*is_boundary)(int));
+static void		destroy_all(char **origin, char **curr);
 
 // this func() can split string by is_boundary()
 char	**boundary_split(char const *str, int (*is_boundary)(int))
 {
 	size_t	count;
 	char	**array;
-	
+
 	if (!str)
 		return (NULL);
 	count = count_element(str, is_boundary);
@@ -72,7 +70,7 @@ static	void	destroy_all(char **origin, char **curr)
 	free(origin);
 }
 
-static	int	grow_array(char *str,char **array, int (*is_boundary)(int))
+static	int	grow_array(char *str, char **array, int (*is_boundary)(int))
 {
 	char	*token_start;
 	char	**origin;
@@ -95,4 +93,3 @@ static	int	grow_array(char *str,char **array, int (*is_boundary)(int))
 	}
 	return (0);
 }
-
