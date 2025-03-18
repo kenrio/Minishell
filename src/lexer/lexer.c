@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:01:33 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/18 18:19:45 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/18 18:59:21 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	lexer(t_token_array *array, char *input_line, int *exit_status)
 	if (count_tokens(input_line, &(*token_array)) == 0)
 		return (*exit_status);
 	(*token_array).tokens
-		= (t_token *)ft_calloc((*token_array).len, sizeof(t_token));
+		= (t_token *)ft_calloc((*token_array).len + 1, sizeof(t_token));
 	if (!(*token_array).tokens)
 	{
 		perror("ft_callloc");
