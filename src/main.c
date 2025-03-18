@@ -57,7 +57,7 @@ static int	main_loop(char *input_line, int *exit_status)
 		if (!input_line)
 			break ;
 		*exit_status = lexer(input_line, exit_status);
-		free(input_line);
+		parser();
 		printf("\nexit_status: %d\n\n", *exit_status);
 	}
 	return (*exit_status);

@@ -6,73 +6,59 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:01:33 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/06 19:09:18 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/15 15:27:30 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	check_quote_state(char *line, int *exit_status);
-static void	debug_check_token(t_token_list *list);
+static int	check_opened_quotes(char *line, int *exit_status);
 
 int	lexer(char *input_line, int *exit_status)
 {
-	t_token_list	token_list;
+	t_token_array	token_array;
 
-	token_list.token_list = NULL;
-	token_list.num = 0;
-	if (check_quote_state(input_line, exit_status))
+	token_array.tokens = NULL;
+	token_array.len = 0;
+	if (check_opened_quotes(input_line, exit_status))
 		return (*exit_status);
-	if (count_tokens(input_line, &token_list) == 0)
+	if (count_tokens(input_line, &token_array) == 0)
 		return (*exit_status);
-	token_list.token_list
-		= (t_token *)malloc(sizeof(t_token) * (token_list.num + 1));
-	if (!token_list.token_list)
+	token_array.tokens
+		= (t_token *)ft_calloc(token_array.len + 1, sizeof(t_token));
+	if (!token_array.tokens)
 	{
-		printf("error: malloc\n");
-		*exit_status = 1;
-		return (*exit_status);
+		perror("ft_callloc");
+		return (1);
 	}
-	if (tokenize(input_line, &token_list, exit_status))
+	if (tokenize(input_line, &token_array, exit_status))
 	{
-		free_token_list(&token_list);
-		return (*exit_status);
+		free_token_array(&token_array);
+		return (1);
 	}
-	assign_token_type(&token_list);
-	debug_check_token(&token_list);
+	assign_token_type(&token_array);
+	free(input_line);
 	return (*exit_status);
 }
 
-static int	check_quote_state(char *line, int *exit_status)
+static int	check_opened_quotes(char *line, int *exit_status)
 {
 	t_token_state	check_state;
-	
+
 	init_token_state(&check_state);
 	while (line[check_state.current_index])
 	{
-		handle_quote(line, &check_state);
+		toggle_quote_state(line, &check_state);
 		check_state.current_index++;
 	}
 	if (check_state.in_squote || check_state.in_dquote)
 	{
 		if (check_state.in_squote)
-			printf("minishell$: syntax error: looking for matching \'\n");
+			perror("minishell$: syntax error: looking for matching \'");
 		else
-			printf("minishell$: syntax error: looking for matching \"\n");
+			perror("minishell$: syntax error: looking for matching \"");
 		*exit_status = 1;
 		return (1);
 	}
 	return (0);
-}
-
-static void	debug_check_token(t_token_list *list)
-{
-	printf("\ntoken_list->num: %d\n", list->num);
-	printf("\n");
-	for (int i = 0; i < list->num; i++)
-	{
-		printf("token_list[%d]: %-10s token_type: %d\n",
-			i, list->token_list[i].token,
-			list->token_list[i].token_type);
-	}
 }

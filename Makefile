@@ -31,9 +31,9 @@ SRC_LEXER		= \
 				lexer.c \
 				count_tokens.c \
 				tokenize.c \
-				add_token.c \
+				add_token_to_array.c \
 				assign_token_type.c \
-				free_token_list.c \
+				free_token_array.c \
 				lexer_utils.c \
 
 
@@ -43,6 +43,12 @@ SRC_AST			= \
 SRC_EXPANTION	= \
 				elements.c \
 				expand_doller.c \
+        
+SRC_DEBUG		= \
+				debug_lexer.c \
+
+SRC_PARSER		= \
+				parser.c \
 
 
 SRC_UTILS		= \
@@ -58,7 +64,10 @@ SRC				= \
 				$(addprefix ast/, $(SRC_AST)) \
         		$(addprefix lexer/, $(SRC_LEXER)) \
         		$(addprefix expantion/, $(SRC_EXPANTION)) \
+            $(addprefix debug/, $(SRC_DEBUG)) \
 				$(addprefix utils/, $(SRC_UTILS)) \
+        $(addprefix parser/, $(SRC_PARSER)) \
+
         
 
 OBJ				= ${addprefix ${OBJ_DIR}/, \

@@ -24,10 +24,20 @@
 
 #include "libft.h"
 
-# define PROMPT "minishell$ "
+#define PROMPT "minishell$ "
 
 // -------------------- define struct --------------------
 // lexer_token
+typedef struct s_token_state
+{
+	bool	in_squote;
+	bool	in_dquote;
+	bool	new_token;
+	int		start_index;
+	int		current_index;
+	int		token_index;
+}			t_token_state;
+
 typedef enum	e_token_type
 {
 	WORD,
@@ -44,21 +54,11 @@ typedef struct	s_token
 	t_token_type	token_type;
 }				t_token;
 
-typedef struct	s_token_list
+typedef struct s_token_array
 {
-	t_token	*token_list;
-	int		num;
-}				t_token_list;
-
-typedef struct	s_token_state
-{
-	bool	in_squote;
-	bool	in_dquote;
-	bool	new_token;
-	int		start_index;
-	int		current_index;
-	int		token_index;
-}				t_token_state;
+	t_token	*tokens;
+	int		len;
+}			t_token_array;
 
 // expantion
 typedef struct s_quote_state
@@ -95,7 +95,7 @@ typedef struct s_redirect
 
 typedef	struct u_ast
 {
-	t_node_type type;
+	t_node_type	type;
 
 	union
 	{
@@ -106,15 +106,13 @@ typedef	struct u_ast
 			char		**argv;
 			t_ridirect	*redirects;
 		} cmd;
-		
 		struct
 		{
-			struct	u_ast	*left;
-			struct	u_ast	*right;
+			struct u_ast	*left;
+			struct u_ast	*right;
 		} pipe;
-		
-	} data;
-} t_ast;
+	}	data;
+}				t_ast;
 
 // -------------------- functions --------------------
 
@@ -138,17 +136,24 @@ char	*get_env_value_bykey(char **envp, char *key);
 
 // lexer functions
 int		lexer(char *input_line, int *exit_status);
-int		count_tokens(char *line, t_token_list *list);
-int		tokenize(char *line, t_token_list *list, int *exit_status);
-int		add_token(char *line, t_token_list *list,
-		t_token_state *state, int *exit_status);
-void	assign_token_type(t_token_list *list);
-void	free_token_list(t_token_list *list);
+int		count_tokens(char *line, t_token_array *array);
+int		tokenize(char *line, t_token_array *array, int *exit_status);
+int		add_token_to_array(char *line, t_token_array *array,
+			t_token_state *state, int *exit_status);
+void	assign_token_type(t_token_array *array);
+void	free_token_array(t_token_array *array);
 void	init_token_state(t_token_state *state);
-void	handle_quote(char *line, t_token_state *state);
+void	toggle_quote_state(char *line, t_token_state *state);
 int		is_operator(char c);
 int		is_double_operator(char *line, int index);
 
 // expantion functions
 char	*expand_doller(char *str, char **envp, int *status_p);
 int	update_elements(char **envp, char **elements, int *status_p, t_quote_state *quote_state);
+
+// debug functions
+void	debug_show_token_array(t_token_array *array);
+
+// parser functions
+int		parser(void);
+
