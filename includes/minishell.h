@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/18 19:30:11 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/19 13:38:35 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,42 +76,42 @@ typedef enum e_node_type
 {
 	NODE_CMD,
 	NODE_PIPE,
-} t_node_type;
+}			t_node_type;
 
-typedef	enum e_redir_type
+typedef enum e_redir_type
 {
 	R_OUT,
 	R_OUT_APPEND,
 	R_IN,
 	R_HEREDOC,
-}	t_redir_type;
+}			t_redir_type;
 
 typedef struct s_redirect
 {
 	t_redir_type		type;
 	char				*file_name;
-	struct	s_redirect	*next;
-} t_ridirect;
+	struct s_redirect	*next;
+}			t_ridirect;
 
-typedef	struct u_ast
+typedef struct s_ast
 {
 	t_node_type	type;
 
 	union
 	{
-		struct
+		struct s_cmd
 		{
 			char		*name;
 			char		*path;
 			char		**argv;
 			t_ridirect	*redirects;
 		} cmd;
-		struct
+		struct s_pipe
 		{
 			struct u_ast	*left;
 			struct u_ast	*right;
 		} pipe;
-	}	data;
+	}	u_data;
 }				t_ast;
 
 // -------------------- functions --------------------
@@ -119,8 +119,8 @@ typedef	struct u_ast
 // utils functions
 void	print_message(void);
 int		ft_isspace(char c);
-int		is_doller(int	c);
-int		is_env_char(int	c);
+int		is_doller(int c);
+int		is_env_char(int c);
 int		ft_strcmp(const char *s1, const char *s2);
 
 // boundary_split
@@ -149,11 +149,10 @@ int		is_double_operator(char *line, int index);
 
 // expantion functions
 char	*expand_doller(char *str, char **envp, int *status_p);
-int	update_elements(char **envp, char **elements, int *status_p, t_quote_state *quote_state);
+int		update_elements(char **envp, char **elements, int *status_p, t_quote_state *quote_state);
 
 // debug functions
 void	debug_show_token_array(t_token_array *array);
 
 // parser functions
 int		parser(t_ast *ast_node, t_token_array *token_array, int *exit_status);
-
