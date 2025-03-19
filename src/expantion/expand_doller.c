@@ -6,7 +6,7 @@
 /*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:19:27 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/18 20:09:46 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/19 10:12:36 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ char	*expand_doller(char *str, char **envp, int *status_p)
 // echo $USER$USER , $ $? "$USER" , '$USER', $USER!!
 // |
 // echo tishiahrtishiar , $ 1 "tishihar" , '$USER', tishiahr!!
+// this func() can expand doller with removing quote.
 char	*dq_expand_doller(char *str, char **envp, int *status_p)
 {
 	char	*origin;
