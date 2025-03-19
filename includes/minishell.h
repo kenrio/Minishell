@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/19 13:38:35 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/19 13:59:15 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,8 @@ typedef struct s_ast
 		} cmd;
 		struct s_pipe
 		{
-			struct u_ast	*left;
-			struct u_ast	*right;
+			struct s_ast	*left;
+			struct s_ast	*right;
 		} pipe;
 	}	u_data;
 }				t_ast;
