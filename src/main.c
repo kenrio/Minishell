@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:08:21 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/18 19:30:40 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/19 14:23:17 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,7 @@ static char	*get_input_line(void);
 
 
 
-void	check_split_result(char **split_array)
-{
-	int	i;
 
-	if (!split_array)
-	{
-		printf("split_array is NULL\n");
-		return;
-	}
-	i = 0;
-	while (split_array[i] != NULL)
-	{
-		printf("split_array[%d]: \"%s\"\n", i, split_array[i]);
-		i++;
-	}
-}
 
 int	main(int argc, char **argv, char **envp)
 {

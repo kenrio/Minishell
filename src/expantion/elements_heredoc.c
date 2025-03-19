@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   elements.c                                         :+:      :+:    :+:   */
+/*   elements_heredoc.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/17 17:59:47 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/19 10:30:53 by tishihar         ###   ########.fr       */
+/*   Created: 2025/03/19 13:36:38 by tishihar          #+#    #+#             */
+/*   Updated: 2025/03/19 14:04:30 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ static int	handle_update(char **e, char **envp, int *stp, t_quote_state *q_st);
 // Only go into an if statement when it should be expand doller. 
 // argument: envp->env_pointer, elements->show expand_doller.c,
 // stp->exit_status_pointer, q_st->quote_state
-int	update_elements(char **envp, char **elements, int *stp, t_quote_state *q_st)
+int	update_elements_hdoc(char **envp, char **e, int *stp, t_quote_state *q_st)
 {
-	while (*elements)
+	while (*e)
 	{
-		if (handle_update(elements, envp, stp, q_st))
+		if (handle_update(e, envp, stp, q_st))
 			return (1);
-		update_quote_state(*elements, q_st);
-		elements++;
+		update_quote_state(*e, q_st);
+		e++;
 	}
 	return (0);
 }
@@ -91,6 +91,7 @@ static int	handle_update(char **e, char **envp, int *stp, t_quote_state *q_st)
 {
 	char	*temp;
 
+	(void) q_st;
 	if (is_doller(**e) && (*(*e + 1) == '?'))
 	{
 		temp = *e;
@@ -102,7 +103,6 @@ static int	handle_update(char **e, char **envp, int *stp, t_quote_state *q_st)
 	else if (
 		is_doller(**e)
 		&& is_env_char(*(*e + 1))
-		&& (!(q_st->in_single_quote) || q_st->in_double_quote)
 	)
 	{
 		temp = *e;
