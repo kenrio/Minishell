@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   strrmchr.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 19:28:16 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/18 20:01:46 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/19 13:49:47 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int count_chars_in_set(char *str, char *set);
+static int	count_chars_in_set(char *str, char *set);
 
 //  strrmchr（） can remove char in set string.
 char	*strrmchr(char *str, char *set)
@@ -22,7 +22,7 @@ char	*strrmchr(char *str, char *set)
 	char	*temp;
 
 	if (!str || !set)
-        return (NULL);
+		return (NULL);
 	count = count_chars_in_set(str, set);
 	result = ft_calloc(ft_strlen(str) - count + 1, sizeof(char));
 	if (!result)
@@ -40,7 +40,7 @@ char	*strrmchr(char *str, char *set)
 	return (result);
 }
 
-static int count_chars_in_set(char *str, char *set)
+static int	count_chars_in_set(char *str, char *set)
 {
 	int		count;
 

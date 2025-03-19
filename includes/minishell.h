@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/18 20:13:29 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/19 13:50:42 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,8 +150,10 @@ int		is_double_operator(char *line, int index);
 
 // expantion functions
 char	*expand_doller(char *str, char **envp, int *status_p);
+char	*expand_doller_heredoc(char *str, char **envp, int *status_p);
 char	*dq_expand_doller(char *str, char **envp, int *status_p);
-int		update_elements(char **envp, char **elements, int *status_p, t_quote_state *quote_state);
+int		update_elements(char **envp, char **elements, int *stp, t_quote_state *q_st);
+int		update_elements_hdoc(char **envp, char **e, int *stp, t_quote_state *q_st);
 
 // debug functions
 void	debug_show_token_array(t_token_array *array);
