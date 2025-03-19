@@ -6,7 +6,7 @@
 /*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:59:47 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/18 19:09:27 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/19 10:30:53 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ static char	*create_expand_exit_line(int exit_status, char *str)
 	return (result);
 }
 
+// e -> elements
 static void	update_quote_state(char *e, t_quote_state *quote_state)
 {
 	bool	*in_double;
@@ -83,6 +84,9 @@ static void	update_quote_state(char *e, t_quote_state *quote_state)
 	}
 }
 
+//arguments:
+// e -> elements, envp -> env_pointer,
+// stp -> exit_status_pointer, q_st -> quote_state
 static int	handle_update(char **e, char **envp, int *stp, t_quote_state *q_st)
 {
 	char	*temp;
