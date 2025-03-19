@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/19 13:50:42 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:00:19 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ int		update_elements_hdoc(char **envp, char **e, int *stp, t_quote_state *q_st);
 
 // debug functions
 void	debug_show_token_array(t_token_array *array);
+void	check_expand(char **envp, int *stp);
 
 // parser functions
 int		parser(void);

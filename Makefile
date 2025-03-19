@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+         #
+#    By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/03/18 20:15:49 by tishihar         ###   ########.fr        #
+#    Updated: 2025/03/19 14:02:21 by tishihar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,10 +42,12 @@ SRC_AST			= \
 
 SRC_EXPANTION	= \
 				elements.c \
+				elements_heredoc.c \
 				expand_doller.c \
         
 SRC_DEBUG		= \
 				debug_lexer.c \
+				check_expantion.c \
 
 SRC_PARSER		= \
 				parser.c \

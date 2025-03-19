@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 13:36:38 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/19 13:45:17 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/19 14:04:30 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ static int	handle_update(char **e, char **envp, int *stp, t_quote_state *q_st)
 {
 	char	*temp;
 
+	(void) q_st;
 	if (is_doller(**e) && (*(*e + 1) == '?'))
 	{
 		temp = *e;
