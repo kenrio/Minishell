@@ -1,36 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   parse_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/13 20:53:17 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/22 00:07:06 by keishii          ###   ########.fr       */
+/*   Created: 2025/03/21 23:30:31 by keishii           #+#    #+#             */
+/*   Updated: 2025/03/21 23:31:00 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	parser(t_ast *ast_node, t_token_array *token_array, int *exit_status)
+int	parse_pipe(t_ast *node, t_token_array *array, int *pos, int *exit_status)
 {
-	int	pos;
+	t_ast	left_node;
 
-	pos = 0;
-	if (make_ast(ast_node, token_array, &pos, exit_status))
+	if (parse_cmd(&left_node, array, pos, exit_status))
 	{
 		*exit_status = 1;
 		return (1);
 	}
-	// printf("pos: %d\n", pos);
-	printf("\n");
-	debug_print_ast(ast_node, 1);
-	printf("\n");
-	if (pos != token_array->len)
+	if (*pos < array->len && array->tokens[*pos].token_type == PIPE)
 	{
-		// free_ast(ast_node);
-		*exit_status = 258;
-		return (*exit_status);
+		(*pos)++;
+		if (make_pipe_node(node, &left_node, array, pos, exit_status))
+		{
+			*exit_status = 1;
+			return (1);
+		}
+		return (0);
 	}
-	return (*exit_status);
+	*node = left_node;
+	return (0);
 }

@@ -1,36 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   make_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/13 20:53:17 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/22 00:07:06 by keishii          ###   ########.fr       */
+/*   Created: 2025/03/21 23:24:32 by keishii           #+#    #+#             */
+/*   Updated: 2025/03/21 23:28:32 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	parser(t_ast *ast_node, t_token_array *token_array, int *exit_status)
+int	make_ast(t_ast *node, t_token_array *array, int *pos, int *exit_status)
 {
-	int	pos;
-
-	pos = 0;
-	if (make_ast(ast_node, token_array, &pos, exit_status))
+	if (parse_pipe(node, array, pos, exit_status))
 	{
 		*exit_status = 1;
 		return (1);
 	}
-	// printf("pos: %d\n", pos);
-	printf("\n");
-	debug_print_ast(ast_node, 1);
-	printf("\n");
-	if (pos != token_array->len)
-	{
-		// free_ast(ast_node);
-		*exit_status = 258;
-		return (*exit_status);
-	}
-	return (*exit_status);
+	return (0);
 }

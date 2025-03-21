@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+         #
+#    By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/03/19 14:02:21 by tishihar         ###   ########.fr        #
+#    Updated: 2025/03/22 00:00:13 by keishii          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,9 +48,18 @@ SRC_EXPANTION	= \
 SRC_DEBUG		= \
 				debug_lexer.c \
 				check_expantion.c \
+				debug_parser.c \
 
 SRC_PARSER		= \
 				parser.c \
+				make_ast.c \
+				parse_pipe.c \
+				make_pipe_node.c \
+				parse_cmd.c \
+				make_cmd_node.c \
+				add_args.c \
+				add_redirect.c \
+				parser_utils.c \
 
 
 SRC_UTILS		= \

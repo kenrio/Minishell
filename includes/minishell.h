@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/19 14:22:52 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/21 23:57:05 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,16 @@ int		update_elements_hdoc(char **envp, char **e, int *stp, t_quote_state *q_st);
 // debug functions
 void	debug_show_token_array(t_token_array *array);
 void	check_expand(char **envp, int *stp);
+void	debug_print_ast(t_ast *node, int depth);
 
 // parser functions
 int		parser(t_ast *ast_node, t_token_array *token_array, int *exit_status);
+int		make_ast(t_ast *node, t_token_array *array, int *pos, int *exit_status);
+int		parse_pipe(t_ast *node, t_token_array *array, int *pos, int *exit_status);
+int		make_pipe_node(t_ast *node, t_ast *left_node, t_token_array *array, int *pos, int *exit_status);
+int		parse_cmd(t_ast *node, t_token_array *array, int *pos, int *exit_status);
+int		make_cmd_node(t_ast *node, t_token_array *array, int *pos, int arg_count, int *exit_status);
+int		add_args(t_ast *node, t_token_array *array, int *pos, int *exit_status);
+int		add_redirect(t_ast *node, t_token_array *array, int *pos, int *exit_status);
+void	free_cmd_args(t_ast *node, int count);
+int		is_redirect(t_token *token);

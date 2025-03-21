@@ -1,36 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/13 20:53:17 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/22 00:07:06 by keishii          ###   ########.fr       */
+/*   Created: 2025/03/21 23:52:40 by keishii           #+#    #+#             */
+/*   Updated: 2025/03/21 23:53:41 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	parser(t_ast *ast_node, t_token_array *token_array, int *exit_status)
+void	free_cmd_args(t_ast *node, int count)
 {
-	int	pos;
+	while (--count >= 0)
+		free(node->u_data.cmd.argv[count]);
+	free(node->u_data.cmd.argv);
+	free(node->u_data.cmd.name);
+}
 
-	pos = 0;
-	if (make_ast(ast_node, token_array, &pos, exit_status))
-	{
-		*exit_status = 1;
-		return (1);
-	}
-	// printf("pos: %d\n", pos);
-	printf("\n");
-	debug_print_ast(ast_node, 1);
-	printf("\n");
-	if (pos != token_array->len)
-	{
-		// free_ast(ast_node);
-		*exit_status = 258;
-		return (*exit_status);
-	}
-	return (*exit_status);
+int	is_redirect(t_token *token)
+{
+	return (token->token_type == REDIRECT_OUT
+		|| token->token_type == REDIRECT_IN
+		|| token->token_type == REDIRECT_APPEND
+		|| token->token_type == REDIRECT_HEREDOC);
 }
