@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:44:07 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/21 23:46:25 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/22 13:54:34 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 static int	make_empty_cmd_node(t_ast *node, int *exit_status);
 static int	set_cmd_name(t_ast *node, t_token_array *array, int *pos, int arg_count, int *exit_status);
+static int	find_cmd_name(t_ast *node, t_token_array *array, int *pos, int *exit_status);
+static int	allocate_argv_mem(t_ast *node, int arg_count, int *exit_status);
+static int	set_argv0(t_ast *node, int *exit_status);
 
 int	make_cmd_node(t_ast *node, t_token_array *array, int *pos, int arg_count, int *exit_status)
 {
@@ -47,6 +50,18 @@ static int	make_empty_cmd_node(t_ast *node, int *exit_status)
 
 static int	set_cmd_name(t_ast *node, t_token_array *array, int *pos, int arg_count, int *exit_status)
 {
+	if (find_cmd_name(node, array, pos, exit_status))
+		return (1);
+	if (allocate_argv_mem(node, arg_count, exit_status))
+		return (1);
+	if (set_argv0(node, exit_status))
+		return (1);
+	(*pos)++;
+	return (0);
+}
+
+static int	find_cmd_name(t_ast *node, t_token_array *array, int *pos, int *exit_status)
+{
 	while (*pos < array->len && array->tokens[*pos].token_type != PIPE)
 	{
 		if (is_redirect(&array->tokens[*pos]))
@@ -65,6 +80,11 @@ static int	set_cmd_name(t_ast *node, t_token_array *array, int *pos, int arg_cou
 		*exit_status = 1;
 		return (1);
 	}
+	return (0);
+}
+
+static int	allocate_argv_mem(t_ast *node, int arg_count, int *exit_status)
+{
 	node->u_data.cmd.argv = ft_calloc(arg_count + 1, sizeof(char *));
 	if (!node->u_data.cmd.argv)
 	{
@@ -72,6 +92,11 @@ static int	set_cmd_name(t_ast *node, t_token_array *array, int *pos, int arg_cou
 		*exit_status = 1;
 		return (1);
 	}
+	return (0);
+}
+
+static int	set_argv0(t_ast *node, int *exit_status)
+{
 	node->u_data.cmd.argv[0] = ft_strdup(node->u_data.cmd.name);
 	if (!node->u_data.cmd.argv[0])
 	{
@@ -80,6 +105,5 @@ static int	set_cmd_name(t_ast *node, t_token_array *array, int *pos, int arg_cou
 		*exit_status = 1;
 		return (1);
 	}
-	(*pos)++;
 	return (0);
 }

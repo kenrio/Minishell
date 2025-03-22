@@ -6,25 +6,48 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:50:56 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/21 23:52:06 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/22 14:33:24 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static t_ridirect	*make_redirect_struct(int *exit_status);
+static void			set_redirect_type(t_ridirect *redirect, t_token *token);
+static int			set_redirect_file(t_ridirect *redirect, t_token_array *array, int *pos, int *exit_status);
+static void			add_redirect_to_list(t_ast *node, t_ridirect *redirect);
+
 int	add_redirect(t_ast *node, t_token_array *array, int *pos, int *exit_status)
 {
 	t_ridirect	*redirect;
-	t_ridirect	*current;
 	t_token		*token;
 
 	token = &(array->tokens[*pos]);
+	redirect = make_redirect_struct(exit_status);
+	if (!redirect)
+		return (1);
+	set_redirect_type(redirect, token);
+	if (set_redirect_file(redirect, array, pos, exit_status))
+		return (1);
+	add_redirect_to_list(node, redirect);
+	return (0);
+}
+
+static t_ridirect	*make_redirect_struct(int *exit_status)
+{
+	t_ridirect	*redirect;
+
 	redirect = ft_calloc(1, sizeof(t_ridirect));
 	if (!redirect)
 	{
 		*exit_status = 1;
-		return (1);
+		return (NULL);
 	}
+	return (redirect);
+}
+
+static void	set_redirect_type(t_ridirect *redirect, t_token *token)
+{
 	if (token->token_type == REDIRECT_OUT)
 		redirect->type = R_OUT;
 	else if (token->token_type == REDIRECT_IN)
@@ -33,6 +56,10 @@ int	add_redirect(t_ast *node, t_token_array *array, int *pos, int *exit_status)
 		redirect->type = R_OUT_APPEND;
 	else if (token->token_type == REDIRECT_HEREDOC)
 		redirect->type = R_HEREDOC;
+}
+
+static int	set_redirect_file(t_ridirect *redirect, t_token_array *array, int *pos, int *exit_status)
+{
 	(*pos)++;
 	if (*pos >= array->len)
 	{
@@ -47,6 +74,14 @@ int	add_redirect(t_ast *node, t_token_array *array, int *pos, int *exit_status)
 		*exit_status = 1;
 		return (1);
 	}
+	(*pos)++;
+	return (0);
+}
+
+static void	add_redirect_to_list(t_ast *node, t_ridirect *redirect)
+{
+	t_ridirect	*current;
+
 	redirect->next = NULL;
 	if (!node->u_data.cmd.redirects)
 		node->u_data.cmd.redirects = redirect;
@@ -57,6 +92,4 @@ int	add_redirect(t_ast *node, t_token_array *array, int *pos, int *exit_status)
 			current = current->next;
 		current->next = redirect;
 	}
-	(*pos)++;
-	return (0);
 }

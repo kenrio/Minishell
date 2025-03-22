@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 20:53:17 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/22 00:07:06 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/22 11:44:25 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,13 @@ int	parser(t_ast *ast_node, t_token_array *token_array, int *exit_status)
 		*exit_status = 1;
 		return (1);
 	}
-	// printf("pos: %d\n", pos);
 	printf("\n");
 	debug_print_ast(ast_node, 1);
 	printf("\n");
 	if (pos != token_array->len)
 	{
-		// free_ast(ast_node);
 		*exit_status = 258;
-		return (*exit_status);
+		return (1);
 	}
-	return (*exit_status);
+	return (0);
 }
