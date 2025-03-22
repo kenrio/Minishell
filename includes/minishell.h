@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/21 23:57:05 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/22 14:38:22 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ int		update_elements(char **envp, char **elements, int *stp, t_quote_state *q_st
 int		update_elements_hdoc(char **envp, char **e, int *stp, t_quote_state *q_st);
 
 // debug functions
-void	debug_show_token_array(t_token_array *array);
+void	debug_print_tokens(t_token_array *array);
 void	check_expand(char **envp, int *stp);
 void	debug_print_ast(t_ast *node, int depth);
 
