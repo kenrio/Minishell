@@ -6,7 +6,7 @@
 #    By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/03/22 00:00:13 by keishii          ###   ########.fr        #
+#    Updated: 2025/03/24 20:24:38 by keishii          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,9 @@ SRC_LEXER		= \
 
 
 SRC_AST			= \
-				exec_ast.c \
+				# exec_ast.c \
+				# exec_ast_pipe.c \
+				# exec_ast_cmd.c \
 
 SRC_EXPANTION	= \
 				elements.c \
