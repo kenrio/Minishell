@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/22 14:38:22 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/24 15:44:36 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ typedef struct s_redirect
 	t_redir_type		type;
 	char				*file_name;
 	struct s_redirect	*next;
-}			t_ridirect;
+}			t_redirect;
 
 typedef struct s_ast
 {
@@ -104,7 +104,7 @@ typedef struct s_ast
 			char		*name;
 			char		*path;
 			char		**argv;
-			t_ridirect	*redirects;
+			t_redirect	*redirects;
 		} cmd;
 		struct s_pipe
 		{

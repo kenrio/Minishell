@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:44:07 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/22 13:54:34 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/24 15:40:49 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static int	make_empty_cmd_node(t_ast *node, int *exit_status);
 static int	set_cmd_name(t_ast *node, t_token_array *array, int *pos, int arg_count, int *exit_status);
-static int	find_cmd_name(t_ast *node, t_token_array *array, int *pos, int *exit_status);
+static int	find_cmd_name(t_ast *node, t_token_array *array,
+				int *pos, int *exit_status);
 static int	allocate_argv_mem(t_ast *node, int arg_count, int *exit_status);
 static int	set_argv0(t_ast *node, int *exit_status);
 
@@ -60,7 +61,8 @@ static int	set_cmd_name(t_ast *node, t_token_array *array, int *pos, int arg_cou
 	return (0);
 }
 
-static int	find_cmd_name(t_ast *node, t_token_array *array, int *pos, int *exit_status)
+static int	find_cmd_name(t_ast *node, t_token_array *array,
+	int *pos, int *exit_status)
 {
 	while (*pos < array->len && array->tokens[*pos].token_type != PIPE)
 	{
