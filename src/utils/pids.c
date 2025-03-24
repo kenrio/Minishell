@@ -1,0 +1,78 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pids.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/27 17:27:01 by tishihar          #+#    #+#             */
+/*   Updated: 2025/02/28 15:42:31 by tishihar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+void	init_pids(t_pids *pids)
+{
+	pids->head = NULL;
+	pids->tail = NULL;
+}
+
+int	pids_push_back(t_pids *pids, pid_t pid)
+{
+	t_pid_node	*new;
+
+	if (!pids)
+		return (1);
+	new = (t_pid_node *) malloc(sizeof(t_pid_node));
+	if (!new)
+		return (1);
+	new->pid = pid;
+	new->next = NULL;
+	if (!pids->head)
+	{
+		pids->head = new;
+		pids->tail = new;
+	}
+	else
+	{
+		pids->tail->next = new;
+		pids->tail = new;
+	}
+	return (0);
+}
+
+void	wait_pids(t_pids *pids, int *status)
+{
+	t_pid_node	*curr;
+	t_pid_node	*next;
+
+	curr = pids->head;
+	while (curr)
+	{
+		next = curr->next;
+		if (curr->next == NULL)
+			wait_pid(curr->pid, status, 0);
+		else
+			waitpid(curr->pid, NULL, 0);
+		curr = next;
+	}
+	pids->head = NULL;
+	pids->tail = NULL;
+}
+
+void	destroy_pids(t_pids	*pids)
+{
+	t_pid_node	*curr;
+	t_pid_node	*next;
+
+	curr = pids->head;
+	while (curr)
+	{
+		next = curr->next;
+		free(curr);
+		curr = next;
+	}
+	pids->head = NULL;
+	pids->tail = NULL;
+}
