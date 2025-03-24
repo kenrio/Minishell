@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:56:02 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/21 23:58:31 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/24 18:50:23 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	debug_print_ast(t_ast *node, int depth)
 {
 	int			i;
 	int			j;
-	t_ridirect	*redirect;
+	t_redirect	*redirect;
 
 	i = 0;
 	if (!node)
