@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/24 17:35:39 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/25 00:28:53 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_token_state
 	int		start_index;
 	int		current_index;
 	int		token_index;
-}			t_token_state;
+}	t_token_state;
 
 typedef enum e_token_type
 {
@@ -46,19 +46,25 @@ typedef enum e_token_type
 	REDIRECT_APPEND,
 	REDIRECT_HEREDOC,
 	PIPE,
-}				t_token_type;
+}	t_token_type;
 
 typedef struct s_token
 {
 	char			*token;
 	t_token_type	token_type;
-}				t_token;
+}	t_token;
 
 typedef struct s_token_array
 {
 	t_token	*tokens;
 	int		len;
-}			t_token_array;
+}	t_token_array;
+
+typedef struct s_parser_helper
+{
+	int	index;
+	int	arg_count;
+}	t_parser_helper;
 
 // expantion
 typedef struct s_quote_state
@@ -76,7 +82,7 @@ typedef enum e_node_type
 {
 	NODE_CMD,
 	NODE_PIPE,
-}			t_node_type;
+}	t_node_type;
 
 typedef enum e_redir_type
 {
@@ -84,14 +90,14 @@ typedef enum e_redir_type
 	R_OUT_APPEND,
 	R_IN,
 	R_HEREDOC,
-}			t_redir_type;
+}	t_redir_type;
 
 typedef struct s_redirect
 {
 	t_redir_type		type;
 	char				*file_name;
 	struct s_redirect	*next;
-}			t_redirect;
+}	t_redirect;
 
 typedef struct s_ast
 {
@@ -104,7 +110,7 @@ typedef struct s_ast
 			char		*name;
 			char		*path;
 			char		**argv;
-			char		*envp;
+			char		**envp;
 			t_redirect	*redirects;
 		} cmd;
 		struct s_pipe
@@ -113,7 +119,7 @@ typedef struct s_ast
 			struct s_ast	*right;
 		} pipe;
 	}	u_data;
-}				t_ast;
+}	t_ast;
 
 
 // pids
@@ -121,13 +127,13 @@ typedef	struct s_pid_node
 {
 	pid_t		pid;
 	struct s_pid_node	*next;
-} t_pid_node;
+}	t_pid_node;
 
 typedef struct s_pids
 {
 	t_pid_node	*head;
 	t_pid_node	*tail;
-} t_pids;
+}	t_pids;
 
 // -------------------- functions --------------------
 // run_ast
@@ -194,12 +200,12 @@ void	check_expand(char **envp, int *stp);
 void	debug_print_ast(t_ast *node, int depth);
 
 // parser functions
-int		parser(t_ast *ast_node, t_token_array *token_array, int *exit_status);
-int		make_ast(t_ast *node, t_token_array *array, int *pos, int *exit_status);
-int		parse_pipe(t_ast *node, t_token_array *array, int *pos, int *exit_status);
-int		make_pipe_node(t_ast *node, t_ast *left_node, t_token_array *array, int *pos, int *exit_status);
-int		parse_cmd(t_ast *node, t_token_array *array, int *pos, int *exit_status);
-int		make_cmd_node(t_ast *node, t_token_array *array, int *pos, int arg_count, int *exit_status);
+int		parser(t_ast *ast_node, t_token_array *token_array, char **envp, int *exit_status);
+int		make_ast(t_ast *node, t_token_array *array, t_parser_helper *p_help, char **envp, int *exit_status);
+int		parse_pipe(t_ast *node, t_token_array *array, t_parser_helper *p_help, char **envp, int *exit_status);
+int		make_pipe_node(t_ast *node, t_ast *left_node, t_token_array *array, t_parser_helper *p_help, char **envp, int *exit_status);
+int		parse_cmd(t_ast *node, t_token_array *array, t_parser_helper *p_help, char **envp, int *exit_status);
+int		make_cmd_node(t_ast *node, t_token_array *array, t_parser_helper *p_help, char **envp, int *exit_status);
 int		add_args(t_ast *node, t_token_array *array, int *pos, int *exit_status);
 int		add_redirect(t_ast *node, t_token_array *array, int *pos, int *exit_status);
 void	free_cmd_args(t_ast *node, int count);
