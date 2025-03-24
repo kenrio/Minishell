@@ -6,28 +6,29 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:44:07 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/24 15:40:49 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/25 00:21:08 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static int	make_empty_cmd_node(t_ast *node, int *exit_status);
-static int	set_cmd_name(t_ast *node, t_token_array *array, int *pos, int arg_count, int *exit_status);
+static int	set_cmd_name(t_ast *node, t_token_array *array, t_parser_helper *p_help, int *exit_status);
 static int	find_cmd_name(t_ast *node, t_token_array *array,
 				int *pos, int *exit_status);
 static int	allocate_argv_mem(t_ast *node, int arg_count, int *exit_status);
 static int	set_argv0(t_ast *node, int *exit_status);
 
-int	make_cmd_node(t_ast *node, t_token_array *array, int *pos, int arg_count, int *exit_status)
+int	make_cmd_node(t_ast *node, t_token_array *array, t_parser_helper *p_help, char **envp, int *exit_status)
 {
 	node->type = NODE_CMD;
 	node->u_data.cmd.redirects = NULL;
-	if (arg_count == 0)
+	node->u_data.cmd.envp = envp;
+	if (p_help->arg_count == 0)
 		return (make_empty_cmd_node(node, exit_status));
-	if (set_cmd_name(node, array, pos, arg_count, exit_status))
+	if (set_cmd_name(node, array, p_help, exit_status))
 		return (1);
-	return (add_args(node, array, pos, exit_status));
+	return (add_args(node, array, &p_help->index, exit_status));
 }
 
 static int	make_empty_cmd_node(t_ast *node, int *exit_status)
@@ -49,15 +50,15 @@ static int	make_empty_cmd_node(t_ast *node, int *exit_status)
 	return (0);
 }
 
-static int	set_cmd_name(t_ast *node, t_token_array *array, int *pos, int arg_count, int *exit_status)
+static int	set_cmd_name(t_ast *node, t_token_array *array, t_parser_helper *p_help, int *exit_status)
 {
-	if (find_cmd_name(node, array, pos, exit_status))
+	if (find_cmd_name(node, array, &p_help->index, exit_status))
 		return (1);
-	if (allocate_argv_mem(node, arg_count, exit_status))
+	if (allocate_argv_mem(node, p_help->arg_count, exit_status))
 		return (1);
 	if (set_argv0(node, exit_status))
 		return (1);
-	(*pos)++;
+	p_help->index++;
 	return (0);
 }
 
@@ -73,7 +74,9 @@ static int	find_cmd_name(t_ast *node, t_token_array *array,
 		}
 		else
 		{
-			node->u_data.cmd.name = ft_strdup(array->tokens[*pos].token);
+			// node->u_data.cmd.name = ft_strdup(array->tokens[*pos].token);
+			node->u_data.cmd.name
+				= dq_expand_doller(array->tokens[*pos].token, node->u_data.cmd.envp, exit_status);
 			break ;
 		}
 	}
