@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:56:02 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/24 18:50:23 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/25 16:49:20 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,26 +18,34 @@ void	debug_print_ast(t_ast *node, int depth)
 	int			j;
 	t_redirect	*redirect;
 
-	i = 0;
 	if (!node)
 		return ;
-	while (i < depth)
-	{
+	printf("\n");
+	i = 0;
+	while (i++ < depth)
 		printf("  ");
-		i++;
-	}
 	if (node->type == NODE_CMD)
 	{
 		printf("CMD: %s\n", node->u_data.cmd.name);
+		i = 0;
+		while (i++ < depth)
+			printf("  ");	
+		printf("  path: %s\n", node->u_data.cmd.path);
+		// j = 0;
+		// while (node->u_data.cmd.envp && node->u_data.cmd.envp[j])
+		// {
+		// 	i = 0;
+		// 	while (i++ < depth)
+		// 		printf("	");
+		// 	printf("  envp[%d]: %s\n", j, node->u_data.cmd.envp[j]);
+		// 	j++;
+		// }
 		j = 1;
 		while (node->u_data.cmd.argv && node->u_data.cmd.argv[j])
 		{
 			i = 0;
-			while (i < depth)
-			{
+			while (i++ < depth)
 				printf("  ");
-				i++;
-			}
 			printf("  argv[%d]: %s\n", j, node->u_data.cmd.argv[j]);
 			j++;
 		}
@@ -45,11 +53,8 @@ void	debug_print_ast(t_ast *node, int depth)
 		while (redirect)
 		{
 			i = 0;
-			while (i < depth)
-			{
+			while (i++ < depth)
 				printf("  ");
-				i++;
-			}
 			printf("  REDIRECT: ");
 			if (redirect->type == R_OUT)
 				printf(">");
@@ -69,4 +74,5 @@ void	debug_print_ast(t_ast *node, int depth)
 		debug_print_ast(node->u_data.pipe.left, depth + 1);
 		debug_print_ast(node->u_data.pipe.right, depth + 1);
 	}
+	printf("\n");
 }
