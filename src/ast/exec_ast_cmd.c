@@ -3,10 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:07:58 by tishihar          #+#    #+#             */
 /*   Updated: 2025/03/24 17:37:19 by keishii          ###   ########.fr       */
+=======
+/*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/24 16:07:58 by tishihar          #+#    #+#             */
+/*   Updated: 2025/03/25 15:15:12 by tishihar         ###   ########.fr       */
+>>>>>>> tsubasa/dev
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +26,21 @@ static	void	check_fd(int fd_in, int fd_out);
 // step1. if there is a redirect arrays, replace fd_in and fd_out.
 // step2. fd_in & fd_out to std_in & std_out, use dup().
 // step3. Execute fork(), and execute(). 
+<<<<<<< HEAD
 void	exec_right_cmd(t_ast *node, int fd_in, pid_t *pids)
+=======
+void	exec_right_cmd(t_ast *node, int fd_in, t_pids *pids)
+>>>>>>> tsubasa/dev
 {
 	pid_t	pid;
 	int		fd_out;
 
 	fd_out = STDOUT_FILENO;
+<<<<<<< HEAD
 	if (node->u_data.cmd.redirects)
+=======
+	if (node->data.cmd.redirects)
+>>>>>>> tsubasa/dev
 		handle_redirects(node, &fd_in, &fd_out);
 	pid = fork();
 	if (pid < 0)
@@ -37,7 +52,11 @@ void	exec_right_cmd(t_ast *node, int fd_in, pid_t *pids)
 	{
 		check_fd(fd_in, fd_out);
 		setup_child_fd(fd_in, fd_out);
+<<<<<<< HEAD
 		execve(node->u_data.cmd.path, node->u_data.cmd.argv, node->u_data.cmd.envp);
+=======
+		execve(node->data.cmd.path, node->data.cmd.argv, node->data.cmd.envp);
+>>>>>>> tsubasa/dev
 		perror("execve failed");
 		exit(EXIT_FAILURE);
 	}
@@ -48,13 +67,21 @@ void	exec_right_cmd(t_ast *node, int fd_in, pid_t *pids)
 
 // this func() execute cmd, and update pids.
 // input by fd_in, output to fd_pipe[1];
+<<<<<<< HEAD
 void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], pid_t *pids)
+=======
+void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], t_pids *pids)
+>>>>>>> tsubasa/dev
 {
 	pid_t	pid;
 	int		fd_out;
 
 	fd_out = fd_pipe[1];
+<<<<<<< HEAD
 	if (node->u_data.cmd.redirects)
+=======
+	if (node->data.cmd.redirects)
+>>>>>>> tsubasa/dev
 		handle_redirects(node, &fd_in, &fd_out);
 	pid = fork();
 	if (pid < 0)
@@ -67,7 +94,11 @@ void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], pid_t *pids)
 		close(fd_pipe[0]);
 		check_fd(fd_in, fd_out);
 		setup_child_fd(fd_in, fd_out);
+<<<<<<< HEAD
 		execve(node->u_data.cmd.path, node->u_data.cmd.argv, node->u_data.cmd.envp);
+=======
+		execve(node->data.cmd.path, node->data.cmd.argv, node->data.cmd.envp);
+>>>>>>> tsubasa/dev
 		perror("execve failed");
 		exit(EXIT_FAILURE);
 	}

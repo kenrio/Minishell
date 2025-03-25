@@ -6,7 +6,7 @@
 #    By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/03/24 20:24:38 by keishii          ###   ########.fr        #
+#    Updated: 2025/03/25 16:16:27 by keishii          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,12 +36,6 @@ SRC_LEXER		= \
 				free_token_array.c \
 				lexer_utils.c \
 
-
-SRC_AST			= \
-				# exec_ast.c \
-				# exec_ast_pipe.c \
-				# exec_ast_cmd.c \
-
 SRC_EXPANTION	= \
 				elements.c \
 				elements_heredoc.c \
@@ -65,13 +59,21 @@ SRC_PARSER		= \
 
 
 SRC_UTILS		= \
+				heredoc.c \
+				pids.c \
+				redirect.c \
 				boundary_split.c \
 				join_all_split.c \
 				ft_strcmp.c \
 				get_path.c \
 				strrmchr.c \
 				utils.c \
-				
+
+SRC_AST			= \
+				exec_ast_pipe.c \
+				exec_ast_cmd.c \
+				exec_ast.c \
+
 # SRC&OBJ
 SRC				= \
 				main.c \

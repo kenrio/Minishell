@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/25 00:28:53 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/25 16:14:30 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,12 +138,12 @@ typedef struct s_pids
 // -------------------- functions --------------------
 // run_ast
 int		run_ast(t_ast *ast_node, int *status);
-int		execute_ast(t_ast *ast_node, int fd_in, pid_t *pids);
+int		execute_ast(t_ast *ast_node, int fd_in, t_pids *pids);
 
 // run_ast_sub
-int		exec_ast_pipe(t_ast *ast_node, int fd_in, pid_t *pids);
-void	exec_right_cmd(t_ast *ast_node, int fd_in, pid_t *pids);
-void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], pid_t *pids);
+int		exec_ast_pipe(t_ast *ast_node, int fd_in, t_pids *pids);
+void	exec_right_cmd(t_ast *ast_node, int fd_in, t_pids *pids);
+void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], t_pids *pids);
 
 // pids
 void	init_pids(t_pids *pids);
@@ -155,7 +155,12 @@ void	destroy_pids(t_pids	*pids);
 int		handle_redirects(t_ast *node, int *fd_in_, int *fd_out_);
 int		handle_heredoc(int *fd_in_, char *delimiter);
 
-// utils functions
+
+
+
+
+
+// test
 void	print_message(void);
 int		ft_isspace(char c);
 int		is_doller(int c);
