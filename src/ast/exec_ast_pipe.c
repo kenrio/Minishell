@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast_pipe.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:31:27 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/25 16:21:14 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/25 21:09:27 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	exec_ast_pipe(t_ast *ast_node, int fd_in, t_pids *pids)
 		perror("create pipe failed.");
 		return (1);
 	}
-	exec_left_cmd(ast_node, fd_in, fd_pipe, pids);
+	exec_left_cmd(ast_node->u_data.pipe.left, fd_in, fd_pipe, pids);
 	close(fd_pipe[1]);
 	if (execute_ast(ast_node->u_data.pipe.right, fd_pipe[0], pids))
 		return (1);

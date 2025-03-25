@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:08:21 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/25 16:24:19 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/25 21:10:18 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,15 @@ static int	main_loop(char *input_line, char **envp, int *exit_status)
 			continue ;
 		// printf("\nexit_status after lexer: %d\n\n", *exit_status);
 		*exit_status = parser(&ast_node, &token_array, envp, exit_status);
-		debug_print_ast(&ast_node, 0);
+
+
+
+		// debug_print_ast(&ast_node, 0);
 		run_ast(&ast_node, exit_status);
-		printf("\nexit_status after parser: %d\n\n", *exit_status);
+
+
+		
+		// printf("\nexit_status after parser: %d\n\n", *exit_status);
 	}
 	return (*exit_status);
 }

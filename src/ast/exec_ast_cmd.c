@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:07:58 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/25 16:22:00 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/25 21:09:04 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,15 @@ static	void	check_fd(int fd_in, int fd_out)
 // this func() is set "fd_in" to STDIN, and "fd_out" to STD_OUT
 // if in or out isn't right shape, this is not the case.
 // The case where fd_in is -1 here is the case where the redirection is -1.
+// THE TRUE CASE: fd_out is appropriate, and, fd_out is not STDOUT
 static	void	setup_child_fd(int fd_in, int fd_out)
 {
-	if (fd_in != -1 || fd_in != STDIN_FILENO)
+	if (fd_in != -1 && fd_in != STDIN_FILENO)
 	{
 		dup2(fd_in, STDIN_FILENO);
 		close(fd_in);
 	}
-	if (fd_out != -1 || fd_out != STDOUT_FILENO)
+	if (fd_out != -1 && fd_out != STDOUT_FILENO)
 	{
 		dup2(fd_out, STDOUT_FILENO);
 		close(fd_out);
