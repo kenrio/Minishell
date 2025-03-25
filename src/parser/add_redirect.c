@@ -6,13 +6,13 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:50:56 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/24 15:47:21 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/25 15:25:01 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_redirect	*make_redirect_struct(int *exit_status);
+static t_redirect	*make_redirect_struct(void);
 static void			set_redirect_type(t_redirect *redirect, t_token *token);
 static int			set_redirect_file(t_redirect *redirect,
 						t_token_array *array, int *pos, int *exit_status);
@@ -24,7 +24,7 @@ int	add_redirect(t_ast *node, t_token_array *array, int *pos, int *exit_status)
 	t_token		*token;
 
 	token = &(array->tokens[*pos]);
-	redirect = make_redirect_struct(exit_status);
+	redirect = make_redirect_struct();
 	if (!redirect)
 		return (1);
 	set_redirect_type(redirect, token);
@@ -34,16 +34,13 @@ int	add_redirect(t_ast *node, t_token_array *array, int *pos, int *exit_status)
 	return (0);
 }
 
-static t_redirect	*make_redirect_struct(int *exit_status)
+static t_redirect	*make_redirect_struct(void)
 {
 	t_redirect	*redirect;
 
 	redirect = ft_calloc(1, sizeof(t_redirect));
 	if (!redirect)
-	{
-		*exit_status = 1;
 		return (NULL);
-	}
 	return (redirect);
 }
 
@@ -66,15 +63,13 @@ static int	set_redirect_file(t_redirect *redirect, t_token_array *array,
 	if (*pos >= array->len)
 	{
 		free(redirect);
-		*exit_status = 258;
-		return (1);
+		return (*exit_status = 258, 1);
 	}
 	redirect->file_name = ft_strdup(array->tokens[*pos].token);
 	if (!redirect->file_name)
 	{
 		free(redirect);
-		*exit_status = 1;
-		return (1);
+		return (*exit_status = 1, 1);
 	}
 	(*pos)++;
 	return (0);
