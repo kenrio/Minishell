@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/02/28 19:37:21 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/25 15:16:52 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,12 @@ typedef struct s_pids
 // -------------------- functions --------------------
 // run_ast
 int		run_ast(t_ast *ast_node, int *status);
-int		execute_ast(t_ast *ast_node, int fd_in, pid_t *pids);
+int		execute_ast(t_ast *ast_node, int fd_in, t_pids *pids);
 
 // run_ast_sub
-int		exec_ast_pipe(t_ast *ast_node, int fd_in, pid_t *pids);
-void	exec_right_cmd(t_ast *ast_node, int fd_in, pid_t *pids);
-void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], pid_t *pids);
+int		exec_ast_pipe(t_ast *ast_node, int fd_in, t_pids *pids);
+void	exec_right_cmd(t_ast *ast_node, int fd_in, t_pids *pids);
+void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], t_pids *pids);
 
 // pids
 void	init_pids(t_pids *pids);

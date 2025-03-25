@@ -6,7 +6,7 @@
 /*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:07:58 by tishihar          #+#    #+#             */
-/*   Updated: 2025/02/28 21:39:22 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/25 15:15:12 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static	void	check_fd(int fd_in, int fd_out);
 // step1. if there is a redirect arrays, replace fd_in and fd_out.
 // step2. fd_in & fd_out to std_in & std_out, use dup().
 // step3. Execute fork(), and execute(). 
-void	exec_right_cmd(t_ast *node, int fd_in, pid_t *pids)
+void	exec_right_cmd(t_ast *node, int fd_in, t_pids *pids)
 {
 	pid_t	pid;
 	int		fd_out;
@@ -48,7 +48,7 @@ void	exec_right_cmd(t_ast *node, int fd_in, pid_t *pids)
 
 // this func() execute cmd, and update pids.
 // input by fd_in, output to fd_pipe[1];
-void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], pid_t *pids)
+void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], t_pids *pids)
 {
 	pid_t	pid;
 	int		fd_out;

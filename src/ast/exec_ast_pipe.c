@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast_pipe.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:31:27 by tishihar          #+#    #+#             */
-/*   Updated: 2025/02/27 15:04:50 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/25 15:13:19 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 // this func() create pipe, and execute left cmd and right ast node.
 // there is a "fd_in" to use input, but is not "fd_out". we don't need.
-int	exec_ast_pipe(t_ast *ast_node, int fd_in, pid_t *pids)
+int	exec_ast_pipe(t_ast *ast_node, int fd_in, t_pids *pids)
 {
 	int	fd_pipe[2];
 
