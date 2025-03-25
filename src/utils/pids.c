@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pids.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:27:01 by tishihar          #+#    #+#             */
-/*   Updated: 2025/02/28 15:42:31 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/25 15:30:04 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	wait_pids(t_pids *pids, int *status)
 	{
 		next = curr->next;
 		if (curr->next == NULL)
-			wait_pid(curr->pid, status, 0);
+			waitpid(curr->pid, status, 0);
 		else
 			waitpid(curr->pid, NULL, 0);
 		curr = next;
