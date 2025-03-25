@@ -6,7 +6,7 @@
 /*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/25 15:16:52 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/25 15:38:20 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ typedef	struct u_ast
 			char		*name;
 			char		*path;
 			char		**argv;
-			char		*envp;
+			char		**envp;
 			t_ridirect	*redirects;
 		} cmd;
 		
