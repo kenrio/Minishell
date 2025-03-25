@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+         #
+#    By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/02/22 15:24:40 by tishihar         ###   ########.fr        #
+#    Updated: 2025/03/25 15:24:40 by tishihar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,14 +26,15 @@ OBJ_DIR			= obj
 # **************************************************************************** #
 # SOURCES
 SRC_UTILS		= \
+				heredoc.c \
+				pids.c \
+				redirect.c \
 				utils.c \
 
 SRC_AST			= \
+				exec_ast_pipe.c \
+				exec_ast_cmd.c \
 				exec_ast.c \
-
-SRC				= \
-				main.c \
-				$(addprefix utils/, $(SRC_UTILS)) \
 
 # SRC&OBJ
 SRC				= \
