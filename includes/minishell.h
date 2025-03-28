@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/25 16:14:30 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/28 13:05:37 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,22 @@ typedef struct s_pids
 	t_pid_node	*tail;
 }	t_pids;
 
+// envl
+
+typedef	struct s_env_node
+{
+	char				*value;
+	struct	s_env_node	*next;
+} t_env_node;
+
+typedef	struct s_envl
+{
+	t_env_node	*head;
+	t_env_node	*tail;
+	int			count;
+} t_envl;
+
+
 // -------------------- functions --------------------
 // run_ast
 int		run_ast(t_ast *ast_node, int *status);
@@ -155,18 +171,10 @@ void	destroy_pids(t_pids	*pids);
 int		handle_redirects(t_ast *node, int *fd_in_, int *fd_out_);
 int		handle_heredoc(int *fd_in_, char *delimiter);
 
-
-
-
-
-
-// test
-void	print_message(void);
-int		ft_isspace(char c);
-int		is_doller(int c);
-int		is_env_char(int c);
-int		ft_strcmp(const char *s1, const char *s2);
-char	*strrmchr(char *str, char *set);
+// envp
+t_envl	*make_envl(char **envp);
+void	destroy_envl(t_envl *lst);
+char	**make_envp_by_envl(t_envl *lst);
 
 // boundary_split
 char	**boundary_split(char const *str, int (*is_boundary)(int));
@@ -178,6 +186,16 @@ char	*join_all_split(char **array);
 // get_path
 char	*get_cmd_path(char **envp, char	*name);
 char	*get_env_value_bykey(char **envp, char *key);
+
+// expantion functions
+char	*expand_doller(char *str, char **envp, int *status_p);
+char	*expand_doller_heredoc(char *str, char **envp, int *status_p);
+char	*dq_expand_doller(char *str, char **envp, int *status_p);
+int		update_elements(char **envp, char **elements, int *stp, t_quote_state *q_st);
+int		update_elements_hdoc(char **envp, char **e, int *stp, t_quote_state *q_st);
+
+
+
 
 // lexer functions
 int		lexer(t_token_array *array, char *input_line, int *exit_status);
@@ -192,18 +210,6 @@ void	toggle_quote_state(char *line, t_token_state *state);
 int		is_operator(char c);
 int		is_double_operator(char *line, int index);
 
-// expantion functions
-char	*expand_doller(char *str, char **envp, int *status_p);
-char	*expand_doller_heredoc(char *str, char **envp, int *status_p);
-char	*dq_expand_doller(char *str, char **envp, int *status_p);
-int		update_elements(char **envp, char **elements, int *stp, t_quote_state *q_st);
-int		update_elements_hdoc(char **envp, char **e, int *stp, t_quote_state *q_st);
-
-// debug functions
-void	debug_print_tokens(t_token_array *array);
-void	check_expand(char **envp, int *stp);
-void	debug_print_ast(t_ast *node, int depth);
-
 // parser functions
 int		parser(t_ast *ast_node, t_token_array *token_array, char **envp, int *exit_status);
 int		make_ast(t_ast *node, t_token_array *array, t_parser_helper *p_help, char **envp, int *exit_status);
@@ -215,3 +221,16 @@ int		add_args(t_ast *node, t_token_array *array, int *pos, int *exit_status);
 int		add_redirect(t_ast *node, t_token_array *array, int *pos, int *exit_status);
 void	free_cmd_args(t_ast *node, int count);
 int		is_redirect(t_token *token);
+
+// debug functions
+void	debug_print_tokens(t_token_array *array);
+void	check_expand(char **envp, int *stp);
+void	debug_print_ast(t_ast *node, int depth);
+
+// utils
+void	print_message(void);
+int		ft_isspace(char c);
+int		is_doller(int c);
+int		is_env_char(int c);
+int		ft_strcmp(const char *s1, const char *s2);
+char	*strrmchr(char *str, char *set);
