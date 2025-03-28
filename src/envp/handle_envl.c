@@ -6,17 +6,25 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 13:11:03 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/28 15:46:58 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/28 16:48:09 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // this file handle env_list.
-// lstをうけとって、keyに一致するものが既存の場合は文字列を更新する、ない場合は末尾に追加する関数
-int	envl_add_node(t_envl *lst, char *key, char *value)
+int	envl_add_node(t_envl *lst, char *value)
 {
-	
+	char	*key;
+
+	key = ft_substr(value, 0, strlen_delimiter(value, '='));
+	if (!key)
+		return (1);
+	envl_rm_node(lst, key);
+	free(key);
+	if (envl_push_back(lst, value))
+		return (1);
+	return (0);
 }
 
 // lstをうけとって、keyに一致したノードを削除する関数
@@ -65,4 +73,16 @@ static	bool	is_match_key(char *str, char *key)
 	ft_strncmp(str, key, len) == 0
 	&& str[len] == '='
 	);
+}
+
+static	size_t	strlen_delimiter(char *str, char del)
+{
+	size_t	count;
+	count = 0;
+	while (*str && *str != del)
+	{
+		str++;
+		count++;
+	}
+	return (count);
 }

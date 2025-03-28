@@ -6,14 +6,13 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 20:57:20 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/28 12:58:48 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/28 16:53:24 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static	void	init_envl(t_envl *lst);
-static	int	envl_push_back(t_envl *lst, char *value);
 
 // envl: node->node->node->NULL
 // node.value = "USER=tishihar" etc..
@@ -27,7 +26,7 @@ t_envl	*make_envl(char **envp)
 	init_envl(result);
 	while (*envp)
 	{
-		envl_push_back(result, ft_strdup(*envp));
+		envl_push_back(result, *envp);
 		envp++;
 	}
 	return (result);
@@ -51,7 +50,8 @@ void	destroy_envl(t_envl *lst)
 	free(lst);
 }
 
-static	int	envl_push_back(t_envl *lst, char *value)
+// this function allocate value to heap_memory;
+int	envl_push_back(t_envl *lst, char *value)
 {
 	t_env_node	*new;
 
@@ -60,7 +60,7 @@ static	int	envl_push_back(t_envl *lst, char *value)
 	new = (t_env_node *)ft_calloc(1, sizeof(t_env_node));
 	if (!new)
 		return (1);
-	new->value = value;
+	new->value = ft_strdup(value);
 	new->next = NULL;
 	if (lst->count == 0)
 	{

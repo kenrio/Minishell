@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/28 13:05:37 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/28 16:51:18 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,10 @@ int		handle_heredoc(int *fd_in_, char *delimiter);
 // envp
 t_envl	*make_envl(char **envp);
 void	destroy_envl(t_envl *lst);
+int		envl_add_node(t_envl *lst, char *value);
+int		envl_rm_node(t_envl *lst, char *key);
 char	**make_envp_by_envl(t_envl *lst);
+int		envl_push_back(t_envl *lst, char *value);
 
 // boundary_split
 char	**boundary_split(char const *str, int (*is_boundary)(int));
