@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:50:56 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/28 16:20:07 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/28 16:46:11 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ static t_redirect	*make_redirect_struct(void)
 {
 	t_redirect	*redirect;
 
-	// redirect = ft_calloc(1, sizeof(t_redirect));
-	redirect = NULL;
+	redirect = ft_calloc(1, sizeof(t_redirect));
 	if (!redirect)
 		return (NULL);
 	return (redirect);

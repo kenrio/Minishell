@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:47:30 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/25 15:30:08 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/28 18:47:24 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	add_args(t_ast *node, t_token_array *array, int *pos, int *exit_status)
 
 static int	add_arg_value(t_ast *node, t_token_array *array, int *pos, int arg_index, int *exit_status)
 {
-	// node->u_data.cmd.argv[arg_index] = ft_strdup(array->tokens[*pos].token);
 	node->u_data.cmd.argv[arg_index]
 		= dq_expand_doller(array->tokens[*pos].token, node->u_data.cmd.envp, exit_status);
 	if (!node->u_data.cmd.argv[arg_index])

@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:44:07 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/25 16:32:07 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/28 18:47:07 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ static int	find_cmd_name(t_ast *node, t_token_array *array,
 		}
 		else
 		{
-			// node->u_data.cmd.name = ft_strdup(array->tokens[*pos].token);
 			node->u_data.cmd.name
 				= dq_expand_doller(array->tokens[*pos].token, node->u_data.cmd.envp, exit_status);
 			break ;
