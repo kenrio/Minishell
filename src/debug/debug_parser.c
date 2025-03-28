@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:56:02 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/25 16:49:20 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/26 00:38:44 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,6 @@ void	debug_print_ast(t_ast *node, int depth)
 		while (i++ < depth)
 			printf("  ");	
 		printf("  path: %s\n", node->u_data.cmd.path);
-		// j = 0;
-		// while (node->u_data.cmd.envp && node->u_data.cmd.envp[j])
-		// {
-		// 	i = 0;
-		// 	while (i++ < depth)
-		// 		printf("	");
-		// 	printf("  envp[%d]: %s\n", j, node->u_data.cmd.envp[j]);
-		// 	j++;
-		// }
 		j = 1;
 		while (node->u_data.cmd.argv && node->u_data.cmd.argv[j])
 		{
