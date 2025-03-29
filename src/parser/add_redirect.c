@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:50:56 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/29 12:00:04 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/29 13:40:49 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,22 @@
 
 static t_redirect	*make_redirect_struct(void);
 static void			set_redirect_type(t_redirect *redirect, t_token *token);
-static int			set_redirect_file(t_redirect *redirect, t_ast *node,
-						t_token_array *array, int *pos, int *exit_status);
+static int			set_redirect_file(t_redirect *redirect, t_token_array *array, t_parse_helper *helper, int *exit_status);
 static void			add_redirect_to_list(t_ast *node, t_redirect *redirect);
 
-int	add_redirect(t_ast *node, t_token_array *array, int *pos, int *exit_status)
+int	add_redirect(t_token_array *array, t_parse_helper *helper, int *exit_status)
 {
 	t_redirect	*redirect;
 	t_token		*token;
 
-	token = &(array->tokens[*pos]);
+	token = &(array->tokens[helper->index]);
 	redirect = make_redirect_struct();
 	if (!redirect)
 		return (1);
 	set_redirect_type(redirect, token);
-	if (set_redirect_file(redirect, node, array, pos, exit_status))
+	if (set_redirect_file(redirect, array, helper, exit_status))
 		return (1);
-	add_redirect_to_list(node, redirect);
+	add_redirect_to_list(helper->node, redirect);
 	return (0);
 }
 
@@ -56,23 +55,22 @@ static void	set_redirect_type(t_redirect *redirect, t_token *token)
 		redirect->type = R_HEREDOC;
 }
 
-static int	set_redirect_file(t_redirect *redirect, t_ast *node, t_token_array *array,
-	int *pos, int *exit_status)
+static int	set_redirect_file(t_redirect *redirect, t_token_array *array, t_parse_helper *helper, int *exit_status)
 {
-	(*pos)++;
-	if (*pos >= array->len)
+	helper->index++;
+	if (helper->index >= array->len)
 	{
 		free(redirect);
-		return (*exit_status = 2, 1);
+		return (*exit_status = 1, 1);
 	}
-	redirect->file_name = dq_expand_doller(array->tokens[*pos].token,
-			node->u_data.cmd.envp, exit_status);
+	redirect->file_name = dq_expand_doller(array->tokens[helper->index].token,
+			helper->node->u_data.cmd.envp, exit_status);
 	if (!redirect->file_name)
 	{
 		free(redirect);
 		return (*exit_status = 1, 1);
 	}
-	(*pos)++;
+	helper->index++;
 	return (0);
 }
 

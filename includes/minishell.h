@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/28 16:51:18 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/03/29 13:47:33 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,6 @@ typedef struct s_token_array
 	int		len;
 }	t_token_array;
 
-typedef struct s_parser_helper
-{
-	int	index;
-	int	arg_count;
-}	t_parser_helper;
 
 // expantion
 typedef struct s_quote_state
@@ -102,7 +97,7 @@ typedef struct s_redirect
 typedef struct s_ast
 {
 	t_node_type	type;
-
+	
 	union
 	{
 		struct s_cmd
@@ -121,6 +116,12 @@ typedef struct s_ast
 	}	u_data;
 }	t_ast;
 
+typedef struct s_parse_helper
+{
+	t_ast	*node;
+	int		index;
+	int		arg_count;
+}	t_parse_helper;
 
 // pids
 typedef	struct s_pid_node
@@ -215,13 +216,13 @@ int		is_double_operator(char *line, int index);
 
 // parser functions
 int		parser(t_ast *ast_node, t_token_array *token_array, char **envp, int *exit_status);
-int		make_ast(t_ast *node, t_token_array *array, t_parser_helper *p_help, char **envp, int *exit_status);
-int		parse_pipe(t_ast *node, t_token_array *array, t_parser_helper *p_help, char **envp, int *exit_status);
-int		make_pipe_node(t_ast *node, t_ast *left_node, t_token_array *array, t_parser_helper *p_help, char **envp, int *exit_status);
-int		parse_cmd(t_ast *node, t_token_array *array, t_parser_helper *p_help, char **envp, int *exit_status);
-int		make_cmd_node(t_ast *node, t_token_array *array, t_parser_helper *p_help, char **envp, int *exit_status);
-int		add_args(t_ast *node, t_token_array *array, int *pos, int *exit_status);
-int		add_redirect(t_ast *node, t_token_array *array, int *pos, int *exit_status);
+int		make_ast(t_token_array *array, t_parse_helper *helper, char **envp, int *exit_status);
+int		parse_pipe(t_token_array *array, t_parse_helper *helper, char **envp, int *exit_status);
+int		make_pipe_node(t_ast *left_node, t_token_array *array, t_parse_helper *helper, char **envp, int *exit_status);
+int		parse_cmd(t_token_array *array, t_parse_helper *helper, char **envp, int *exit_status);
+int		make_cmd_node(t_token_array *array, t_parse_helper *helper, char **envp, int *exit_status);
+int		add_args(t_token_array *array, t_parse_helper *helper, int *exit_status);
+int		add_redirect(t_token_array *array, t_parse_helper *helper, int *exit_status);
 void	free_cmd_args(t_ast *node, int count);
 int		is_redirect(t_token *token);
 

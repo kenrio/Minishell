@@ -6,31 +6,31 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:30:31 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/24 21:18:15 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/29 13:30:05 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	parse_pipe(t_ast *node, t_token_array *array, t_parser_helper *p_help, char **envp, int *exit_status)
+int	parse_pipe(t_token_array *array, t_parse_helper *helper, char **envp, int *exit_status)
 {
 	t_ast	left_node;
 
-	if (parse_cmd(&left_node, array, p_help, envp, exit_status))
+	if (parse_cmd(array, helper, envp, exit_status))
 	{
 		*exit_status = 1;
 		return (1);
 	}
-	if (p_help->index < array->len && array->tokens[p_help->index].token_type == PIPE)
+	if (helper->index < array->len && array->tokens[helper->index].token_type == PIPE)
 	{
-		p_help->index++;
-		if (make_pipe_node(node, &left_node, array, p_help, envp, exit_status))
+		helper->index++;
+		if (make_pipe_node(&left_node, array, helper, envp, exit_status))
 		{
 			*exit_status = 1;
 			return (1);
 		}
 		return (0);
 	}
-	*node = left_node;
+	helper->node = &left_node;
 	return (0);
 }
