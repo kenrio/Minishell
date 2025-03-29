@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+         #
+#    By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/03/25 16:16:27 by keishii          ###   ########.fr        #
+#    Updated: 2025/03/28 13:08:25 by tishihar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,15 +74,20 @@ SRC_AST			= \
 				exec_ast_cmd.c \
 				exec_ast.c \
 
+SRC_ENVP		= \
+				envl.c \
+				make_envp.c \
+
 # SRC&OBJ
 SRC				= \
 				main.c \
 				$(addprefix ast/, $(SRC_AST)) \
         		$(addprefix lexer/, $(SRC_LEXER)) \
         		$(addprefix expantion/, $(SRC_EXPANTION)) \
-            $(addprefix debug/, $(SRC_DEBUG)) \
+            	$(addprefix debug/, $(SRC_DEBUG)) \
 				$(addprefix utils/, $(SRC_UTILS)) \
-        $(addprefix parser/, $(SRC_PARSER)) \
+        		$(addprefix parser/, $(SRC_PARSER)) \
+        		$(addprefix envp/, $(SRC_ENVP)) \
 
         
 
