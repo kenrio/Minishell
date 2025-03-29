@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:36:56 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/25 00:16:22 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/29 00:41:15 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ static int	count_args(t_token_array *array, t_parser_helper *p_help)
 	{
 		if (is_redirect(&array->tokens[i]))
 		{
-			i += 2;
-			if (i > array->len)
+			if (i + 1 >= array->len)
 				break ;
+			i += 2;
 		}
 		else
 		{
