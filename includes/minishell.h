@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/29 13:47:33 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/30 22:57:37 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,20 +137,18 @@ typedef struct s_pids
 }	t_pids;
 
 // envl
-
 typedef	struct s_env_node
 {
 	char				*value;
 	struct	s_env_node	*next;
-} t_env_node;
+}	t_env_node;
 
 typedef	struct s_envl
 {
 	t_env_node	*head;
 	t_env_node	*tail;
 	int			count;
-} t_envl;
-
+}	t_envl;
 
 // -------------------- functions --------------------
 // run_ast
@@ -198,9 +196,6 @@ char	*dq_expand_doller(char *str, char **envp, int *status_p);
 int		update_elements(char **envp, char **elements, int *stp, t_quote_state *q_st);
 int		update_elements_hdoc(char **envp, char **e, int *stp, t_quote_state *q_st);
 
-
-
-
 // lexer functions
 int		lexer(t_token_array *array, char *input_line, int *exit_status);
 int		count_tokens(char *line, t_token_array *array);
@@ -218,7 +213,7 @@ int		is_double_operator(char *line, int index);
 int		parser(t_ast *ast_node, t_token_array *token_array, char **envp, int *exit_status);
 int		make_ast(t_token_array *array, t_parse_helper *helper, char **envp, int *exit_status);
 int		parse_pipe(t_token_array *array, t_parse_helper *helper, char **envp, int *exit_status);
-int		make_pipe_node(t_ast *left_node, t_token_array *array, t_parse_helper *helper, char **envp, int *exit_status);
+int		make_pipe_node(t_token_array *array, t_parse_helper *helper, char **envp, int *exit_status);
 int		parse_cmd(t_token_array *array, t_parse_helper *helper, char **envp, int *exit_status);
 int		make_cmd_node(t_token_array *array, t_parse_helper *helper, char **envp, int *exit_status);
 int		add_args(t_token_array *array, t_parse_helper *helper, int *exit_status);

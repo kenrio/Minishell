@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+         #
+#    By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/03/28 13:08:25 by tishihar         ###   ########.fr        #
+#    Updated: 2025/03/30 22:58:17 by keishii          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,6 @@ SRC_PARSER		= \
 				add_redirect.c \
 				parser_utils.c \
 
-
 SRC_UTILS		= \
 				heredoc.c \
 				pids.c \
@@ -89,10 +88,9 @@ SRC				= \
         		$(addprefix parser/, $(SRC_PARSER)) \
         		$(addprefix envp/, $(SRC_ENVP)) \
 
-        
-
 OBJ				= ${addprefix ${OBJ_DIR}/, \
 				${SRC:.c=.o}}
+
 
 # **************************************************************************** #
 # LIBRARIES & FRAMEWORKS
