@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:08:21 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/29 00:42:42 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/30 22:56:11 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,6 @@
 
 static int	main_loop(char *input_line, char **envp, int *exit_status);
 static char	*get_input_line(void);
-
-
-
-
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -47,15 +43,9 @@ static int	main_loop(char *input_line, char **envp, int *exit_status)
 			continue ;
 		// printf("\nexit_status after lexer: %d\n\n", *exit_status);
 		parser(&ast_node, &token_array, envp, exit_status);
-
-
-
 		// debug_print_ast(&ast_node, 0);
 		printf("\nexit_status after parser: %d\n\n", *exit_status);
-		run_ast(&ast_node, exit_status);
-
-
-		
+		run_ast(&ast_node, exit_status);	
 	}
 	return (*exit_status);
 }
