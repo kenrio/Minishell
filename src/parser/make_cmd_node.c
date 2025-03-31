@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:44:07 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/31 12:57:44 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/31 13:29:45 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@ static int	set_cmd_name(t_token_array *array, t_parse_helper *helper, int *exit_
 static int	find_cmd_name(t_token_array *array, t_parse_helper *helper, int *exit_status);
 static int	set_argv0(t_parse_helper *helper, int *exit_status);
 
-int	make_cmd_node(t_token_array *array, t_parse_helper *helper, char **envp, int *exit_status)
+int	make_cmd_node(t_token_array *array, t_parse_helper *helper, t_envl *envl, int *exit_status)
 {
 	helper->node->type = NODE_CMD;
 	helper->node->u_data.cmd.redirects = NULL;
-	helper->node->u_data.cmd.envp = envp;
+	helper->node->u_data.cmd.envp = make_envp_by_envl(envl);
 	if (helper->arg_count == 0)
 		return (make_empty_cmd_node(helper->node, exit_status));
 	if (set_cmd_name(array, helper, exit_status))
 		return (1);
-	helper->node->u_data.cmd.path = get_cmd_path(envp, helper->node->u_data.cmd.name);
+	helper->node->u_data.cmd.path = get_cmd_path(helper->node->u_data.cmd.envp, helper->node->u_data.cmd.name);
 	return (add_args(array, helper, exit_status));
 }
 

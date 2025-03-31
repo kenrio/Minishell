@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/30 22:57:37 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/31 13:34:27 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,12 +210,12 @@ int		is_operator(char c);
 int		is_double_operator(char *line, int index);
 
 // parser functions
-int		parser(t_ast *ast_node, t_token_array *token_array, char **envp, int *exit_status);
-int		make_ast(t_token_array *array, t_parse_helper *helper, char **envp, int *exit_status);
-int		parse_pipe(t_token_array *array, t_parse_helper *helper, char **envp, int *exit_status);
-int		make_pipe_node(t_token_array *array, t_parse_helper *helper, char **envp, int *exit_status);
-int		parse_cmd(t_token_array *array, t_parse_helper *helper, char **envp, int *exit_status);
-int		make_cmd_node(t_token_array *array, t_parse_helper *helper, char **envp, int *exit_status);
+int		parser(t_ast *ast_node, t_token_array *token_array, t_envl *envl, int *exit_status);
+int		make_ast(t_token_array *array, t_parse_helper *helper, t_envl *envl, int *exit_status);
+int		parse_pipe(t_token_array *array, t_parse_helper *helper, t_envl *envl, int *exit_status);
+int		make_pipe_node(t_token_array *array, t_parse_helper *helper, t_envl *envl, int *exit_status);
+int		parse_cmd(t_token_array *array, t_parse_helper *helper, t_envl *envl, int *exit_status);
+int		make_cmd_node(t_token_array *array, t_parse_helper *helper, t_envl *envl, int *exit_status);
 int		add_args(t_token_array *array, t_parse_helper *helper, int *exit_status);
 int		add_redirect(t_token_array *array, t_parse_helper *helper, int *exit_status);
 void	free_cmd_args(t_ast *node, int count);

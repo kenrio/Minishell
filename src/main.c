@@ -6,28 +6,30 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:08:21 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/30 22:56:11 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/31 13:31:14 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	main_loop(char *input_line, char **envp, int *exit_status);
+static int	main_loop(char *input_line, t_envl *envl, int *exit_status);
 static char	*get_input_line(void);
 
 int	main(int argc, char **argv, char **envp)
 {
 	int		exit_status;
 	char	*input_line;
+	t_envl	*envl;
 
 	(void)argc;
 	(void)argv;
 	input_line = NULL;
-	exit_status = main_loop(input_line, envp, &exit_status);
+	envl = make_envl(envp);
+	exit_status = main_loop(input_line, envl, &exit_status);
 	exit(exit_status);
 }
 
-static int	main_loop(char *input_line, char **envp, int *exit_status)
+static int	main_loop(char *input_line, t_envl *envl, int *exit_status)
 {
 	t_ast			ast_node;
 	t_token_array	token_array;
@@ -42,7 +44,7 @@ static int	main_loop(char *input_line, char **envp, int *exit_status)
 		if (token_array.len == 0 || *exit_status == 1)
 			continue ;
 		// printf("\nexit_status after lexer: %d\n\n", *exit_status);
-		parser(&ast_node, &token_array, envp, exit_status);
+		parser(&ast_node, &token_array, envl, exit_status);
 		// debug_print_ast(&ast_node, 0);
 		printf("\nexit_status after parser: %d\n\n", *exit_status);
 		run_ast(&ast_node, exit_status);	

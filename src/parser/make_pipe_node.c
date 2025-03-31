@@ -6,13 +6,13 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:32:34 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/30 20:51:42 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/31 13:34:13 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	make_pipe_node(t_token_array *array, t_parse_helper *helper, char **envp, int *exit_status)
+int	make_pipe_node(t_token_array *array, t_parse_helper *helper, t_envl *envl, int *exit_status)
 {
 	t_ast	*left_node;
 	t_ast	*original_node;
@@ -31,7 +31,7 @@ int	make_pipe_node(t_token_array *array, t_parse_helper *helper, char **envp, in
 	}
 	original_node = helper->node;
 	helper->node = helper->node->u_data.pipe.right;
-	if (parse_pipe(array, helper, envp, exit_status))
+	if (parse_pipe(array, helper, envl, exit_status))
 	{
 		free(helper->node->u_data.pipe.left);
 		free(helper->node->u_data.pipe.right);
