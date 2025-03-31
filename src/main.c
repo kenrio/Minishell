@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:08:21 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/31 13:31:14 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/31 19:49:00 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	main(int argc, char **argv, char **envp)
 
 static int	main_loop(char *input_line, t_envl *envl, int *exit_status)
 {
-	t_ast			ast_node;
+	t_ast			*ast_node;
 	t_token_array	token_array;
 
 	while (1)
@@ -45,9 +45,8 @@ static int	main_loop(char *input_line, t_envl *envl, int *exit_status)
 			continue ;
 		// printf("\nexit_status after lexer: %d\n\n", *exit_status);
 		parser(&ast_node, &token_array, envl, exit_status);
-		// debug_print_ast(&ast_node, 0);
 		printf("\nexit_status after parser: %d\n\n", *exit_status);
-		run_ast(&ast_node, exit_status);	
+		run_ast(ast_node, exit_status);
 	}
 	return (*exit_status);
 }

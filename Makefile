@@ -6,7 +6,7 @@
 #    By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/03/30 22:58:17 by keishii          ###   ########.fr        #
+#    Updated: 2025/03/31 19:49:34 by keishii          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,6 +55,7 @@ SRC_PARSER		= \
 				make_cmd_node.c \
 				add_args.c \
 				add_redirect.c \
+				free_ast.c \
 				parser_utils.c \
 
 SRC_UTILS		= \
