@@ -6,18 +6,21 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:44:07 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/31 13:29:45 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/31 13:47:17 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static int	make_empty_cmd_node(t_ast *node, int *exit_status);
-static int	set_cmd_name(t_token_array *array, t_parse_helper *helper, int *exit_status);
-static int	find_cmd_name(t_token_array *array, t_parse_helper *helper, int *exit_status);
+static int	set_cmd_name(t_token_array *array, t_parse_helper *helper,
+				int *exit_status);
+static int	find_cmd_name(t_token_array *array, t_parse_helper *helper,
+				int *exit_status);
 static int	set_argv0(t_parse_helper *helper, int *exit_status);
 
-int	make_cmd_node(t_token_array *array, t_parse_helper *helper, t_envl *envl, int *exit_status)
+int	make_cmd_node(t_token_array *array, t_parse_helper *helper, t_envl *envl,
+		int *exit_status)
 {
 	helper->node->type = NODE_CMD;
 	helper->node->u_data.cmd.redirects = NULL;
@@ -26,7 +29,8 @@ int	make_cmd_node(t_token_array *array, t_parse_helper *helper, t_envl *envl, in
 		return (make_empty_cmd_node(helper->node, exit_status));
 	if (set_cmd_name(array, helper, exit_status))
 		return (1);
-	helper->node->u_data.cmd.path = get_cmd_path(helper->node->u_data.cmd.envp, helper->node->u_data.cmd.name);
+	helper->node->u_data.cmd.path = get_cmd_path(helper->node->u_data.cmd.envp,
+			helper->node->u_data.cmd.name);
 	return (add_args(array, helper, exit_status));
 }
 
@@ -45,7 +49,8 @@ static int	make_empty_cmd_node(t_ast *node, int *exit_status)
 	return (0);
 }
 
-static int	set_cmd_name(t_token_array *array, t_parse_helper *helper, int *exit_status)
+static int	set_cmd_name(t_token_array *array, t_parse_helper *helper,
+				int *exit_status)
 {
 	if (find_cmd_name(array, helper, exit_status))
 		return (1);
@@ -55,9 +60,11 @@ static int	set_cmd_name(t_token_array *array, t_parse_helper *helper, int *exit_
 	return (0);
 }
 
-static int	find_cmd_name(t_token_array *array, t_parse_helper *helper, int *exit_status)
+static int	find_cmd_name(t_token_array *array, t_parse_helper *helper,
+				int *exit_status)
 {
-	while (helper->index < array->len && array->tokens[helper->index].token_type != PIPE)
+	while (helper->index < array->len
+		&& array->tokens[helper->index].token_type != PIPE)
 	{
 		if (is_redirect(&array->tokens[helper->index]))
 		{
@@ -67,7 +74,8 @@ static int	find_cmd_name(t_token_array *array, t_parse_helper *helper, int *exit
 		else
 		{
 			helper->node->u_data.cmd.name
-				= dq_expand_doller(array->tokens[helper->index].token, helper->node->u_data.cmd.envp, exit_status);
+				= dq_expand_doller(array->tokens[helper->index].token,
+					helper->node->u_data.cmd.envp, exit_status);
 			break ;
 		}
 	}
@@ -78,7 +86,8 @@ static int	find_cmd_name(t_token_array *array, t_parse_helper *helper, int *exit
 
 static int	set_argv0(t_parse_helper *helper, int *exit_status)
 {
-	helper->node->u_data.cmd.argv = ft_calloc(helper->arg_count + 1, sizeof(char *));
+	helper->node->u_data.cmd.argv
+		= ft_calloc(helper->arg_count + 1, sizeof(char *));
 	if (!helper->node->u_data.cmd.argv)
 	{
 		free(helper->node->u_data.cmd.name);

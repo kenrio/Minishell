@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:50:56 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/29 13:40:49 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/31 13:45:26 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 static t_redirect	*make_redirect_struct(void);
 static void			set_redirect_type(t_redirect *redirect, t_token *token);
-static int			set_redirect_file(t_redirect *redirect, t_token_array *array, t_parse_helper *helper, int *exit_status);
+static int			set_redirect_file(t_redirect *redirect,
+						t_token_array *array, t_parse_helper *helper,
+						int *exit_status);
 static void			add_redirect_to_list(t_ast *node, t_redirect *redirect);
 
 int	add_redirect(t_token_array *array, t_parse_helper *helper, int *exit_status)
@@ -55,7 +57,8 @@ static void	set_redirect_type(t_redirect *redirect, t_token *token)
 		redirect->type = R_HEREDOC;
 }
 
-static int	set_redirect_file(t_redirect *redirect, t_token_array *array, t_parse_helper *helper, int *exit_status)
+static int	set_redirect_file(t_redirect *redirect, t_token_array *array,
+				t_parse_helper *helper, int *exit_status)
 {
 	helper->index++;
 	if (helper->index >= array->len)

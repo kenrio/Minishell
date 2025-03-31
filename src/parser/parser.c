@@ -6,13 +6,14 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 20:53:17 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/31 13:27:25 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/31 13:44:06 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	parser(t_ast *ast_node, t_token_array *token_array, t_envl *envl, int *exit_status)
+int	parser(t_ast *ast_node, t_token_array *token_array, t_envl *envl,
+			int *exit_status)
 {
 	t_parse_helper	helper;
 

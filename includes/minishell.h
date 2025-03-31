@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/31 13:34:27 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/31 13:52:41 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ typedef struct s_token_array
 	int		len;
 }	t_token_array;
 
-
 // expantion
 typedef struct s_quote_state
 {
@@ -97,7 +96,6 @@ typedef struct s_redirect
 typedef struct s_ast
 {
 	t_node_type	type;
-	
 	union
 	{
 		struct s_cmd
@@ -124,9 +122,9 @@ typedef struct s_parse_helper
 }	t_parse_helper;
 
 // pids
-typedef	struct s_pid_node
+typedef struct s_pid_node
 {
-	pid_t		pid;
+	pid_t				pid;
 	struct s_pid_node	*next;
 }	t_pid_node;
 
@@ -137,13 +135,13 @@ typedef struct s_pids
 }	t_pids;
 
 // envl
-typedef	struct s_env_node
+typedef struct s_env_node
 {
 	char				*value;
-	struct	s_env_node	*next;
+	struct s_env_node	*next;
 }	t_env_node;
 
-typedef	struct s_envl
+typedef struct s_envl
 {
 	t_env_node	*head;
 	t_env_node	*tail;
@@ -193,8 +191,10 @@ char	*get_env_value_bykey(char **envp, char *key);
 char	*expand_doller(char *str, char **envp, int *status_p);
 char	*expand_doller_heredoc(char *str, char **envp, int *status_p);
 char	*dq_expand_doller(char *str, char **envp, int *status_p);
-int		update_elements(char **envp, char **elements, int *stp, t_quote_state *q_st);
-int		update_elements_hdoc(char **envp, char **e, int *stp, t_quote_state *q_st);
+int		update_elements(char **envp, char **elements, int *stp,
+			t_quote_state *q_st);
+int		update_elements_hdoc(char **envp, char **e, int *stp,
+			t_quote_state *q_st);
 
 // lexer functions
 int		lexer(t_token_array *array, char *input_line, int *exit_status);
@@ -210,14 +210,22 @@ int		is_operator(char c);
 int		is_double_operator(char *line, int index);
 
 // parser functions
-int		parser(t_ast *ast_node, t_token_array *token_array, t_envl *envl, int *exit_status);
-int		make_ast(t_token_array *array, t_parse_helper *helper, t_envl *envl, int *exit_status);
-int		parse_pipe(t_token_array *array, t_parse_helper *helper, t_envl *envl, int *exit_status);
-int		make_pipe_node(t_token_array *array, t_parse_helper *helper, t_envl *envl, int *exit_status);
-int		parse_cmd(t_token_array *array, t_parse_helper *helper, t_envl *envl, int *exit_status);
-int		make_cmd_node(t_token_array *array, t_parse_helper *helper, t_envl *envl, int *exit_status);
-int		add_args(t_token_array *array, t_parse_helper *helper, int *exit_status);
-int		add_redirect(t_token_array *array, t_parse_helper *helper, int *exit_status);
+int		parser(t_ast *ast_node, t_token_array *token_array,
+			t_envl *envl, int *exit_status);
+int		make_ast(t_token_array *array, t_parse_helper *helper,
+			t_envl *envl, int *exit_status);
+int		parse_pipe(t_token_array *array, t_parse_helper *helper,
+			t_envl *envl, int *exit_status);
+int		make_pipe_node(t_token_array *array, t_parse_helper *helper,
+			t_envl *envl, int *exit_status);
+int		parse_cmd(t_token_array *array, t_parse_helper *helper,
+			t_envl *envl, int *exit_status);
+int		make_cmd_node(t_token_array *array, t_parse_helper *helper,
+			t_envl *envl, int *exit_status);
+int		add_args(t_token_array *array, t_parse_helper *helper,
+			int *exit_status);
+int		add_redirect(t_token_array *array, t_parse_helper *helper,
+			int *exit_status);
 void	free_cmd_args(t_ast *node, int count);
 int		is_redirect(t_token *token);
 

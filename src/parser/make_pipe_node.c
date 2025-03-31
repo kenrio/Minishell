@@ -6,13 +6,14 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:32:34 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/31 13:34:13 by keishii          ###   ########.fr       */
+/*   Updated: 2025/03/31 13:43:36 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	make_pipe_node(t_token_array *array, t_parse_helper *helper, t_envl *envl, int *exit_status)
+int	make_pipe_node(t_token_array *array, t_parse_helper *helper, t_envl *envl,
+		int *exit_status)
 {
 	t_ast	*left_node;
 	t_ast	*original_node;
