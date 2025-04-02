@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:56:02 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/26 00:38:44 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/01 01:14:18 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	debug_print_ast(t_ast *node, int depth)
 
 	if (!node)
 		return ;
-	printf("\n");
 	i = 0;
 	while (i++ < depth)
 		printf("  ");
@@ -65,5 +64,4 @@ void	debug_print_ast(t_ast *node, int depth)
 		debug_print_ast(node->u_data.pipe.left, depth + 1);
 		debug_print_ast(node->u_data.pipe.right, depth + 1);
 	}
-	printf("\n");
 }
