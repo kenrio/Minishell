@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:36:56 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/02 20:05:17 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/02 20:15:00 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,12 @@ static int	count_args(t_token_array *array, t_parse_helper *helper);
 int	parse_cmd(t_token_array *array, t_parse_helper *helper, t_envl *envl,
 		int *exit_status)
 {
+	int	result;
+
 	if (helper->index >= array->len)
 		return (1);
 	count_args(array, helper);
-	int	result = make_cmd_node(array, helper, envl, exit_status);
+	result = make_cmd_node(array, helper, envl, exit_status);
 	return (result);
 }
 
