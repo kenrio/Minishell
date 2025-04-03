@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+         #
+#    By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/03/19 14:02:21 by tishihar         ###   ########.fr        #
+#    Updated: 2025/03/31 19:49:34 by keishii          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,10 +36,6 @@ SRC_LEXER		= \
 				free_token_array.c \
 				lexer_utils.c \
 
-
-SRC_AST			= \
-				exec_ast.c \
-
 SRC_EXPANTION	= \
 				elements.c \
 				elements_heredoc.c \
@@ -48,33 +44,54 @@ SRC_EXPANTION	= \
 SRC_DEBUG		= \
 				debug_lexer.c \
 				check_expantion.c \
+				debug_parser.c \
 
 SRC_PARSER		= \
 				parser.c \
-
+				make_ast.c \
+				parse_pipe.c \
+				make_pipe_node.c \
+				parse_cmd.c \
+				make_cmd_node.c \
+				add_args.c \
+				add_redirect.c \
+				free_ast.c \
+				parser_utils.c \
 
 SRC_UTILS		= \
+				heredoc.c \
+				pids.c \
+				redirect.c \
 				boundary_split.c \
 				join_all_split.c \
 				ft_strcmp.c \
 				get_path.c \
 				strrmchr.c \
 				utils.c \
-				
+
+SRC_AST			= \
+				exec_ast_pipe.c \
+				exec_ast_cmd.c \
+				exec_ast.c \
+
+SRC_ENVP		= \
+				envl.c \
+				make_envp.c \
+
 # SRC&OBJ
 SRC				= \
 				main.c \
 				$(addprefix ast/, $(SRC_AST)) \
         		$(addprefix lexer/, $(SRC_LEXER)) \
         		$(addprefix expantion/, $(SRC_EXPANTION)) \
-            $(addprefix debug/, $(SRC_DEBUG)) \
+            	$(addprefix debug/, $(SRC_DEBUG)) \
 				$(addprefix utils/, $(SRC_UTILS)) \
-        $(addprefix parser/, $(SRC_PARSER)) \
-
-        
+        		$(addprefix parser/, $(SRC_PARSER)) \
+        		$(addprefix envp/, $(SRC_ENVP)) \
 
 OBJ				= ${addprefix ${OBJ_DIR}/, \
 				${SRC:.c=.o}}
+
 
 # **************************************************************************** #
 # LIBRARIES & FRAMEWORKS
