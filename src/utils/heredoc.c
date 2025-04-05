@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 17:31:22 by tishihar          #+#    #+#             */
-/*   Updated: 2025/02/28 21:41:01 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/05 17:28:57 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,16 @@ static	int	create_heredoc_pipe(const char *delimiter)
 	while (1)
 	{
 		line = readline("> ");
-
-		// base_case
-		if (!line || ft_strncmp(line, delimiter, ft_strlen(line)) == 0)
+		if (!line || ft_strcmp(line, delimiter) == 0)
 		{
 			free(line);
 			break;
 		}
 		count = ft_strlen(line);
 		write(fd_pipe[1], line, count);
+		write(fd_pipe[1], "\n", 1);
 		free(line);
 	}
 	close(fd_pipe[1]);
 	return (fd_pipe[0]);
 }
-
