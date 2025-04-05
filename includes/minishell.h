@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/31 19:49:22 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/05 18:36:15 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ typedef struct s_ast
 			char		*path;
 			char		**argv;
 			char		**envp;
+			char		*stp;
 			t_redirect	*redirects;
 		} cmd;
 		struct s_pipe
@@ -166,7 +167,7 @@ void	destroy_pids(t_pids	*pids);
 
 // redirect
 int		handle_redirects(t_ast *node, int *fd_in_, int *fd_out_);
-int		handle_heredoc(int *fd_in_, char *delimiter);
+int		handle_heredoc(int *fd_in_, char *delimiter, char **envp, int *stp);
 
 // envp
 t_envl	*make_envl(char **envp);
