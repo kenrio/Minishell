@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pids.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:27:01 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/25 16:11:28 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/05 16:10:42 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ void	wait_pids(t_pids *pids, int *status)
 			waitpid(curr->pid, NULL, 0);
 		curr = next;
 	}
-	pids->head = NULL;
-	pids->tail = NULL;
 }
 
 void	destroy_pids(t_pids	*pids)

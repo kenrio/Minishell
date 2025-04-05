@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:08:21 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/02 20:09:30 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/05 15:58:46 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	main_loop(char *input_line, t_envl *envl, int *exit_status)
 		}
 		parser(&ast_node, &token_array, envl, exit_status);
 		free_token_array(&token_array);
-		// run_ast(ast_node, exit_status);
+		run_ast(ast_node, exit_status);
 		free_ast(ast_node);
 	}
 	return (*exit_status);
