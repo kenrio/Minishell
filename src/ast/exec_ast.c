@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:21:49 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/06 16:29:09 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/06 16:41:17 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ static	bool	is_builtin(t_ast *ast_node)
 static	int	execute_builtin(t_ast *ast_node, int *status)
 {
 	char	*cmd_name;
+	(void) status;
 	
 	cmd_name = ast_node->u_data.cmd.name;
 
@@ -96,28 +97,34 @@ static	int	execute_builtin(t_ast *ast_node, int *status)
 	// ex) int	execute_echo(ast_node, status), int	execute_echo(ast_node)toka
 	// buitin関数はbuitin/にあつめてもってこよう
 	if (ft_strcmp(cmd_name, "echo"))
-		return (execute_echo());
+	{
+		// return (execute_echo());
+		return(0);
+	}
 	else if (ft_strcmp(cmd_name, "cd"))
-		return (execute_cd());
+	{
+		// return (execute_cd());
+		return(0);
+	}
 	else if (ft_strcmp(cmd_name, "pwd"))
 	{
-		
+		return(0);
 	}
 	else if (ft_strcmp(cmd_name, "export"))
 	{
-		
+		return(0);
 	}
 	else if (ft_strcmp(cmd_name, "unset"))
 	{
-		
+		return(0);
 	}
 	else if (ft_strcmp(cmd_name, "env"))
 	{
-		
+		return(0);
 	}
 	else if (ft_strcmp(cmd_name, "exit"))
 	{
-		
+		return(0);
 	}
 	else
 		return (1);

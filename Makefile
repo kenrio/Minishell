@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+         #
+#    By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/03/31 19:49:34 by keishii          ###   ########.fr        #
+#    Updated: 2025/04/06 16:38:17 by tishihar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,10 @@ SRC_PARSER		= \
 				free_ast.c \
 				parser_utils.c \
 
+SRC_BUILTIN		= \
+				execute_echo.c \
+				execute_cd.c \
+
 SRC_UTILS		= \
 				heredoc.c \
 				pids.c \
@@ -88,6 +92,7 @@ SRC				= \
 				$(addprefix utils/, $(SRC_UTILS)) \
         		$(addprefix parser/, $(SRC_PARSER)) \
         		$(addprefix envp/, $(SRC_ENVP)) \
+        		$(addprefix builtin/, $(SRC_BUILTIN)) \
 
 OBJ				= ${addprefix ${OBJ_DIR}/, \
 				${SRC:.c=.o}}
