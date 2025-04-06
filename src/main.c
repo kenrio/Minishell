@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:08:21 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/06 14:40:22 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/06 21:21:20 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static int	main_loop(char *input_line, t_envl *envl, int *exit_status);
 static char	*get_input_line(void);
+
+// volatile sig_atomic_t	signal;
 
 int	main(int argc, char **argv, char **envp)
 {

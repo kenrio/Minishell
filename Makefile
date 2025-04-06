@@ -6,7 +6,7 @@
 #    By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/03/31 19:49:34 by keishii          ###   ########.fr        #
+#    Updated: 2025/04/06 21:21:04 by keishii          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,10 @@ SRC_PARSER		= \
 				free_ast.c \
 				parser_utils.c \
 
+SRC_SIGNAL		= \
+				signal_handler.c \
+				signal_set_handler.c \
+
 SRC_UTILS		= \
 				heredoc.c \
 				pids.c \
@@ -87,6 +91,7 @@ SRC				= \
             	$(addprefix debug/, $(SRC_DEBUG)) \
 				$(addprefix utils/, $(SRC_UTILS)) \
         		$(addprefix parser/, $(SRC_PARSER)) \
+				$(addprefix signal/, $(SRC_SIGNAL)) \
         		$(addprefix envp/, $(SRC_ENVP)) \
 
 OBJ				= ${addprefix ${OBJ_DIR}/, \
