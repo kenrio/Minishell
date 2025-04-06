@@ -3,14 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:21:49 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/25 16:20:56 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/06 16:29:09 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static	bool	is_builtin(t_ast *ast_node);
+static	int		execute_builtin(t_ast *ast_node, int *status);
 
 // this func() can run ast_node.
 // you should pass ast_top_node and ast_status_poipnter.
@@ -19,16 +22,22 @@ int	run_ast(t_ast *ast_node, int *status)
 	t_pids	pids;
 
 	init_pids(&pids);
-
-	// normal_execute()
-	if (execute_ast(ast_node, STDIN_FILENO, &pids))
+	if (is_builtin(ast_node))
 	{
+		if (execute_builtin(ast_node, status))
+			return (1);
+	}
+	else
+	{
+		if (execute_ast(ast_node, STDIN_FILENO, &pids))
+		{
+			wait_pids(&pids, status);
+			destroy_pids(&pids);
+			return (1);
+		}
 		wait_pids(&pids, status);
 		destroy_pids(&pids);
-		return (1);
 	}
-	wait_pids(&pids, status);
-	destroy_pids(&pids);
 	return (0);
 }
 
@@ -55,4 +64,61 @@ int	execute_ast(t_ast *ast_node, int fd_in, t_pids *pids)
         perror("unkonown node type.\n");
 		return (1);
 	}
+}
+
+static	bool	is_builtin(t_ast *ast_node)
+{
+	char	*cmd_name;
+
+	cmd_name = ast_node->u_data.cmd.name;
+	return (
+		ast_node->type == NODE_CMD 
+		&& (ft_strcmp(cmd_name, "echo")
+			|| ft_strcmp(cmd_name, "cd")
+			|| ft_strcmp(cmd_name, "pwd")
+			|| ft_strcmp(cmd_name, "export")
+			|| ft_strcmp(cmd_name, "unset")
+			|| ft_strcmp(cmd_name, "env")
+			|| ft_strcmp(cmd_name, "exit")
+		)
+	);
+}
+
+static	int	execute_builtin(t_ast *ast_node, int *status)
+{
+	char	*cmd_name;
+	
+	cmd_name = ast_node->u_data.cmd.name;
+
+	//TODO
+	// もしもechoコマンドだった場合、execute_echo()が実行される。
+	// 各コマンド実行関数は、成功なら０、失敗なら１を返してほしい
+	// ex) int	execute_echo(ast_node, status), int	execute_echo(ast_node)toka
+	// buitin関数はbuitin/にあつめてもってこよう
+	if (ft_strcmp(cmd_name, "echo"))
+		return (execute_echo());
+	else if (ft_strcmp(cmd_name, "cd"))
+		return (execute_cd());
+	else if (ft_strcmp(cmd_name, "pwd"))
+	{
+		
+	}
+	else if (ft_strcmp(cmd_name, "export"))
+	{
+		
+	}
+	else if (ft_strcmp(cmd_name, "unset"))
+	{
+		
+	}
+	else if (ft_strcmp(cmd_name, "env"))
+	{
+		
+	}
+	else if (ft_strcmp(cmd_name, "exit"))
+	{
+		
+	}
+	else
+		return (1);
 }
