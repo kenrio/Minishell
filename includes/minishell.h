@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/31 19:49:22 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/06 14:45:28 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ typedef struct s_ast
 			char		*path;
 			char		**argv;
 			char		**envp;
+			int			*stp;
 			t_redirect	*redirects;
 		} cmd;
 		struct s_pipe
