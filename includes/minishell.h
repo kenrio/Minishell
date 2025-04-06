@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/05 18:36:15 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/06 14:54:52 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ typedef struct s_ast
 			char		*path;
 			char		**argv;
 			char		**envp;
-			char		*stp;
+			int			*stp;
 			t_redirect	*redirects;
 		} cmd;
 		struct s_pipe
