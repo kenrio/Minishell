@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 17:31:22 by tishihar          #+#    #+#             */
-/*   Updated: 2025/02/28 21:41:01 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/05 18:57:03 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	int	create_heredoc_pipe(const char *delimiter);
+static	int	create_heredoc_pipe(const char *delimiter, char **envp, int *stp);
 
 // <<
-int	handle_heredoc(int *fd_in_, char *delimiter)
+int	handle_heredoc(int *fd_in_, char *delimiter, char **envp, int *stp)
 {
 	int	temp;
 
-	temp = create_heredoc_pipe(delimiter);
+	temp = create_heredoc_pipe(delimiter, envp, stp);
 	if (temp == -1)
 		return (1);
 	if (*fd_in_ != STDIN_FILENO)
@@ -31,7 +31,7 @@ int	handle_heredoc(int *fd_in_, char *delimiter)
 
 
 // this func() create pipe, and return pipe_output.
-static	int	create_heredoc_pipe(const char *delimiter)
+static	int	create_heredoc_pipe(const char *delimiter, char **envp, int *stp)
 {
 	int		fd_pipe[2];
 	char	*line;
@@ -45,18 +45,16 @@ static	int	create_heredoc_pipe(const char *delimiter)
 	while (1)
 	{
 		line = readline("> ");
-
-		// base_case
-		if (!line || ft_strncmp(line, delimiter, ft_strlen(line)) == 0)
+		if (!line || ft_strcmp(line, delimiter) == 0)
 		{
 			free(line);
 			break;
 		}
 		count = ft_strlen(line);
-		write(fd_pipe[1], line, count);
+		ft_putstr_fd(expand_doller_heredoc(line, envp, stp), fd_pipe[1]);
+		write(fd_pipe[1], "\n", 1);
 		free(line);
 	}
 	close(fd_pipe[1]);
 	return (fd_pipe[0]);
 }
-

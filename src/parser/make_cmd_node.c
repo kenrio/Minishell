@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:44:07 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/31 19:44:45 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/06 14:46:44 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	make_cmd_node(t_token_array *array, t_parse_helper *helper, t_envl *envl,
 	helper->node->type = NODE_CMD;
 	helper->node->u_data.cmd.redirects = NULL;
 	helper->node->u_data.cmd.envp = make_envp_by_envl(envl);
+	helper->node->u_data.cmd.stp = exit_status;
 	if (helper->arg_count == 0)
 		return (make_empty_cmd_node(helper->node, exit_status));
 	if (set_cmd_name(array, helper, exit_status))
