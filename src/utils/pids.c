@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:27:01 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/25 16:11:28 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/06 14:41:05 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ void	wait_pids(t_pids *pids, int *status)
 			waitpid(curr->pid, NULL, 0);
 		curr = next;
 	}
-	pids->head = NULL;
-	pids->tail = NULL;
 }
 
 void	destroy_pids(t_pids	*pids)
