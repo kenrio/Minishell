@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 20:54:25 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/07 23:12:38 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/08 00:38:26 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,11 @@ void	idle_handler(int signum)
 {
 	(void)signum;
 	g_signal = SIGINT;
-	rl_replace_line("", 0);
+	write(STDOUT_FILENO, "\n", 1);
+	rl_on_new_line();
+	rl_point = 0;
+	rl_line_buffer[0] = '\0';
+	rl_redisplay();
+	// rl_done = 1;
+	
 }

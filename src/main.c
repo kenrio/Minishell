@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:08:21 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/07 23:19:16 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/08 00:39:21 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static char	*get_input_line(int *exit_status)
 	char	*input_line;
 
 	g_signal = 0;
-	set_idle_handler();
+	// set_idle_handler();
 	input_line = readline(PROMPT);
 	if (g_signal == 0 && input_line && ft_strlen(input_line) > 0)
 		add_history(input_line);
