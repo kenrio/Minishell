@@ -6,16 +6,16 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:08:21 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/06 21:21:20 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/07 23:19:16 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static int	main_loop(char *input_line, t_envl *envl, int *exit_status);
-static char	*get_input_line(void);
+static char	*get_input_line(int *exit_status);
 
-// volatile sig_atomic_t	signal;
+volatile sig_atomic_t	g_signal;
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -38,7 +38,7 @@ static int	main_loop(char *input_line, t_envl *envl, int *exit_status)
 
 	while (1)
 	{
-		input_line = get_input_line();
+		input_line = get_input_line(exit_status);
 		if (!input_line)
 			break ;
 		*exit_status = 0;
@@ -56,12 +56,16 @@ static int	main_loop(char *input_line, t_envl *envl, int *exit_status)
 	return (*exit_status);
 }
 
-static char	*get_input_line(void)
+static char	*get_input_line(int *exit_status)
 {
 	char	*input_line;
 
+	g_signal = 0;
+	set_idle_handler();
 	input_line = readline(PROMPT);
-	if (input_line && ft_strlen(input_line) > 0)
+	if (g_signal == 0 && input_line && ft_strlen(input_line) > 0)
 		add_history(input_line);
+	if (g_signal == SIGINT)
+		*exit_status = 130;
 	return (input_line);
 }

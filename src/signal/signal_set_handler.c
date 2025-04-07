@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 20:56:39 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/06 21:19:53 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/07 23:11:19 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 void	set_idle_handler(void)
 {
-	struct sigaction	sig;
+	struct sigaction	sa;
 
-	// sig.sa_handler = idle_handler;
-	// // sig.sa_flags = 0;
-	sig.sa_handler = SIG_IGN;
+	sa.sa_handler = idle_handler;
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
+	sa.sa_handler = SIG_IGN;
+	sigaction(SIGQUIT, &sa, NULL);
 }
