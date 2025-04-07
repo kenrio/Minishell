@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 17:31:22 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/05 18:57:03 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/07 23:33:41 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static	int	create_heredoc_pipe(const char *delimiter, char **envp, int *stp)
 {
 	int		fd_pipe[2];
 	char	*line;
-	int		count;
+	// int		count;
 
 	if (pipe(fd_pipe) == -1)
 	{
@@ -50,7 +50,7 @@ static	int	create_heredoc_pipe(const char *delimiter, char **envp, int *stp)
 			free(line);
 			break;
 		}
-		count = ft_strlen(line);
+		// count = ft_strlen(line);
 		ft_putstr_fd(expand_doller_heredoc(line, envp, stp), fd_pipe[1]);
 		write(fd_pipe[1], "\n", 1);
 		free(line);
