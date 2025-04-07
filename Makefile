@@ -6,7 +6,7 @@
 #    By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/04/06 21:21:04 by keishii          ###   ########.fr        #
+#    Updated: 2025/04/07 23:25:15 by keishii          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,10 @@ SRC_PARSER		= \
 				free_ast.c \
 				parser_utils.c \
 
+SRC_BUILTIN		= \
+				execute_echo.c \
+				execute_cd.c \
+
 SRC_SIGNAL		= \
 				signal_handler.c \
 				signal_set_handler.c \
@@ -93,6 +97,7 @@ SRC				= \
         		$(addprefix parser/, $(SRC_PARSER)) \
 				$(addprefix signal/, $(SRC_SIGNAL)) \
         		$(addprefix envp/, $(SRC_ENVP)) \
+        		$(addprefix builtin/, $(SRC_BUILTIN)) \
 
 OBJ				= ${addprefix ${OBJ_DIR}/, \
 				${SRC:.c=.o}}

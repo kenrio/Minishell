@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/06 21:16:10 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/07 23:25:33 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,9 @@ char	*join_all_split(char **array);
 // get_path
 char	*get_cmd_path(char **envp, char	*name);
 char	*get_env_value_bykey(char **envp, char *key);
+
+// builtin
+
 
 // expantion functions
 char	*expand_doller(char *str, char **envp, int *status_p);
