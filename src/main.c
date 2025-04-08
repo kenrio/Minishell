@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:08:21 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/08 13:15:17 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/08 13:42:42 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	input_line = NULL;
+	exit_status = 0;
 	envl = make_envl(envp);
 	exit_status = main_loop(input_line, envl, &exit_status);
 	exit(exit_status);
@@ -72,5 +73,7 @@ static char	*get_input_line(int *exit_status)
 		free(input_line);
 		*exit_status = 130;
 	}
+	if (!input_line)
+		write(STDOUT_FILENO, "exit\n", 5);
 	return (input_line);
 }
