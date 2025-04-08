@@ -6,13 +6,13 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 17:31:22 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/08 15:59:53 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/08 20:49:25 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// extern sig_atomic_t	g_signal;
+extern sig_atomic_t	g_signal;
 static int			create_heredoc_pipe(const char *delimiter, char **envp, int *stp);
 
 // <<
@@ -36,32 +36,58 @@ static	int	create_heredoc_pipe(const char *delimiter, char **envp, int *stp)
 {
 	int		fd_pipe[2];
 	char	*line;
+	int		status;
 	// int		count;
+	pid_t	pid;
 
 	if (pipe(fd_pipe) == -1)
 	{
 		perror("pipe open failed.");
 		return (-1);
 	}
-	// set_heredoc_child_handler();
-	while (1)
+	pid = fork();
+	if (pid == -1)
+		return (-1);
+	if (pid == 0)
 	{
-		line = readline("> ");
-		if (!line)
+		//   kopurosesu
+		set_heredoc_child_handler();
+		close(fd_pipe[0]);
+		while (1)
 		{
-			write(STDERR_FILENO, "minishell: warning: here-document delimited by eof\n\n", 51);
-			break ;
-		}
-		if (!line || ft_strcmp(line, delimiter) == 0)
-		{
+			line = readline("> ");
+			if (!line)
+			{
+				if (g_signal == SIGINT)
+					break ;
+				write(STDERR_FILENO, "minishell: warning: here-document delimited by eof\n\n", 51);
+				break ;
+			}
+			if (!line || ft_strcmp(line, delimiter) == 0)
+			{
+				free(line);
+				break;
+			}
+			// count = ft_strlen(line);
+			ft_putstr_fd(expand_doller_heredoc(line, envp, stp), fd_pipe[1]);
+			write(fd_pipe[1], "\n", 1);
 			free(line);
-			break;
 		}
-		// count = ft_strlen(line);
-		ft_putstr_fd(expand_doller_heredoc(line, envp, stp), fd_pipe[1]);
-		write(fd_pipe[1], "\n", 1);
-		free(line);
+		close(fd_pipe[1]);
+		exit(0);
 	}
-	close(fd_pipe[1]);
+	else
+	{
+		// oyapurosesu
+		close(fd_pipe[1]);
+		set_heredoc_handler();
+		waitpid(pid, &status, 0);
+		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+		{
+			close(fd_pipe[0]);
+			// write(STDOUT_FILENO, "\n", 1);
+			return (-1);
+		}
+	}
 	return (fd_pipe[0]);
 }
