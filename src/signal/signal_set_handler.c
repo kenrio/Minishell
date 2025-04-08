@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 20:56:39 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/07 23:11:19 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/08 15:55:45 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,3 +22,27 @@ void	set_idle_handler(void)
 	sa.sa_handler = SIG_IGN;
 	sigaction(SIGQUIT, &sa, NULL);
 }
+
+// void	set_heredoc_handler(void)
+// {
+// 	struct sigaction	sa;
+
+// 	sa.sa_handler = heredoc_handler;
+// 	sigemptyset(&sa.sa_mask);
+// 	sa.sa_flags = 0;
+// 	sigaction(SIGINT, &sa, NULL);
+// 	sa.sa_handler = SIG_IGN;
+// 	sigaction(SIGQUIT, &sa, NULL);
+// }
+
+// void	set_heredoc_child_handler(void)
+// {
+// 	struct sigaction	sa;
+
+// 	sa.sa_handler = heredoc_handler;
+// 	sigemptyset(&sa.sa_mask);
+// 	sa.sa_flags = 0;
+// 	sigaction(SIGINT, &sa, NULL);
+// 	sa.sa_handler = SIG_IGN;
+// 	sigaction(SIGQUIT, &sa, NULL);
+// }

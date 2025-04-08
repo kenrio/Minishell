@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/07 23:25:33 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/08 15:56:17 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,6 +237,9 @@ void	free_ast(t_ast *ast);
 // signal functions
 void	set_idle_handler(void);
 void	idle_handler(int signum);
+// void	set_heredoc_handler(void);
+// void	heredoc_handler(int signum);
+// void	set_heredoc_child_handler(void);
 
 // debug functions
 void	debug_print_tokens(t_token_array *array);

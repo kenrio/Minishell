@@ -6,13 +6,14 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 17:31:22 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/07 23:33:41 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/08 15:59:53 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	int	create_heredoc_pipe(const char *delimiter, char **envp, int *stp);
+// extern sig_atomic_t	g_signal;
+static int			create_heredoc_pipe(const char *delimiter, char **envp, int *stp);
 
 // <<
 int	handle_heredoc(int *fd_in_, char *delimiter, char **envp, int *stp)
@@ -42,9 +43,15 @@ static	int	create_heredoc_pipe(const char *delimiter, char **envp, int *stp)
 		perror("pipe open failed.");
 		return (-1);
 	}
+	// set_heredoc_child_handler();
 	while (1)
 	{
 		line = readline("> ");
+		if (!line)
+		{
+			write(STDERR_FILENO, "minishell: warning: here-document delimited by eof\n\n", 51);
+			break ;
+		}
 		if (!line || ft_strcmp(line, delimiter) == 0)
 		{
 			free(line);
