@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:21:49 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/06 16:41:17 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/08 13:01:33 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,13 @@ static	bool	is_builtin(t_ast *ast_node)
 	cmd_name = ast_node->u_data.cmd.name;
 	return (
 		ast_node->type == NODE_CMD 
-		&& (ft_strcmp(cmd_name, "echo")
-			|| ft_strcmp(cmd_name, "cd")
-			|| ft_strcmp(cmd_name, "pwd")
-			|| ft_strcmp(cmd_name, "export")
-			|| ft_strcmp(cmd_name, "unset")
-			|| ft_strcmp(cmd_name, "env")
-			|| ft_strcmp(cmd_name, "exit")
+		&& (ft_strcmp(cmd_name, "echo") == 0
+			|| ft_strcmp(cmd_name, "cd") == 0
+			|| ft_strcmp(cmd_name, "pwd") == 0
+			|| ft_strcmp(cmd_name, "export") == 0
+			|| ft_strcmp(cmd_name, "unset") == 0
+			|| ft_strcmp(cmd_name, "env") == 0
+			|| ft_strcmp(cmd_name, "exit") == 0
 		)
 	);
 }
