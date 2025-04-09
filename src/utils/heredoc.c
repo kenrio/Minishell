@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 17:31:22 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/09 17:05:15 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/09 18:00:54 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ static	int	create_heredoc_pipe(const char *delimiter, char **envp, int *stp)
 	}
 	else
 	{
+		close(fd_pipe[1]);
 		waitpid(pid, stp, 0);
-		printf("move!\n");
 	}
 	return (fd_pipe[0]);
 }
