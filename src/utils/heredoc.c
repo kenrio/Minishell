@@ -6,13 +6,13 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 17:31:22 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/09 18:00:54 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/09 18:05:21 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// extern sig_atomic_t	g_signal;
+extern sig_atomic_t	g_signal;
 static int			create_heredoc_pipe(const char *delimiter, char **envp, int *stp);
 static void			heredoc_read_loop(const char *delimiter, int fd_pipe[2], char **envp, int *stp);
 
