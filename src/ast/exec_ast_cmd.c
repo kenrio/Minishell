@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
+/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:07:58 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/25 21:09:04 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/09 17:43:43 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	exec_right_cmd(t_ast *node, int fd_in, t_pids *pids)
 {
 	pid_t	pid;
 	int		fd_out;
+
+	printf("right move!\n");;
 
 	fd_out = STDOUT_FILENO;
 	if (node->u_data.cmd.redirects)
@@ -52,6 +54,8 @@ void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], t_pids *pids)
 {
 	pid_t	pid;
 	int		fd_out;
+
+	printf("left move!\n");
 
 	fd_out = fd_pipe[1];
 	if (node->u_data.cmd.redirects)

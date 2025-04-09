@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 17:31:22 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/08 15:59:53 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/09 17:05:15 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 // extern sig_atomic_t	g_signal;
 static int			create_heredoc_pipe(const char *delimiter, char **envp, int *stp);
+static void			heredoc_read_loop(const char *delimiter, int fd_pipe[2], char **envp, int *stp);
 
 // <<
 int	handle_heredoc(int *fd_in_, char *delimiter, char **envp, int *stp)
@@ -35,15 +36,38 @@ int	handle_heredoc(int *fd_in_, char *delimiter, char **envp, int *stp)
 static	int	create_heredoc_pipe(const char *delimiter, char **envp, int *stp)
 {
 	int		fd_pipe[2];
-	char	*line;
-	// int		count;
+	pid_t	pid;
 
 	if (pipe(fd_pipe) == -1)
 	{
 		perror("pipe open failed.");
 		return (-1);
 	}
-	// set_heredoc_child_handler();
+	pid = fork();
+	if (pid == -1)
+		return (perror("fork"), 1);
+	if (pid == 0)
+	{
+		close(fd_pipe[0]);
+		heredoc_read_loop(delimiter, fd_pipe, envp, stp);
+		close(fd_pipe[1]);
+
+
+		exit(0);
+	}
+	else
+	{
+		waitpid(pid, stp, 0);
+		printf("move!\n");
+	}
+	return (fd_pipe[0]);
+}
+
+static void	heredoc_read_loop(const char *delimiter, int fd_pipe[2], char **envp, int *stp)
+{
+	char	*line;
+	char	*expanded;
+
 	while (1)
 	{
 		line = readline("> ");
@@ -52,16 +76,20 @@ static	int	create_heredoc_pipe(const char *delimiter, char **envp, int *stp)
 			write(STDERR_FILENO, "minishell: warning: here-document delimited by eof\n\n", 51);
 			break ;
 		}
-		if (!line || ft_strcmp(line, delimiter) == 0)
+		if (ft_strcmp(line, delimiter) == 0)
 		{
 			free(line);
-			break;
+			break ;
 		}
-		// count = ft_strlen(line);
-		ft_putstr_fd(expand_doller_heredoc(line, envp, stp), fd_pipe[1]);
+		expanded = expand_doller_heredoc(line, envp, stp);
+		if (!expanded)
+		{
+			free(line);
+			break ;
+		}
+		ft_putstr_fd(expanded, fd_pipe[1]);
 		write(fd_pipe[1], "\n", 1);
 		free(line);
+		free(expanded);
 	}
-	close(fd_pipe[1]);
-	return (fd_pipe[0]);
 }
