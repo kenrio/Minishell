@@ -6,7 +6,7 @@
 #    By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/04/07 23:25:15 by keishii          ###   ########.fr        #
+#    Updated: 2025/04/10 00:34:11 by keishii          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,20 +14,20 @@
 # VARIABLES
 
 
-NAME			= minishell
+NAME			:= minishell
 
-CC				= cc
-CFLAGS			= -Wall -Wextra -Werror
+CC				:= cc
+CFLAGS			:= -Wall -Wextra -Werror
 
-SRC_DIR			= src
-OBJ_DIR			= obj
+SRC_DIR			:= src
+OBJ_DIR			:= obj
 
 
 # **************************************************************************** #
 # SOURCES
 
 
-SRC_LEXER		= \
+SRC_LEXER		:= \
 				lexer.c \
 				count_tokens.c \
 				tokenize.c \
@@ -36,17 +36,17 @@ SRC_LEXER		= \
 				free_token_array.c \
 				lexer_utils.c \
 
-SRC_EXPANTION	= \
+SRC_EXPANTION	:= \
 				elements.c \
 				elements_heredoc.c \
 				expand_doller.c \
         
-SRC_DEBUG		= \
+SRC_DEBUG		:= \
 				debug_lexer.c \
 				check_expantion.c \
 				debug_parser.c \
 
-SRC_PARSER		= \
+SRC_PARSER		:= \
 				parser.c \
 				make_ast.c \
 				parse_pipe.c \
@@ -58,15 +58,15 @@ SRC_PARSER		= \
 				free_ast.c \
 				parser_utils.c \
 
-SRC_BUILTIN		= \
+SRC_BUILTIN		:= \
 				execute_echo.c \
 				execute_cd.c \
 
-SRC_SIGNAL		= \
+SRC_SIGNAL		:= \
 				signal_handler.c \
 				signal_set_handler.c \
 
-SRC_UTILS		= \
+SRC_UTILS		:= \
 				heredoc.c \
 				pids.c \
 				redirect.c \
@@ -77,17 +77,17 @@ SRC_UTILS		= \
 				strrmchr.c \
 				utils.c \
 
-SRC_AST			= \
+SRC_AST			:= \
 				exec_ast_pipe.c \
 				exec_ast_cmd.c \
 				exec_ast.c \
 
-SRC_ENVP		= \
+SRC_ENVP		:= \
 				envl.c \
 				make_envp.c \
 
 # SRC&OBJ
-SRC				= \
+SRC				:= \
 				main.c \
 				$(addprefix ast/, $(SRC_AST)) \
         		$(addprefix lexer/, $(SRC_LEXER)) \
@@ -99,7 +99,7 @@ SRC				= \
         		$(addprefix envp/, $(SRC_ENVP)) \
         		$(addprefix builtin/, $(SRC_BUILTIN)) \
 
-OBJ				= ${addprefix ${OBJ_DIR}/, \
+OBJ				:= ${addprefix ${OBJ_DIR}/, \
 				${SRC:.c=.o}}
 
 
@@ -107,19 +107,28 @@ OBJ				= ${addprefix ${OBJ_DIR}/, \
 # LIBRARIES & FRAMEWORKS
 
 
-LIBFT_DIR	= libft
-LIBFT_INC_DIR := $(LIBFT_DIR)
-LIBFT		= ${LIBFT_DIR}/libft.a
+LIBFT_DIR		:= libft
+LIBFT_INC_DIR	:= $(LIBFT_DIR)
+LIBFT			:= ${LIBFT_DIR}/libft.a
 
-LFLAGS		= -lreadline
+UNAME 			:= $(shell uname)
+
+LFLAGS			:= -lreadline
+
+ifeq ($(UNAME), Darwin)
+	RL_DIR			:= /opt/homebrew/opt/readline
+	RL_LIB_DIR		:= $(RL_DIR)/lib
+	RL_INC_DIR		:= $(RL_DIR)/include
+	LFLAGS			+= -L$(RL_LIB_DIR)
+endif
 
 
 # **************************************************************************** #
 # INCLUDES
 
 
-INC_DIR := includes
-INCLUDES := -I$(INC_DIR) -I$(LIBFT_INC_DIR)
+INC_DIR		:= includes
+INCLUDES	:= -I$(INC_DIR) -I$(LIBFT_INC_DIR) -I$(RL_INC_DIR)
 
 
 # **************************************************************************** #
