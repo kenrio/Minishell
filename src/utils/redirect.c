@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 12:21:20 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/06 15:01:25 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/09 19:44:43 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int	handle_redirects(t_ast *node, int *fd_in_, int *fd_out_)
 		else
 			ret = handle_heredoc(fd_in_, curr->file_name, node->u_data.cmd.envp, node->u_data.cmd.stp);
 		if (ret == 1)
+			return (1);
+		else if (ret == 2)
 			return (1);
 		curr = curr->next;
 	}

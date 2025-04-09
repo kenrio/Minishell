@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 17:31:22 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/09 18:05:21 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/09 19:43:40 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ int	handle_heredoc(int *fd_in_, char *delimiter, char **envp, int *stp)
 	int	temp;
 
 	temp = create_heredoc_pipe(delimiter, envp, stp);
+	if (WIFSIGNALED(*stp) && WTERMSIG(*stp) == SIGINT)
+	{
+		*fd_in_ = temp;
+		return (2);
+	}
 	if (temp == -1)
 		return (1);
 	if (*fd_in_ != STDIN_FILENO)
@@ -43,22 +48,24 @@ static	int	create_heredoc_pipe(const char *delimiter, char **envp, int *stp)
 		perror("pipe open failed.");
 		return (-1);
 	}
+	set_heredoc_handler();
 	pid = fork();
 	if (pid == -1)
 		return (perror("fork"), 1);
 	if (pid == 0)
 	{
 		close(fd_pipe[0]);
+		set_heredoc_child_handler();
 		heredoc_read_loop(delimiter, fd_pipe, envp, stp);
 		close(fd_pipe[1]);
-
-
 		exit(0);
 	}
 	else
 	{
 		close(fd_pipe[1]);
 		waitpid(pid, stp, 0);
+		if (WIFSIGNALED(*stp) && WTERMSIG(*stp) == SIGINT)
+			return (fd_pipe[0]);
 	}
 	return (fd_pipe[0]);
 }

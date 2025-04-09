@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:07:58 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/09 18:01:03 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/09 19:44:51 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void	exec_right_cmd(t_ast *node, int fd_in, t_pids *pids)
 
 	fd_out = STDOUT_FILENO;
 	if (node->u_data.cmd.redirects)
-		handle_redirects(node, &fd_in, &fd_out);
+		if (handle_redirects(node, &fd_in, &fd_out))
+			return ;
 	pid = fork();
 	if (pid < 0)
 	{
