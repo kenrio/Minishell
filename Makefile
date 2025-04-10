@@ -6,7 +6,7 @@
 #    By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/04/10 12:09:28 by keishii          ###   ########.fr        #
+#    Updated: 2025/04/10 15:20:01 by keishii          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -118,7 +118,6 @@ LFLAGS			:= -lreadline
 ifeq ($(UNAME), Darwin)
 	RL_DIR			:= /opt/homebrew/opt/readline
 	RL_LIB_DIR		:= $(RL_DIR)/lib
-	RL_INC_DIR		:= $(RL_DIR)/include
 	LFLAGS			+= -L$(RL_LIB_DIR)
 endif
 
@@ -130,7 +129,8 @@ endif
 INC_DIR		:= includes
 INCLUDES	:= -I$(INC_DIR) -I$(LIBFT_INC_DIR)
 ifeq ($(UNAME), Darwin)
-	INCLUDES	+= $(RL_INC_DIR)
+	RL_INC_DIR		:= $(RL_DIR)/include
+	INCLUDES		+= -I$(RL_INC_DIR)
 endif
 
 
