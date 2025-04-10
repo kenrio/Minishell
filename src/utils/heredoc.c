@@ -6,15 +6,18 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 17:31:22 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/10 00:46:45 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/10 16:15:16 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 extern sig_atomic_t	g_signal;
-static int			create_heredoc_pipe(const char *delimiter, char **envp, int *stp);
-static void			heredoc_loop(const char *delimiter, int fd_pipe[2], char **envp, int *stp);
+static int			create_heredoc_pipe(const char *delimiter,
+						char **envp, int *stp);
+static void			heredoc_loop(const char *delimiter, int fd_pipe[2],
+						char **envp, int *stp);
+static void			heredoc_eof_warning(const char *delimiter);
 
 // <<
 int	handle_heredoc(int *fd_in_, char *delimiter, char **envp, int *stp)
@@ -35,8 +38,6 @@ int	handle_heredoc(int *fd_in_, char *delimiter, char **envp, int *stp)
 	return (0);
 }
 
-
-
 // this func() create pipe, and return pipe_output.
 static	int	create_heredoc_pipe(const char *delimiter, char **envp, int *stp)
 {
@@ -44,10 +45,7 @@ static	int	create_heredoc_pipe(const char *delimiter, char **envp, int *stp)
 	pid_t	pid;
 
 	if (pipe(fd_pipe) == -1)
-	{
-		perror("pipe open failed.");
-		return (-1);
-	}
+		return (perror("pipe open failed."), -1);
 	set_heredoc_handler();
 	pid = fork();
 	if (pid == -1)
@@ -65,12 +63,13 @@ static	int	create_heredoc_pipe(const char *delimiter, char **envp, int *stp)
 		close(fd_pipe[1]);
 		waitpid(pid, stp, 0);
 		if (WIFSIGNALED(*stp) && WTERMSIG(*stp) == SIGINT)
-			return (fd_pipe[0]);
+			return (write(STDOUT_FILENO, "\n", 1), fd_pipe[0]);
 	}
 	return (fd_pipe[0]);
 }
 
-static void	heredoc_loop(const char *delimiter, int fd_pipe[2], char **envp, int *stp)
+static void	heredoc_loop(const char *delimiter, int fd_pipe[2],
+				char **envp, int *stp)
 {
 	char	*line;
 	char	*expanded;
@@ -79,10 +78,7 @@ static void	heredoc_loop(const char *delimiter, int fd_pipe[2], char **envp, int
 	{
 		line = readline("> ");
 		if (!line)
-		{
-			write(STDERR_FILENO, "minishell: warning: here-document delimited by eof\n\n", 51);
-			break ;
-		}
+			heredoc_eof_warning(delimiter);
 		if (ft_strcmp(line, delimiter) == 0)
 		{
 			free(line);
@@ -99,4 +95,13 @@ static void	heredoc_loop(const char *delimiter, int fd_pipe[2], char **envp, int
 		free(line);
 		free(expanded);
 	}
+}
+
+static void	heredoc_eof_warning(const char *delimiter)
+{
+	ft_putstr_fd("minishell: warning: here-document \
+delimited by end-of-file (wanted `", STDERR_FILENO);
+	ft_putstr_fd((char *)delimiter, STDERR_FILENO);
+	ft_putstr_fd("')", STDERR_FILENO);
+	exit(0);
 }
