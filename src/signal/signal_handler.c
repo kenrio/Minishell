@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 20:54:25 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/10 00:45:49 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/10 12:28:58 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,15 @@ void	idle_handler(int signum)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
+}
+
+void	exec_handler(int signum)
+{
+	if (signum == SIGINT)
+	{
+		g_signal = SIGINT;
+		ft_putchar_fd('\n', STDOUT_FILENO);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:07:58 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/09 19:44:51 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/10 12:38:53 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	exec_right_cmd(t_ast *node, int fd_in, t_pids *pids)
 	if (node->u_data.cmd.redirects)
 		if (handle_redirects(node, &fd_in, &fd_out))
 			return ;
+	set_exec_handler();
 	pid = fork();
 	if (pid < 0)
 	{
@@ -36,6 +37,7 @@ void	exec_right_cmd(t_ast *node, int fd_in, t_pids *pids)
 	}
 	else if (pid == 0)
 	{
+		set_exec_child_handler();
 		check_fd(fd_in, fd_out);
 		setup_child_fd(fd_in, fd_out);
 		execve(node->u_data.cmd.path, node->u_data.cmd.argv, node->u_data.cmd.envp);
@@ -54,11 +56,10 @@ void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], t_pids *pids)
 	pid_t	pid;
 	int		fd_out;
 
-	printf("left move!\n");
-
 	fd_out = fd_pipe[1];
 	if (node->u_data.cmd.redirects)
 		handle_redirects(node, &fd_in, &fd_out);
+	set_exec_handler();
 	pid = fork();
 	if (pid < 0)
 	{
@@ -67,6 +68,7 @@ void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], t_pids *pids)
 	}
 	else if (pid == 0)
 	{
+		set_exec_child_handler();
 		close(fd_pipe[0]);
 		check_fd(fd_in, fd_out);
 		setup_child_fd(fd_in, fd_out);
