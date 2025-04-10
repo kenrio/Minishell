@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 20:54:25 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/09 18:34:32 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/10 00:45:49 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,3 @@ void	idle_handler(int signum)
 	rl_on_new_line();
 	rl_redisplay();
 }
-
-// void	heredoc_handler(int signum)
-// {
-// 	(void)signum;
-// 	g_signal = SIGINT;
-// 	// write(STDERR_FILENO, "\n", 1);
-// }

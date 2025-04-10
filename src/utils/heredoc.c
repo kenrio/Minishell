@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 17:31:22 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/09 19:43:40 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/10 00:46:45 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 extern sig_atomic_t	g_signal;
 static int			create_heredoc_pipe(const char *delimiter, char **envp, int *stp);
-static void			heredoc_read_loop(const char *delimiter, int fd_pipe[2], char **envp, int *stp);
+static void			heredoc_loop(const char *delimiter, int fd_pipe[2], char **envp, int *stp);
 
 // <<
 int	handle_heredoc(int *fd_in_, char *delimiter, char **envp, int *stp)
@@ -56,7 +56,7 @@ static	int	create_heredoc_pipe(const char *delimiter, char **envp, int *stp)
 	{
 		close(fd_pipe[0]);
 		set_heredoc_child_handler();
-		heredoc_read_loop(delimiter, fd_pipe, envp, stp);
+		heredoc_loop(delimiter, fd_pipe, envp, stp);
 		close(fd_pipe[1]);
 		exit(0);
 	}
@@ -70,7 +70,7 @@ static	int	create_heredoc_pipe(const char *delimiter, char **envp, int *stp)
 	return (fd_pipe[0]);
 }
 
-static void	heredoc_read_loop(const char *delimiter, int fd_pipe[2], char **envp, int *stp)
+static void	heredoc_loop(const char *delimiter, int fd_pipe[2], char **envp, int *stp)
 {
 	char	*line;
 	char	*expanded;
