@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 17:31:22 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/10 16:15:16 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/11 12:29:39 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ static	int	create_heredoc_pipe(const char *delimiter, char **envp, int *stp)
 	set_heredoc_handler();
 	pid = fork();
 	if (pid == -1)
-		return (perror("fork"), 1);
+		return (perror("fork"), close(fd_pipe[0]), close(fd_pipe[1]), -1);
 	if (pid == 0)
 	{
-		close(fd_pipe[0]);
 		set_heredoc_child_handler();
+		close(fd_pipe[0]);
 		heredoc_loop(delimiter, fd_pipe, envp, stp);
 		close(fd_pipe[1]);
 		exit(0);
@@ -78,18 +78,12 @@ static void	heredoc_loop(const char *delimiter, int fd_pipe[2],
 	{
 		line = readline("> ");
 		if (!line)
-			heredoc_eof_warning(delimiter);
+			return (heredoc_eof_warning(delimiter));
 		if (ft_strcmp(line, delimiter) == 0)
-		{
-			free(line);
-			break ;
-		}
+			return (free(line));
 		expanded = expand_doller_heredoc(line, envp, stp);
 		if (!expanded)
-		{
-			free(line);
-			break ;
-		}
+			return (free(line));
 		ft_putstr_fd(expanded, fd_pipe[1]);
 		write(fd_pipe[1], "\n", 1);
 		free(line);
@@ -103,5 +97,4 @@ static void	heredoc_eof_warning(const char *delimiter)
 delimited by end-of-file (wanted `", STDERR_FILENO);
 	ft_putstr_fd((char *)delimiter, STDERR_FILENO);
 	ft_putstr_fd("')", STDERR_FILENO);
-	exit(0);
 }
