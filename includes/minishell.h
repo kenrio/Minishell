@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/06 16:38:52 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/10 12:25:18 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,6 +233,15 @@ int		add_redirect(t_token_array *array, t_parse_helper *helper,
 void	free_cmd_args(t_ast *node, int count);
 int		is_redirect(t_token *token);
 void	free_ast(t_ast *ast);
+
+// signal functions
+void	set_idle_handler(void);
+void	idle_handler(int signum);
+void	set_heredoc_handler(void);
+void	set_heredoc_child_handler(void);
+void	exec_handler(int signum);
+void	set_exec_handler(void);
+void	set_exec_child_handler(void);
 
 // debug functions
 void	debug_print_tokens(t_token_array *array);
