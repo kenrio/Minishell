@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 17:31:22 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/11 12:29:39 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/11 15:45:07 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,5 @@ static void	heredoc_eof_warning(const char *delimiter)
 	ft_putstr_fd("minishell: warning: here-document \
 delimited by end-of-file (wanted `", STDERR_FILENO);
 	ft_putstr_fd((char *)delimiter, STDERR_FILENO);
-	ft_putstr_fd("')", STDERR_FILENO);
+	ft_putstr_fd("')\n", STDERR_FILENO);
 }
