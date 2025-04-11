@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:30:31 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/02 20:04:53 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/11 18:23:02 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,14 @@ int	parse_pipe(t_token_array *array, t_parse_helper *helper, t_envl *envl,
 		&& array->tokens[helper->index].token_type == PIPE)
 	{
 		helper->index++;
+		if (helper->index >= array->len 
+			|| array->tokens[helper->index].token_type == PIPE)
+		{
+			syntax_error("|");
+			free_ast(helper->node);
+			helper->node = NULL;
+			return (*exit_status = 2, 1);
+		}
 		if (make_pipe_node(array, helper, envl, exit_status))
 			return (*exit_status = 1, 1);
 		return (0);
