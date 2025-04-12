@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:32:34 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/11 18:05:53 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/12 17:11:52 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,18 @@ int	make_pipe_node(t_token_array *array, t_parse_helper *helper, t_envl *envl,
 	t_ast	*right_node;
 	t_ast	*original_node;
 
+	if (helper->node == NULL)
+		return (1);
 	original_node = helper->node;
-	allocate_lr_cmd_mem(&helper->node, &left_node, &right_node, exit_status);
+	if (allocate_lr_cmd_mem(&helper->node, &left_node, &right_node, exit_status))
+		return (1);
 	helper->node = right_node;
 	if (parse_pipe(array, helper, envl, exit_status))
 	{
 		free_ast(helper->node->u_data.pipe.left);
 		free_ast(helper->node->u_data.pipe.right);
 		helper->node = original_node;
-		return (*exit_status = 1, 1);
+		return (1);
 	}
 	helper->node = original_node;
 	return (0);
