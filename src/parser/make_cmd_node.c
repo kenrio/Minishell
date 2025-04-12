@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:44:07 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/06 14:46:44 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/12 01:15:55 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,7 @@ static int	make_empty_cmd_node(t_ast *node, int *exit_status)
 		return (*exit_status = 1, 1);
 	node->u_data.cmd.argv = ft_calloc(1, sizeof(char *));
 	if (!node->u_data.cmd.argv)
-	{
-		free(node->u_data.cmd.argv);
 		return (*exit_status = 1, 1);
-	}
 	node->u_data.cmd.argv[0] = NULL;
 	return (0);
 }

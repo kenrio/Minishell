@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:47:30 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/11 16:42:11 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/12 01:31:14 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	add_args(t_token_array *array, t_parse_helper *helper, int *exit_status)
 			{
 				free_cmd_args(helper->node, arg_index);
 				helper->node->u_data.cmd.argv = NULL;
-				// helper->node->u_data.cmd.name = NULL;
 				return (1);
 			}
 		}
