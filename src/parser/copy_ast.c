@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:39:03 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/12 23:03:34 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/13 01:50:53 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ t_ast *copy_ast(t_ast *src, int *exit_status)
 {
 	t_ast	*copy;
 
-	int		j;
-
 	copy = ft_calloc(1, sizeof(t_ast));
 	if (!copy)
 		return (*exit_status = 1, NULL);
@@ -38,8 +36,8 @@ t_ast *copy_ast(t_ast *src, int *exit_status)
 	}
 	else if (src->type == NODE_PIPE)
 	{
-		copy->u_data.pipe.left = ast_copy(src->u_data.pipe.left, exit_status);
-		copy->u_data.pipe.right = ast_copy(src->u_data.pipe.right, exit_status);
+		copy->u_data.pipe.left = copy_ast(src->u_data.pipe.left, exit_status);
+		copy->u_data.pipe.right = copy_ast(src->u_data.pipe.right, exit_status);
 		if (!copy->u_data.pipe.left || !copy->u_data.pipe.right)
 		{
 			free_ast(copy);
@@ -62,7 +60,7 @@ static int	copy_cmd_node(t_ast *dst, t_ast *src, int *exit_status)
 		i++;
 	dst->u_data.cmd.argv = ft_calloc(i + 1, sizeof(char *));
 	if (!dst->u_data.cmd.argv)
-		return (free(dst->u_data.cmd.name), *exit_status, 1);
+		return (free(dst->u_data.cmd.name), *exit_status = 1, 1);
 	j = 0;
 	while(j < i)
 	{

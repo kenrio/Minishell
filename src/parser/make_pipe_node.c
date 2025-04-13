@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:32:34 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/12 18:20:52 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/13 01:49:27 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	allocate_lr_cmd_mem(t_ast **original,
 	*left = allocate_ast_node(exit_status);
 	if (!(*left))
 		return (1);
-	**left = **original;
+	*left = copy_ast(*original, exit_status);
 	(*original)->type = NODE_PIPE;
 	(*original)->u_data.pipe.left = *left;
 	*right = allocate_ast_node(exit_status);
