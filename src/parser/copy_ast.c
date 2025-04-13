@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:39:03 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/13 01:50:53 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/13 19:10:05 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,14 @@ t_ast *copy_ast(t_ast *src, int *exit_status)
 {
 	t_ast	*copy;
 
+	printf("copy_ast called, src = %p, type = %d\n", src, src->type);
 	copy = ft_calloc(1, sizeof(t_ast));
 	if (!copy)
 		return (*exit_status = 1, NULL);
 	copy->type = src->type;
 	if (src->type == NODE_CMD)
 	{
+		printf("copy_ast: NODE_CMD\n");
 		if (copy_cmd_node(copy, src, exit_status))
 		{
 			free_ast(copy);
@@ -36,6 +38,7 @@ t_ast *copy_ast(t_ast *src, int *exit_status)
 	}
 	else if (src->type == NODE_PIPE)
 	{
+		printf("copy_ast: NODE_PIPE\n");
 		copy->u_data.pipe.left = copy_ast(src->u_data.pipe.left, exit_status);
 		copy->u_data.pipe.right = copy_ast(src->u_data.pipe.right, exit_status);
 		if (!copy->u_data.pipe.left || !copy->u_data.pipe.right)
@@ -52,8 +55,12 @@ static int	copy_cmd_node(t_ast *dst, t_ast *src, int *exit_status)
 	int		i;
 	int		j;
 
+	printf("copy_cmd_node called: src->cmd.name = %s\n", src->u_data.cmd.name);
 	dst->u_data.cmd.name = ft_strdup(src->u_data.cmd.name);
 	if (!dst->u_data.cmd.name)
+		return (*exit_status = 1, 1);
+	dst->u_data.cmd.path = ft_strdup(src->u_data.cmd.path);
+	if (!dst->u_data.cmd.path)
 		return (*exit_status = 1, 1);
 	i = 0;
 	while (src->u_data.cmd.argv && src->u_data.cmd.argv[i])
@@ -74,9 +81,17 @@ static int	copy_cmd_node(t_ast *dst, t_ast *src, int *exit_status)
 		j++;
 	}
 	dst->u_data.cmd.envp = copy_envp(src->u_data.cmd.envp);
-	dst->u_data.cmd.redirects = copy_redirects(src->u_data.cmd.redirects);
-	if (!dst->u_data.cmd.envp || !dst->u_data.cmd.redirects)
+	if (src->u_data.cmd.envp && !dst->u_data.cmd.envp)
+	{
+		printf("copy_envp failed\n");
 		return (*exit_status = 1, 1);
+	}
+	dst->u_data.cmd.redirects = copy_redirects(src->u_data.cmd.redirects);
+	if (src->u_data.cmd.redirects && !dst->u_data.cmd.redirects)
+	{
+		printf("copy_redirects failed\n");
+		return (*exit_status = 1, 1);
+	}
 	dst->u_data.cmd.stp = src->u_data.cmd.stp;
 	return (0);
 }
@@ -86,6 +101,8 @@ static t_redirect	*copy_redirects(t_redirect *src)
 	t_redirect *new_head;
 	t_redirect **curr;
 
+	if (!src)
+		return (NULL);
 	new_head = NULL;
 	curr = &new_head;
 	while (src)

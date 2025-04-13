@@ -6,14 +6,14 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:21:49 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/11 18:17:09 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/13 17:48:29 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	bool	is_builtin(t_ast *ast_node);
-static	int		execute_builtin(t_ast *ast_node, int *status);
+// static	bool	is_builtin(t_ast *ast_node);
+// static	int		execute_builtin(t_ast *ast_node, int *status);
 
 // this func() can run ast_node.
 // you should pass ast_top_node and ast_status_poipnter.
@@ -24,13 +24,13 @@ int	run_ast(t_ast *ast_node, int *status)
 	if (!ast_node)
 		return (1);
 	init_pids(&pids);
-	if (is_builtin(ast_node))
-	{
-		if (execute_builtin(ast_node, status))
-			return (1);
-	}
-	else
-	{
+	// if (is_builtin(ast_node))
+	// {
+	// 	if (execute_builtin(ast_node, status))
+	// 		return (1);
+	// }
+	// else
+	// {
 		if (execute_ast(ast_node, STDIN_FILENO, &pids))
 		{
 			wait_pids(&pids, status);
@@ -39,7 +39,7 @@ int	run_ast(t_ast *ast_node, int *status)
 		}
 		wait_pids(&pids, status);
 		destroy_pids(&pids);
-	}
+	// }
 	return (0);
 }
 
@@ -67,7 +67,7 @@ int	execute_ast(t_ast *ast_node, int fd_in, t_pids *pids)
 		return (1);
 	}
 }
-
+/*
 static	bool	is_builtin(t_ast *ast_node)
 {
 	char	*cmd_name;
@@ -131,3 +131,4 @@ static	int	execute_builtin(t_ast *ast_node, int *status)
 	else
 		return (1);
 }
+*/
