@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:39:03 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/13 19:10:05 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/13 20:44:13 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,20 @@ static int	copy_cmd_node(t_ast *dst, t_ast *src, int *exit_status)
 		return (*exit_status = 1, 1);
 	dst->u_data.cmd.path = ft_strdup(src->u_data.cmd.path);
 	if (!dst->u_data.cmd.path)
+	{
+		free(dst->u_data.cmd.name);
 		return (*exit_status = 1, 1);
+	}
 	i = 0;
 	while (src->u_data.cmd.argv && src->u_data.cmd.argv[i])
 		i++;
 	dst->u_data.cmd.argv = ft_calloc(i + 1, sizeof(char *));
 	if (!dst->u_data.cmd.argv)
-		return (free(dst->u_data.cmd.name), *exit_status = 1, 1);
+	{
+		free(dst->u_data.cmd.path);
+		free(dst->u_data.cmd.name);
+		return (*exit_status = 1, 1);
+	}
 	j = 0;
 	while(j < i)
 	{
@@ -75,21 +82,29 @@ static int	copy_cmd_node(t_ast *dst, t_ast *src, int *exit_status)
 		if (!dst->u_data.cmd.argv[j])
 		{
 			free_2d_array(dst->u_data.cmd.argv, j);
+			free(dst->u_data.cmd.path);
 			free(dst->u_data.cmd.name);
 			return (*exit_status = 1, 1);
 		}
 		j++;
 	}
 	dst->u_data.cmd.envp = copy_envp(src->u_data.cmd.envp);
-	if (src->u_data.cmd.envp && !dst->u_data.cmd.envp)
+	if (!dst->u_data.cmd.envp)
 	{
 		printf("copy_envp failed\n");
+		// free_2d_array(dst->u_data.cmd.argv, j);
+		free(dst->u_data.cmd.path);
+		free(dst->u_data.cmd.name);
 		return (*exit_status = 1, 1);
 	}
 	dst->u_data.cmd.redirects = copy_redirects(src->u_data.cmd.redirects);
 	if (src->u_data.cmd.redirects && !dst->u_data.cmd.redirects)
 	{
 		printf("copy_redirects failed\n");
+		// free_2d_array(dst->u_data.cmd.envp, 0);
+		free_2d_array(dst->u_data.cmd.argv, j);
+		free(dst->u_data.cmd.path);
+		free(dst->u_data.cmd.name);
 		return (*exit_status = 1, 1);
 	}
 	dst->u_data.cmd.stp = src->u_data.cmd.stp;
