@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/12 18:49:58 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/14 13:28:38 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,3 +257,4 @@ int		is_doller(int c);
 int		is_env_char(int c);
 int		ft_strcmp(const char *s1, const char *s2);
 char	*strrmchr(char *str, char *set);
+void	free_2d_array(char **arr);
