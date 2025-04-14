@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:39:03 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/13 20:44:13 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/14 13:30:19 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static t_redirect	*copy_redirects(t_redirect *src);
 static int			copy_cmd_node(t_ast *dst, t_ast *src, int *exit_status);
 static char			**copy_envp(char **src);
 static void			free_redirects(t_redirect *redirect);
-static void			free_2d_array(char **arr, size_t count);
 
 t_ast *copy_ast(t_ast *src, int *exit_status)
 {
@@ -81,7 +80,7 @@ static int	copy_cmd_node(t_ast *dst, t_ast *src, int *exit_status)
 		dst->u_data.cmd.argv[j] = ft_strdup(src->u_data.cmd.argv[j]);
 		if (!dst->u_data.cmd.argv[j])
 		{
-			free_2d_array(dst->u_data.cmd.argv, j);
+			free_2d_array(dst->u_data.cmd.argv);
 			free(dst->u_data.cmd.path);
 			free(dst->u_data.cmd.name);
 			return (*exit_status = 1, 1);
@@ -102,7 +101,7 @@ static int	copy_cmd_node(t_ast *dst, t_ast *src, int *exit_status)
 	{
 		printf("copy_redirects failed\n");
 		// free_2d_array(dst->u_data.cmd.envp, 0);
-		free_2d_array(dst->u_data.cmd.argv, j);
+		free_2d_array(dst->u_data.cmd.argv);
 		free(dst->u_data.cmd.path);
 		free(dst->u_data.cmd.name);
 		return (*exit_status = 1, 1);
@@ -162,7 +161,7 @@ static char	**copy_envp(char **src)
 		dst[i] = ft_strdup(src[i]);
 		if (!dst[i])
 		{
-			free_2d_array(dst, i);
+			free_2d_array(dst);
 			return (NULL);
 		}
 		i++;
@@ -182,13 +181,4 @@ static void	free_redirects(t_redirect *redirect)
 		free(redirect);
 		redirect = tmp;
 	}
-}
-
-static void	free_2d_array(char **arr, size_t count)
-{
-	if (!arr)
-		return ;
-	while (count-- > 0)
-		free(arr[count]);
-	free(arr);
 }
