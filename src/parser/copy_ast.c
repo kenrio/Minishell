@@ -6,15 +6,15 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:39:03 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/14 13:30:19 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/14 16:44:50 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_redirect	*copy_redirects(t_redirect *src);
 static int			copy_cmd_node(t_ast *dst, t_ast *src, int *exit_status);
 static char			**copy_envp(char **src);
+static t_redirect	*copy_redirects(t_redirect *src);
 static void			free_redirects(t_redirect *redirect);
 
 t_ast *copy_ast(t_ast *src, int *exit_status)
@@ -91,7 +91,6 @@ static int	copy_cmd_node(t_ast *dst, t_ast *src, int *exit_status)
 	if (!dst->u_data.cmd.envp)
 	{
 		printf("copy_envp failed\n");
-		// free_2d_array(dst->u_data.cmd.argv, j);
 		free(dst->u_data.cmd.path);
 		free(dst->u_data.cmd.name);
 		return (*exit_status = 1, 1);
@@ -100,7 +99,6 @@ static int	copy_cmd_node(t_ast *dst, t_ast *src, int *exit_status)
 	if (src->u_data.cmd.redirects && !dst->u_data.cmd.redirects)
 	{
 		printf("copy_redirects failed\n");
-		// free_2d_array(dst->u_data.cmd.envp, 0);
 		free_2d_array(dst->u_data.cmd.argv);
 		free(dst->u_data.cmd.path);
 		free(dst->u_data.cmd.name);
