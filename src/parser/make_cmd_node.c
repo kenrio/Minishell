@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:44:07 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/14 13:32:46 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/14 16:00:18 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,23 @@ int	make_cmd_node(t_token_array *array, t_parse_helper *helper, t_envl *envl,
 			return (*exit_status = 1, 1);
 	}
 	helper->node->type = NODE_CMD;
-	helper->node->u_data.cmd.redirects = NULL;
-	if (helper->node->u_data.cmd.envp)
-		free_2d_array(helper->node->u_data.cmd.envp);
-	helper->node->u_data.cmd.envp = make_envp_by_envl(envl);
-	if (!helper->node->u_data.cmd.envp)
-		return (*exit_status = 1, 1);
-	helper->node->u_data.cmd.stp = exit_status;
 	if (helper->arg_count == 0)
 		return (make_empty_cmd_node(helper->node, exit_status));
 	if (helper->node->u_data.cmd.argv)
 		free_2d_array(helper->node->u_data.cmd.argv);
 	if (set_cmd_name(array, helper, exit_status))
 		return (1);
+	if (helper->node->u_data.cmd.envp)
+		free_2d_array(helper->node->u_data.cmd.envp);
+	helper->node->u_data.cmd.envp = make_envp_by_envl(envl);
+	if (!helper->node->u_data.cmd.envp)
+		return (*exit_status = 1, 1);
 	if (helper->node->u_data.cmd.path)
 		free(helper->node->u_data.cmd.path);
 	helper->node->u_data.cmd.path = get_cmd_path(helper->node->u_data.cmd.envp,
 			helper->node->u_data.cmd.name);
+	helper->node->u_data.cmd.stp = exit_status;
+	helper->node->u_data.cmd.redirects = NULL;
 	return (add_args(array, helper, exit_status));
 }
 
