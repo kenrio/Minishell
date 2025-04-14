@@ -6,30 +6,27 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:39:03 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/14 16:44:50 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/15 02:28:36 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int			copy_cmd_node(t_ast *dst, t_ast *src, int *exit_status);
-static char			**copy_envp(char **src);
-static t_redirect	*copy_redirects(t_redirect *src);
-static void			free_redirects(t_redirect *redirect);
+static int	copy_cmd_node(t_ast *dst, t_ast *src);
+static int	copy_name_and_path(t_ast *dst, t_ast *src);
+static int	copy_redirect_list(t_redirect **dst, t_redirect *src);
 
 t_ast *copy_ast(t_ast *src, int *exit_status)
 {
 	t_ast	*copy;
 
-	printf("copy_ast called, src = %p, type = %d\n", src, src->type);
 	copy = ft_calloc(1, sizeof(t_ast));
 	if (!copy)
 		return (*exit_status = 1, NULL);
 	copy->type = src->type;
 	if (src->type == NODE_CMD)
 	{
-		printf("copy_ast: NODE_CMD\n");
-		if (copy_cmd_node(copy, src, exit_status))
+		if (copy_cmd_node(copy, src))
 		{
 			free_ast(copy);
 			return (*exit_status = 1, NULL);
@@ -37,7 +34,6 @@ t_ast *copy_ast(t_ast *src, int *exit_status)
 	}
 	else if (src->type == NODE_PIPE)
 	{
-		printf("copy_ast: NODE_PIPE\n");
 		copy->u_data.pipe.left = copy_ast(src->u_data.pipe.left, exit_status);
 		copy->u_data.pipe.right = copy_ast(src->u_data.pipe.right, exit_status);
 		if (!copy->u_data.pipe.left || !copy->u_data.pipe.right)
@@ -49,134 +45,60 @@ t_ast *copy_ast(t_ast *src, int *exit_status)
 	return (copy);
 }
 
-static int	copy_cmd_node(t_ast *dst, t_ast *src, int *exit_status)
+static int	copy_cmd_node(t_ast *dst, t_ast *src)
 {
-	int		i;
-	int		j;
+	t_ast	**dst_node;
+	t_ast	**src_node;
 
-	printf("copy_cmd_node called: src->cmd.name = %s\n", src->u_data.cmd.name);
-	dst->u_data.cmd.name = ft_strdup(src->u_data.cmd.name);
-	if (!dst->u_data.cmd.name)
-		return (*exit_status = 1, 1);
-	dst->u_data.cmd.path = ft_strdup(src->u_data.cmd.path);
-	if (!dst->u_data.cmd.path)
-	{
-		free(dst->u_data.cmd.name);
-		return (*exit_status = 1, 1);
-	}
-	i = 0;
-	while (src->u_data.cmd.argv && src->u_data.cmd.argv[i])
-		i++;
-	dst->u_data.cmd.argv = ft_calloc(i + 1, sizeof(char *));
-	if (!dst->u_data.cmd.argv)
-	{
-		free(dst->u_data.cmd.path);
-		free(dst->u_data.cmd.name);
-		return (*exit_status = 1, 1);
-	}
-	j = 0;
-	while(j < i)
-	{
-		dst->u_data.cmd.argv[j] = ft_strdup(src->u_data.cmd.argv[j]);
-		if (!dst->u_data.cmd.argv[j])
-		{
-			free_2d_array(dst->u_data.cmd.argv);
-			free(dst->u_data.cmd.path);
-			free(dst->u_data.cmd.name);
-			return (*exit_status = 1, 1);
-		}
-		j++;
-	}
-	dst->u_data.cmd.envp = copy_envp(src->u_data.cmd.envp);
-	if (!dst->u_data.cmd.envp)
-	{
-		printf("copy_envp failed\n");
-		free(dst->u_data.cmd.path);
-		free(dst->u_data.cmd.name);
-		return (*exit_status = 1, 1);
-	}
-	dst->u_data.cmd.redirects = copy_redirects(src->u_data.cmd.redirects);
+	dst_node = &dst;
+	src_node = &src;
+	if (copy_name_and_path(*dst_node, *src_node))
+		return (1);
+	if (copy_str_array(&(*dst_node)->u_data.cmd.argv, (*src_node)->u_data.cmd.argv))
+		return (1);
+	if (copy_str_array(&(*dst_node)->u_data.cmd.envp, (*src_node)->u_data.cmd.envp))
+		return (1);
+	if (copy_redirect_list(&(*dst_node)->u_data.cmd.redirects, (*src_node)->u_data.cmd.redirects))
+		return (1);
 	if (src->u_data.cmd.redirects && !dst->u_data.cmd.redirects)
-	{
-		printf("copy_redirects failed\n");
-		free_2d_array(dst->u_data.cmd.argv);
-		free(dst->u_data.cmd.path);
-		free(dst->u_data.cmd.name);
-		return (*exit_status = 1, 1);
-	}
+		return (1);
 	dst->u_data.cmd.stp = src->u_data.cmd.stp;
 	return (0);
 }
 
-static t_redirect	*copy_redirects(t_redirect *src)
+static int	copy_name_and_path(t_ast *dst, t_ast *src)
+{
+	dst->u_data.cmd.name = ft_strdup(src->u_data.cmd.name);
+	if (!dst->u_data.cmd.name)
+	 return (1);
+	dst->u_data.cmd.path = ft_strdup(src->u_data.cmd.path);
+	if (!dst->u_data.cmd.path)
+	{
+		free(dst->u_data.cmd.name);
+		return (1);
+	}
+	return (0);
+}
+
+static int	copy_redirect_list(t_redirect **dst, t_redirect *src)
 {
 	t_redirect *new_head;
 	t_redirect **curr;
 
-	if (!src)
-		return (NULL);
 	new_head = NULL;
 	curr = &new_head;
 	while (src)
 	{
 		*curr = ft_calloc(1, sizeof(t_redirect));
 		if (!(*curr))
-		{
-			free_redirects(new_head);
-			return (NULL);
-		}
+			return (1);
 		(*curr)->type = src->type;
 		(*curr)->file_name = ft_strdup(src->file_name);
 		if (!(*curr)->file_name)
-		{
-			free_redirects(new_head);
-			return (NULL);
-		}
-		(*curr)->next = NULL;
-		curr = &((*curr)->next);
+			return (1);
+		curr = &(*curr)->next;
 		src = src->next;
 	}
-	return (new_head);
-}
-
-static char	**copy_envp(char **src)
-{
-	size_t	len;
-	size_t	i;
-	char	**dst;
-
-	if (!src)
-		return (NULL);
-	len = 0;
-	while (src[len])
-		len++;
-	dst = ft_calloc(len + 1, sizeof(char *));
-	if (!dst)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		dst[i] = ft_strdup(src[i]);
-		if (!dst[i])
-		{
-			free_2d_array(dst);
-			return (NULL);
-		}
-		i++;
-	}
-	dst[len] = NULL;
-	return (dst);
-}
-
-static void	free_redirects(t_redirect *redirect)
-{
-	t_redirect *tmp;
-
-	while (redirect)
-	{
-		tmp = redirect->next;
-		free(redirect->file_name);
-		free(redirect);
-		redirect = tmp;
-	}
+	*dst = new_head;
+	return (0);
 }

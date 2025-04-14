@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 14:16:40 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/02 20:03:01 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/15 02:29:10 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,26 +31,14 @@ void	free_ast(t_ast *ast)
 
 static void	free_cmd_node(t_ast *ast)
 {
-	int	i;
-
 	if (ast->u_data.cmd.name)
 		free(ast->u_data.cmd.name);
 	if (ast->u_data.cmd.path)
 		free(ast->u_data.cmd.path);
 	if (ast->u_data.cmd.argv)
-	{
-		i = 0;
-		while (ast->u_data.cmd.argv[i])
-			free(ast->u_data.cmd.argv[i++]);
-		free(ast->u_data.cmd.argv);
-	}
+		free_str_array(ast->u_data.cmd.argv);
 	if (ast->u_data.cmd.envp)
-	{
-		i = 0;
-		while (ast->u_data.cmd.envp[i])
-			free(ast->u_data.cmd.envp[i++]);
-		free(ast->u_data.cmd.envp);
-	}
+		free_str_array(ast->u_data.cmd.envp);
 	if (ast->u_data.cmd.redirects)
 		free_redirects(ast->u_data.cmd.redirects);
 }
