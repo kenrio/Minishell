@@ -6,14 +6,14 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:21:49 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/15 16:11:17 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/15 16:14:17 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// static	bool	is_builtin(t_ast *ast_node);
-// static	int		execute_builtin(t_ast *ast_node, int *status);
+static	bool	is_builtin(t_ast *ast_node);
+static	int		execute_builtin(t_ast *ast_node, int *status);
 
 // this func() can run ast_node.
 // you should pass ast_top_node and ast_status_poipnter.
