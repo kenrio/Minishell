@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:44:07 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/15 02:22:11 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/15 14:25:41 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,11 @@ int	make_cmd_node(t_token_array *array, t_parse_helper *helper, t_envl *envl,
 	}
 	helper->node->type = NODE_CMD;
 	if (helper->arg_count == 0)
-		return (make_empty_cmd_node(helper->node, exit_status));
+	{
+		make_empty_cmd_node(helper->node, exit_status);
+		add_args(array, helper, exit_status);
+		return (0);
+	}
 	if (helper->node->u_data.cmd.argv)
 		free_str_array(helper->node->u_data.cmd.argv);
 	if (set_cmd_name(array, helper, exit_status))
@@ -51,9 +55,7 @@ int	make_cmd_node(t_token_array *array, t_parse_helper *helper, t_envl *envl,
 
 static int	make_empty_cmd_node(t_ast *node, int *exit_status)
 {
-	node->u_data.cmd.name = ft_strdup("");
-	if (!node->u_data.cmd.name)
-		return (*exit_status = 1, 1);
+	node->u_data.cmd.name = NULL;
 	node->u_data.cmd.argv = ft_calloc(1, sizeof(char *));
 	if (!node->u_data.cmd.argv)
 		return (*exit_status = 1, 1);
@@ -111,6 +113,7 @@ static int	set_argv0(t_parse_helper *helper, int *exit_status)
 	if (!helper->node->u_data.cmd.argv[0])
 	{
 		free(helper->node->u_data.cmd.argv);
+		helper->node->u_data.cmd.argv = NULL;
 		free(helper->node->u_data.cmd.name);
 		return (*exit_status = 1, 1);
 	}
