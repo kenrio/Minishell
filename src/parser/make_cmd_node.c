@@ -6,14 +6,14 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:44:07 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/15 16:06:46 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/15 16:18:03 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static int	make_empty_cmd_node(t_token_array *array, t_parse_helper *helper,
-				t_envl *envl, int *exit_status);
+				int *exit_status);
 static int	set_cmd_name(t_token_array *array, t_parse_helper *helper,
 				int *exit_status);
 static int	find_cmd_name(t_token_array *array, t_parse_helper *helper,
@@ -39,7 +39,7 @@ int	make_cmd_node(t_token_array *array, t_parse_helper *helper, t_envl *envl,
 		return (*exit_status = 1, 1);
 	helper->node->u_data.cmd.stp = exit_status;
 	if (helper->arg_count == 0)
-		return (make_empty_cmd_node(array, helper, envl, exit_status));
+		return (make_empty_cmd_node(array, helper, exit_status));
 	if (set_cmd_name(array, helper, exit_status))
 		return (1);
 	if (helper->node->u_data.cmd.path)
@@ -51,9 +51,8 @@ int	make_cmd_node(t_token_array *array, t_parse_helper *helper, t_envl *envl,
 }
 
 static int	make_empty_cmd_node(t_token_array *array, t_parse_helper *helper,
-				t_envl *envl, int *exit_status)
+				int *exit_status)
 {
-	(void) envl;
 	helper->node->u_data.cmd.name = NULL;
 	helper->node->u_data.cmd.argv = ft_calloc(1, sizeof(char *));
 	if (!helper->node->u_data.cmd.argv)
