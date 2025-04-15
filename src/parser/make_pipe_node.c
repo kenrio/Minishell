@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:32:34 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/14 16:43:44 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/15 14:26:53 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	make_pipe_node(t_token_array *array, t_parse_helper *helper, t_envl *envl,
 	t_ast	*left_node;
 	t_ast	*pipe_node;
 
-	printf("make_pipe_node entered\n");
 	if (!helper->node)
 		return (1);
 	left_node = copy_ast(helper->node, exit_status);

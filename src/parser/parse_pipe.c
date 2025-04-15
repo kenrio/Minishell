@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:30:31 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/14 16:47:48 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/15 14:26:42 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,10 @@ static int	start_with_pipe(t_token_array *array, t_parse_helper *helper);
 int	parse_pipe(t_token_array *array, t_parse_helper *helper, t_envl *envl,
 		int *exit_status)
 {
-	printf("parse_pipe called\n");
 	if (start_with_pipe(array, helper))
 		return (*exit_status = 2, 1);
 	if (parse_cmd(array, helper, envl, exit_status))
 		return (1);
-	printf("after parse_cmd, helper->node = %p\n", helper->node);
 	if (helper->node == NULL)
 		return (1);
 	if (helper->index < array->len

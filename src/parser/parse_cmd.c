@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:36:56 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/14 15:30:25 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/15 14:26:18 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	parse_cmd(t_token_array *array, t_parse_helper *helper, t_envl *envl,
 	}
 	if (make_cmd_node(array, helper, envl, exit_status))
 		return (1);
-	printf("cmd.path = %s\n", helper->node->u_data.cmd.path);
 	return (0);
 }
 
