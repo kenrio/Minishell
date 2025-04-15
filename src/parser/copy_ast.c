@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:39:03 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/15 02:28:36 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/15 14:54:14 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	copy_cmd_node(t_ast *dst, t_ast *src);
 static int	copy_name_and_path(t_ast *dst, t_ast *src);
 static int	copy_redirect_list(t_redirect **dst, t_redirect *src);
 
-t_ast *copy_ast(t_ast *src, int *exit_status)
+t_ast	*copy_ast(t_ast *src, int *exit_status)
 {
 	t_ast	*copy;
 
@@ -54,11 +54,14 @@ static int	copy_cmd_node(t_ast *dst, t_ast *src)
 	src_node = &src;
 	if (copy_name_and_path(*dst_node, *src_node))
 		return (1);
-	if (copy_str_array(&(*dst_node)->u_data.cmd.argv, (*src_node)->u_data.cmd.argv))
+	if (copy_str_array(&(*dst_node)->u_data.cmd.argv,
+			(*src_node)->u_data.cmd.argv))
 		return (1);
-	if (copy_str_array(&(*dst_node)->u_data.cmd.envp, (*src_node)->u_data.cmd.envp))
+	if (copy_str_array(&(*dst_node)->u_data.cmd.envp,
+			(*src_node)->u_data.cmd.envp))
 		return (1);
-	if (copy_redirect_list(&(*dst_node)->u_data.cmd.redirects, (*src_node)->u_data.cmd.redirects))
+	if (copy_redirect_list(&(*dst_node)->u_data.cmd.redirects,
+			(*src_node)->u_data.cmd.redirects))
 		return (1);
 	if (src->u_data.cmd.redirects && !dst->u_data.cmd.redirects)
 		return (1);
@@ -70,7 +73,7 @@ static int	copy_name_and_path(t_ast *dst, t_ast *src)
 {
 	dst->u_data.cmd.name = ft_strdup(src->u_data.cmd.name);
 	if (!dst->u_data.cmd.name)
-	 return (1);
+		return (1);
 	dst->u_data.cmd.path = ft_strdup(src->u_data.cmd.path);
 	if (!dst->u_data.cmd.path)
 	{
@@ -82,8 +85,8 @@ static int	copy_name_and_path(t_ast *dst, t_ast *src)
 
 static int	copy_redirect_list(t_redirect **dst, t_redirect *src)
 {
-	t_redirect *new_head;
-	t_redirect **curr;
+	t_redirect	*new_head;
+	t_redirect	**curr;
 
 	new_head = NULL;
 	curr = &new_head;

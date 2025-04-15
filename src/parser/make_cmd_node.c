@@ -6,13 +6,14 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:44:07 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/15 14:25:41 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/15 15:01:11 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	make_empty_cmd_node(t_ast *node, int *exit_status);
+static int	make_empty_cmd_node(t_token_array *array, t_parse_helper *helper,
+				int *exit_status);
 static int	set_cmd_name(t_token_array *array, t_parse_helper *helper,
 				int *exit_status);
 static int	find_cmd_name(t_token_array *array, t_parse_helper *helper,
@@ -30,11 +31,7 @@ int	make_cmd_node(t_token_array *array, t_parse_helper *helper, t_envl *envl,
 	}
 	helper->node->type = NODE_CMD;
 	if (helper->arg_count == 0)
-	{
-		make_empty_cmd_node(helper->node, exit_status);
-		add_args(array, helper, exit_status);
-		return (0);
-	}
+		return (make_empty_cmd_node(array, helper, exit_status));
 	if (helper->node->u_data.cmd.argv)
 		free_str_array(helper->node->u_data.cmd.argv);
 	if (set_cmd_name(array, helper, exit_status))
@@ -53,14 +50,15 @@ int	make_cmd_node(t_token_array *array, t_parse_helper *helper, t_envl *envl,
 	return (add_args(array, helper, exit_status));
 }
 
-static int	make_empty_cmd_node(t_ast *node, int *exit_status)
+static int	make_empty_cmd_node(t_token_array *array, t_parse_helper *helper,
+				int *exit_status)
 {
-	node->u_data.cmd.name = NULL;
-	node->u_data.cmd.argv = ft_calloc(1, sizeof(char *));
-	if (!node->u_data.cmd.argv)
+	helper->node->u_data.cmd.name = NULL;
+	helper->node->u_data.cmd.argv = ft_calloc(1, sizeof(char *));
+	if (!helper->node->u_data.cmd.argv)
 		return (*exit_status = 1, 1);
-	node->u_data.cmd.argv[0] = NULL;
-	return (0);
+	helper->node->u_data.cmd.argv[0] = NULL;
+	return (add_args(array, helper, exit_status));
 }
 
 static int	set_cmd_name(t_token_array *array, t_parse_helper *helper,
