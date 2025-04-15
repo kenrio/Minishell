@@ -6,14 +6,14 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 14:16:40 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/15 02:29:10 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/15 19:23:17 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	free_cmd_node(t_ast *ast);
-static void	free_redirects(t_redirect *redirect);
+// static void	free_redirects(t_redirect *redirect);
 
 void	free_ast(t_ast *ast)
 {
@@ -43,7 +43,7 @@ static void	free_cmd_node(t_ast *ast)
 		free_redirects(ast->u_data.cmd.redirects);
 }
 
-static void	free_redirects(t_redirect *redirect)
+void	free_redirects(t_redirect *redirect)
 {
 	t_redirect	*current;
 	t_redirect	*next;
