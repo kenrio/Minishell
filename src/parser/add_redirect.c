@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:50:56 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/31 13:45:26 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/12 13:56:35 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	set_redirect_file(t_redirect *redirect, t_token_array *array,
 	if (helper->index >= array->len)
 	{
 		free(redirect);
-		return (*exit_status = 1, 1);
+		return (*exit_status = 2, 1);
 	}
 	redirect->file_name = dq_expand_doller(array->tokens[helper->index].token,
 			helper->node->u_data.cmd.envp, exit_status);

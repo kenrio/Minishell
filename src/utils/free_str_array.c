@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_utils.c                                     :+:      :+:    :+:   */
+/*   free_str_array.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/21 23:52:40 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/12 01:31:10 by keishii          ###   ########.fr       */
+/*   Created: 2025/04/14 13:29:09 by keishii           #+#    #+#             */
+/*   Updated: 2025/04/15 02:23:51 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_cmd_args(t_ast *node, int count)
+void	free_str_array(char **arr)
 {
-	while (--count >= 0)
-		free(node->u_data.cmd.argv[count]);
-	free(node->u_data.cmd.argv);
-}
+	int	i;
 
-int	is_redirect(t_token *token)
-{
-	return (token->token_type == REDIRECT_OUT
-		|| token->token_type == REDIRECT_IN
-		|| token->token_type == REDIRECT_APPEND
-		|| token->token_type == REDIRECT_HEREDOC);
+	if (!arr)
+		return ;
+	i = 0;
+	while (arr[i])
+		free(arr[i++]);
+	free(arr);
 }

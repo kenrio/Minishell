@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 20:53:17 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/01 01:14:31 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/11 18:25:36 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ int	parser(t_ast **ast_node, t_token_array *token_array, t_envl *envl,
 	helper.index = 0;
 	helper.node = NULL;
 	if (make_ast(token_array, &helper, envl, exit_status))
-		return (*exit_status = 1, 1);
+	{
+		*ast_node = helper.node;
+		return (1);
+	}
 	*ast_node = helper.node;
 	if (helper.index != token_array->len)
 		return (*exit_status = 2, 1);

@@ -6,7 +6,7 @@
 #    By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/04/10 15:20:01 by keishii          ###   ########.fr        #
+#    Updated: 2025/04/15 02:28:56 by keishii          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,6 +57,8 @@ SRC_PARSER		:= \
 				add_redirect.c \
 				free_ast.c \
 				parser_utils.c \
+				syntax_error.c \
+				copy_ast.c \
 
 SRC_BUILTIN		:= \
 				execute_echo.c \
@@ -76,6 +78,8 @@ SRC_UTILS		:= \
 				get_path.c \
 				strrmchr.c \
 				utils.c \
+				copy_str_array.c \
+				free_str_array.c \
 
 SRC_AST			:= \
 				exec_ast_pipe.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:21:49 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/08 13:01:33 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/15 16:14:17 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	run_ast(t_ast *ast_node, int *status)
 {
 	t_pids	pids;
 
+	if (!ast_node)
+		return (1);
 	init_pids(&pids);
 	if (is_builtin(ast_node))
 	{

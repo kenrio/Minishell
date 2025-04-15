@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:07:58 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/10 12:38:53 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/15 15:50:44 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ void	exec_right_cmd(t_ast *node, int fd_in, t_pids *pids)
 		set_exec_child_handler();
 		check_fd(fd_in, fd_out);
 		setup_child_fd(fd_in, fd_out);
+
+
+		//TODO: execveの前にパスが見つからない場合と、空コマンドの場合のエラーハンドリング
+
+
 		execve(node->u_data.cmd.path, node->u_data.cmd.argv, node->u_data.cmd.envp);
 		perror("execve failed");
 		exit(EXIT_FAILURE);

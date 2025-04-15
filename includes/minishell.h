@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/10 12:25:18 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/15 02:28:27 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,6 +233,8 @@ int		add_redirect(t_token_array *array, t_parse_helper *helper,
 void	free_cmd_args(t_ast *node, int count);
 int		is_redirect(t_token *token);
 void	free_ast(t_ast *ast);
+void	syntax_error(const char *s);
+t_ast	*copy_ast(t_ast *src, int *exit_status);
 
 // signal functions
 void	set_idle_handler(void);
@@ -255,3 +257,5 @@ int		is_doller(int c);
 int		is_env_char(int c);
 int		ft_strcmp(const char *s1, const char *s2);
 char	*strrmchr(char *str, char *set);
+int		copy_str_array(char ***dst, char **src);
+void	free_str_array(char **arr);
