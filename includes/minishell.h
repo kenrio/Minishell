@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/15 19:31:00 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/16 16:09:25 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,6 +236,7 @@ void	free_ast(t_ast *ast);
 void	free_redirects(t_redirect *redirect);
 void	syntax_error(const char *s);
 t_ast	*copy_ast(t_ast *src, int *exit_status);
+int		reset_cmd_node_fields(t_ast *node, t_envl *envl, int *exit_status);
 
 // signal functions
 void	set_idle_handler(void);
