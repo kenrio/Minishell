@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 18:39:03 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/15 14:54:14 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/16 15:41:33 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,17 @@ static int	copy_cmd_node(t_ast *dst, t_ast *src)
 
 static int	copy_name_and_path(t_ast *dst, t_ast *src)
 {
-	dst->u_data.cmd.name = ft_strdup(src->u_data.cmd.name);
-	if (!dst->u_data.cmd.name)
-		return (1);
-	dst->u_data.cmd.path = ft_strdup(src->u_data.cmd.path);
-	if (!dst->u_data.cmd.path)
+	if (src->u_data.cmd.name && src->u_data.cmd.path)
 	{
-		free(dst->u_data.cmd.name);
-		return (1);
+		dst->u_data.cmd.name = ft_strdup(src->u_data.cmd.name);
+		if (!dst->u_data.cmd.name)
+			return (1);
+		dst->u_data.cmd.path = ft_strdup(src->u_data.cmd.path);
+		if (!dst->u_data.cmd.path)
+		{
+			free(dst->u_data.cmd.name);
+			return (1);
+		}
 	}
 	return (0);
 }

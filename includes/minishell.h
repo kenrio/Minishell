@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/15 02:28:27 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/16 15:41:09 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,6 +233,7 @@ int		add_redirect(t_token_array *array, t_parse_helper *helper,
 void	free_cmd_args(t_ast *node, int count);
 int		is_redirect(t_token *token);
 void	free_ast(t_ast *ast);
+void	free_redirects(t_redirect *redirect);
 void	syntax_error(const char *s);
 t_ast	*copy_ast(t_ast *src, int *exit_status);
 

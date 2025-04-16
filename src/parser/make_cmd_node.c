@@ -6,12 +6,13 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:44:07 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/15 16:18:03 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/16 15:41:51 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int	reset_cmd_node_fields(t_ast *node, t_envl *envl, int *exit_status);
 static int	make_empty_cmd_node(t_token_array *array, t_parse_helper *helper,
 				int *exit_status);
 static int	set_cmd_name(t_token_array *array, t_parse_helper *helper,
@@ -30,14 +31,8 @@ int	make_cmd_node(t_token_array *array, t_parse_helper *helper, t_envl *envl,
 			return (*exit_status = 1, 1);
 	}
 	helper->node->type = NODE_CMD;
-	if (helper->node->u_data.cmd.argv)
-		free_str_array(helper->node->u_data.cmd.argv);
-	if (helper->node->u_data.cmd.envp)
-		free_str_array(helper->node->u_data.cmd.envp);
-	helper->node->u_data.cmd.envp = make_envp_by_envl(envl);
-	if (!helper->node->u_data.cmd.envp)
-		return (*exit_status = 1, 1);
-	helper->node->u_data.cmd.stp = exit_status;
+	if (reset_cmd_node_fields(helper->node, envl, exit_status))
+		return (1);
 	if (helper->arg_count == 0)
 		return (make_empty_cmd_node(array, helper, exit_status));
 	if (set_cmd_name(array, helper, exit_status))
@@ -48,6 +43,22 @@ int	make_cmd_node(t_token_array *array, t_parse_helper *helper, t_envl *envl,
 			helper->node->u_data.cmd.name);
 	helper->node->u_data.cmd.redirects = NULL;
 	return (add_args(array, helper, exit_status));
+}
+
+static int	reset_cmd_node_fields(t_ast *node, t_envl *envl, int *exit_status)
+{
+	if (node->u_data.cmd.argv)
+		free_str_array(node->u_data.cmd.argv);
+	if (node->u_data.cmd.envp)
+		free_str_array(node->u_data.cmd.envp);
+	node->u_data.cmd.envp = make_envp_by_envl(envl);
+	if (!node->u_data.cmd.envp)
+		return (*exit_status = 1, 1);
+	node->u_data.cmd.stp = exit_status;
+	if (node->u_data.cmd.redirects)
+		free_redirects(node->u_data.cmd.redirects);
+	node->u_data.cmd.redirects = NULL;
+	return (0);
 }
 
 static int	make_empty_cmd_node(t_token_array *array, t_parse_helper *helper,
