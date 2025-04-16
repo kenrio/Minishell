@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/16 16:26:32 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/16 21:54:35 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <signal.h>
 #include <fcntl.h>
 #include <sys/types.h>
+#include <dirent.h>
 #include <sys/wait.h>
 
 #include "libft.h"
@@ -189,7 +190,9 @@ char	*get_cmd_path(char **envp, char	*name);
 char	*get_env_value_bykey(char **envp, char *key);
 
 // builtin
-int		execute_env(char **envp);
+int		execute_cd(t_ast *ast);
+int		execute_pwd(void);
+int		execute_env(t_ast *ast);
 
 // expantion functions
 char	*expand_doller(char *str, char **envp, int *status_p);
