@@ -3,14 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   handle_envl.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 13:11:03 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/28 17:00:06 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/16 21:48:19 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static	size_t	strlen_delimiter(char *str, char del);
+static	bool	is_match_key(char *str, char *key);
+static	void	handle_rm_node(t_envl *lst, t_env_node *prev, t_env_node *curr);
 
 // this file handle env_list.
 int	envl_add_node(t_envl *lst, char *value)
