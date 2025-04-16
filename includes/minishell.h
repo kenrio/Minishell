@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/16 15:43:11 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/16 19:37:35 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,7 @@ char	*get_cmd_path(char **envp, char	*name);
 char	*get_env_value_bykey(char **envp, char *key);
 
 // builtin
-
+int		execute_env(char **envp);
 
 // expantion functions
 char	*expand_doller(char *str, char **envp, int *status_p);
@@ -236,6 +236,7 @@ void	free_ast(t_ast *ast);
 void	free_redirects(t_redirect *redirect);
 void	syntax_error(const char *s);
 t_ast	*copy_ast(t_ast *src, int *exit_status);
+int		reset_cmd_node_fields(t_ast *node, t_envl *envl, int *exit_status);
 
 // signal functions
 void	set_idle_handler(void);
