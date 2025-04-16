@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:21:49 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/17 01:19:23 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/17 02:14:45 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,10 +115,12 @@ static	int	execute_builtin(t_ast *ast_node, t_envl *envl, int *status)
 	}
 	else if (ft_strcmp(cmd_name, "export") == 0)
 	{
+		execute_export(ast_node, envl);
 		return(0);
 	}
 	else if (ft_strcmp(cmd_name, "unset") == 0)
 	{
+		execute_unset(ast_node, envl);
 		return(0);
 	}
 	else if (ft_strcmp(cmd_name, "env") == 0)
