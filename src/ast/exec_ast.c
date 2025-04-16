@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:21:49 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/16 16:33:48 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/16 21:54:24 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,11 +105,12 @@ static	int	execute_builtin(t_ast *ast_node, int *status)
 	}
 	else if (ft_strcmp(cmd_name, "cd") == 0)
 	{
-		// return (execute_cd());
+		execute_cd(ast_node);
 		return(0);
 	}
 	else if (ft_strcmp(cmd_name, "pwd") == 0)
 	{
+		execute_pwd();
 		return(0);
 	}
 	else if (ft_strcmp(cmd_name, "export") == 0)
@@ -122,7 +123,7 @@ static	int	execute_builtin(t_ast *ast_node, int *status)
 	}
 	else if (ft_strcmp(cmd_name, "env") == 0)
 	{
-		execute_env(ast_node->u_data.cmd.envp);
+		execute_env(ast_node);
 		return(0);
 	}
 	else if (ft_strcmp(cmd_name, "exit") == 0)
