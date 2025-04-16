@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:08:21 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/15 14:29:45 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/17 01:17:48 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	main(int argc, char **argv, char **envp)
 	exit_status = 0;
 	envl = make_envl(envp);
 	exit_status = main_loop(input_line, envl, &exit_status);
+	destroy_envl(envl);
 	exit(exit_status);
 }
 
@@ -53,7 +54,7 @@ static int	main_loop(char *input_line, t_envl *envl, int *exit_status)
 		}
 		parser(&ast_node, &token_array, envl, exit_status);
 		free_token_array(&token_array);
-		run_ast(ast_node, exit_status);
+		run_ast(ast_node, envl, exit_status);
 		free_ast(ast_node);
 	}
 	return (*exit_status);

@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:02:59 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/16 22:56:32 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/17 01:28:02 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,16 @@
 
 char *get_env_value(t_envl *lst, const char *key);
 
-int execute_cd(t_ast *ast)
+int execute_cd(t_ast *ast, t_envl *envl)
 {
 	char *pwd;
 	char *newpwd;
 	char *oldpwd;
 	char cwd[4096];
-	t_envl *envl;
 
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 		return (perror("cd: getcwd"), 1);
-	envl = make_envl(ast->u_data.cmd.envp);
-	if (!envl)
-		return (perror("cd: make_envl"), 1);
 	if (!ast->u_data.cmd.argv[1] || chdir(ast->u_data.cmd.argv[1]) != 0)
 	{
 		free(pwd);
@@ -37,7 +33,6 @@ int execute_cd(t_ast *ast)
 	if (!getcwd(cwd, sizeof(cwd)))
 	{
 		free(pwd);
-		destroy_envl(envl);
 		return (perror("cd: getcwd"), 1);
 	}
 	oldpwd = pwd;
@@ -50,14 +45,10 @@ int execute_cd(t_ast *ast)
 	{
 		free(pwd);
 		free(newpwd);
-		destroy_envl(envl);
 		return (perror("cd: failed to update env"), 1);
 	}
 	free(pwd);
 	free(newpwd);
-	free_str_array(ast->u_data.cmd.envp);
-	ast->u_data.cmd.envp = make_envp_by_envl(envl);
-	destroy_envl(envl);
 	return (0);
 }
 

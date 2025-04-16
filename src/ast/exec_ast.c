@@ -6,18 +6,18 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:21:49 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/16 21:54:24 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/17 01:19:23 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static	bool	is_builtin(t_ast *ast_node);
-static	int		execute_builtin(t_ast *ast_node, int *status);
+static	int		execute_builtin(t_ast *ast_node, t_envl *envl, int *status);
 
 // this func() can run ast_node.
 // you should pass ast_top_node and ast_status_poipnter.
-int	run_ast(t_ast *ast_node, int *status)
+int	run_ast(t_ast *ast_node, t_envl *envl, int *status)
 {
 	t_pids	pids;
 
@@ -26,7 +26,7 @@ int	run_ast(t_ast *ast_node, int *status)
 	init_pids(&pids);
 	if (is_builtin(ast_node))
 	{
-		if (execute_builtin(ast_node, status))
+		if (execute_builtin(ast_node, envl, status))
 			return (1);
 	}
 	else
@@ -86,7 +86,7 @@ static	bool	is_builtin(t_ast *ast_node)
 	);
 }
 
-static	int	execute_builtin(t_ast *ast_node, int *status)
+static	int	execute_builtin(t_ast *ast_node, t_envl *envl, int *status)
 {
 	char	*cmd_name;
 	(void) status;
@@ -105,7 +105,7 @@ static	int	execute_builtin(t_ast *ast_node, int *status)
 	}
 	else if (ft_strcmp(cmd_name, "cd") == 0)
 	{
-		execute_cd(ast_node);
+		execute_cd(ast_node, envl);
 		return(0);
 	}
 	else if (ft_strcmp(cmd_name, "pwd") == 0)
