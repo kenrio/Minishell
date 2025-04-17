@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/17 02:14:11 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/17 12:14:57 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,7 @@ char	*get_cmd_path(char **envp, char	*name);
 char	*get_env_value_bykey(char **envp, char *key);
 
 // builtin
+int		execute_echo(t_ast *ast);
 int		execute_cd(t_ast *ast, t_envl *envl);
 int		execute_pwd(void);
 int		execute_export(t_ast *ast, t_envl *envl);
