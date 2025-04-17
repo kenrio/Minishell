@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/17 12:14:57 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/17 14:33:35 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,3 +267,4 @@ int		ft_strcmp(const char *s1, const char *s2);
 char	*strrmchr(char *str, char *set);
 int		copy_str_array(char ***dst, char **src);
 void	free_str_array(char **arr);
+void	exit_f(char *comment);
