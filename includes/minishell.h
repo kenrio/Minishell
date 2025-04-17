@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/17 14:33:35 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/17 15:39:20 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,7 @@ int		execute_pwd(void);
 int		execute_export(t_ast *ast, t_envl *envl);
 int		execute_unset(t_ast *ast, t_envl *envl);
 int		execute_env(t_ast *ast);
+int		execute_exit(t_ast *ast, t_envl *envl);
 
 // expantion functions
 char	*expand_doller(char *str, char **envp, int *status_p);

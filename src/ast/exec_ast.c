@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:21:49 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/17 12:21:45 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/17 17:37:51 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,39 +99,19 @@ static	int	execute_builtin(t_ast *ast_node, t_envl *envl, int *status)
 	// ex) int	execute_echo(ast_node, status), int	execute_echo(ast_node)toka
 	// buitin関数はbuitin/にあつめてもってこよう
 	if (ft_strcmp(cmd_name, "echo") == 0)
-	{
 		return (execute_echo(ast_node));
-		return(0);
-	}
 	else if (ft_strcmp(cmd_name, "cd") == 0)
-	{
-		execute_cd(ast_node, envl);
-		return(0);
-	}
+		return (execute_cd(ast_node, envl));
 	else if (ft_strcmp(cmd_name, "pwd") == 0)
-	{
-		execute_pwd();
-		return(0);
-	}
+		return (execute_pwd());
 	else if (ft_strcmp(cmd_name, "export") == 0)
-	{
-		execute_export(ast_node, envl);
-		return(0);
-	}
+		return (execute_export(ast_node, envl));
 	else if (ft_strcmp(cmd_name, "unset") == 0)
-	{
-		execute_unset(ast_node, envl);
-		return(0);
-	}
+		return (execute_unset(ast_node, envl));
 	else if (ft_strcmp(cmd_name, "env") == 0)
-	{
-		execute_env(ast_node);
-		return(0);
-	}
+		return (execute_env(ast_node));
 	else if (ft_strcmp(cmd_name, "exit") == 0)
-	{
-		return(0);
-	}
+		return (execute_exit(ast_node, envl));
 	else
 		return (1);
 }
