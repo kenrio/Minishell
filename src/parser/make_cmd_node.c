@@ -40,6 +40,7 @@ int	make_cmd_node(t_token_array *array, t_parse_helper *helper, t_envl *envl,
 		free(helper->node->u_data.cmd.path);
 	helper->node->u_data.cmd.path = get_cmd_path(helper->node->u_data.cmd.envp,
 			helper->node->u_data.cmd.name);
+	helper->node->u_data.cmd.redirects = NULL;
 	return (add_args(array, helper, exit_status));
 }
 
