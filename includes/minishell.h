@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/16 15:43:11 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/17 15:39:20 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <signal.h>
 #include <fcntl.h>
 #include <sys/types.h>
+#include <dirent.h>
 #include <sys/wait.h>
 
 #include "libft.h"
@@ -151,7 +152,7 @@ typedef struct s_envl
 
 // -------------------- functions --------------------
 // run_ast
-int		run_ast(t_ast *ast_node, int *status);
+int		run_ast(t_ast *ast_node, t_envl *envl, int *status);
 int		execute_ast(t_ast *ast_node, int fd_in, t_pids *pids);
 
 // run_ast_sub
@@ -189,7 +190,13 @@ char	*get_cmd_path(char **envp, char	*name);
 char	*get_env_value_bykey(char **envp, char *key);
 
 // builtin
-
+int		execute_echo(t_ast *ast);
+int		execute_cd(t_ast *ast, t_envl *envl);
+int		execute_pwd(void);
+int		execute_export(t_ast *ast, t_envl *envl);
+int		execute_unset(t_ast *ast, t_envl *envl);
+int		execute_env(t_ast *ast);
+int		execute_exit(t_ast *ast, t_envl *envl);
 
 // expantion functions
 char	*expand_doller(char *str, char **envp, int *status_p);
@@ -236,6 +243,7 @@ void	free_ast(t_ast *ast);
 void	free_redirects(t_redirect *redirect);
 void	syntax_error(const char *s);
 t_ast	*copy_ast(t_ast *src, int *exit_status);
+int		reset_cmd_node_fields(t_ast *node, t_envl *envl, int *exit_status);
 
 // signal functions
 void	set_idle_handler(void);
@@ -260,3 +268,4 @@ int		ft_strcmp(const char *s1, const char *s2);
 char	*strrmchr(char *str, char *set);
 int		copy_str_array(char ***dst, char **src);
 void	free_str_array(char **arr);
+void	exit_f(char *comment);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:07:58 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/15 15:50:44 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/17 14:32:53 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static	void	setup_child_fd(int fd_in, int fd_out);
 static	void	check_fd(int fd_in, int fd_out);
+static	int		is_valid_cmd(char *path, char *name);
 
 // exec_ast_cmd() is used as follows.
 // step1. if there is a redirect arrays, replace fd_in and fd_out.
@@ -28,26 +29,19 @@ void	exec_right_cmd(t_ast *node, int fd_in, t_pids *pids)
 	if (node->u_data.cmd.redirects)
 		if (handle_redirects(node, &fd_in, &fd_out))
 			return ;
+	if (is_valid_cmd(node->u_data.cmd.path, node->u_data.cmd.name))
+		return ;
 	set_exec_handler();
 	pid = fork();
 	if (pid < 0)
-	{
-		perror("fork failed.");
-		exit(EXIT_FAILURE);
-	}
+		exit_f("fork failed.");
 	else if (pid == 0)
 	{
 		set_exec_child_handler();
 		check_fd(fd_in, fd_out);
 		setup_child_fd(fd_in, fd_out);
-
-
-		//TODO: execveの前にパスが見つからない場合と、空コマンドの場合のエラーハンドリング
-
-
 		execve(node->u_data.cmd.path, node->u_data.cmd.argv, node->u_data.cmd.envp);
-		perror("execve failed");
-		exit(EXIT_FAILURE);
+		exit_f("execve failed");
 	}
 	else
 		pids_push_back(pids, pid);
@@ -64,13 +58,12 @@ void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], t_pids *pids)
 	fd_out = fd_pipe[1];
 	if (node->u_data.cmd.redirects)
 		handle_redirects(node, &fd_in, &fd_out);
+	if (is_valid_cmd(node->u_data.cmd.path, node->u_data.cmd.name))
+		return ;
 	set_exec_handler();
 	pid = fork();
 	if (pid < 0)
-	{
-		perror("fork failed.");
-		exit(EXIT_FAILURE);
-	}
+		exit_f("fork failed.");
 	else if (pid == 0)
 	{
 		set_exec_child_handler();
@@ -78,8 +71,7 @@ void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], t_pids *pids)
 		check_fd(fd_in, fd_out);
 		setup_child_fd(fd_in, fd_out);
 		execve(node->u_data.cmd.path, node->u_data.cmd.argv, node->u_data.cmd.envp);
-		perror("execve failed");
-		exit(EXIT_FAILURE);
+		exit_f("execve failed");
 	}
 	else
 		pids_push_back(pids, pid);
@@ -119,4 +111,17 @@ static	void	setup_child_fd(int fd_in, int fd_out)
 	}
 }
 
-
+static	int	is_valid_cmd(char *cmd_path, char *cmd_name)
+{
+	if (!cmd_path)
+	{
+		if (cmd_name)
+		{
+			ft_putstr_fd("Command not found.\n", STDERR_FILENO);
+			return (1);
+		}
+		else
+			return (1);
+	}
+	return (0);
+}
