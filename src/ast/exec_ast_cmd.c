@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:07:58 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/17 14:32:53 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/18 18:31:50 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	void	setup_child_fd(int fd_in, int fd_out);
-static	void	check_fd(int fd_in, int fd_out);
-static	int		is_valid_cmd(char *path, char *name);
+static void	setup_child_fd(int fd_in, int fd_out);
+static void	check_fd(int fd_in, int fd_out);
+static int	is_valid_cmd(char *path, char *name);
 
 // exec_ast_cmd() is used as follows.
 // step1. if there is a redirect arrays, replace fd_in and fd_out.
@@ -30,7 +30,10 @@ void	exec_right_cmd(t_ast *node, int fd_in, t_pids *pids)
 		if (handle_redirects(node, &fd_in, &fd_out))
 			return ;
 	if (is_valid_cmd(node->u_data.cmd.path, node->u_data.cmd.name))
+	{
+		*(node->u_data.cmd.stp) = 127;
 		return ;
+	}
 	set_exec_handler();
 	pid = fork();
 	if (pid < 0)
@@ -40,13 +43,13 @@ void	exec_right_cmd(t_ast *node, int fd_in, t_pids *pids)
 		set_exec_child_handler();
 		check_fd(fd_in, fd_out);
 		setup_child_fd(fd_in, fd_out);
-		execve(node->u_data.cmd.path, node->u_data.cmd.argv, node->u_data.cmd.envp);
+		execve(node->u_data.cmd.path, node->u_data.cmd.argv,
+			node->u_data.cmd.envp);
 		exit_f("execve failed");
 	}
 	else
 		pids_push_back(pids, pid);
 }
-
 
 // this func() execute cmd, and update pids.
 // input by fd_in, output to fd_pipe[1];
@@ -59,7 +62,10 @@ void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], t_pids *pids)
 	if (node->u_data.cmd.redirects)
 		handle_redirects(node, &fd_in, &fd_out);
 	if (is_valid_cmd(node->u_data.cmd.path, node->u_data.cmd.name))
+	{
+		*(node->u_data.cmd.stp) = 127;
 		return ;
+	}
 	set_exec_handler();
 	pid = fork();
 	if (pid < 0)
@@ -70,16 +76,16 @@ void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], t_pids *pids)
 		close(fd_pipe[0]);
 		check_fd(fd_in, fd_out);
 		setup_child_fd(fd_in, fd_out);
-		execve(node->u_data.cmd.path, node->u_data.cmd.argv, node->u_data.cmd.envp);
+		execve(node->u_data.cmd.path, node->u_data.cmd.argv,
+			node->u_data.cmd.envp);
 		exit_f("execve failed");
 	}
 	else
 		pids_push_back(pids, pid);
 }
 
-
 // this func() determines if the input is correct.
-static	void	check_fd(int fd_in, int fd_out)
+static void	check_fd(int fd_in, int fd_out)
 {
 	if (fd_in == -1)
 	{
@@ -97,7 +103,7 @@ static	void	check_fd(int fd_in, int fd_out)
 // if in or out isn't right shape, this is not the case.
 // The case where fd_in is -1 here is the case where the redirection is -1.
 // THE TRUE CASE: fd_out is appropriate, and, fd_out is not STDOUT
-static	void	setup_child_fd(int fd_in, int fd_out)
+static void	setup_child_fd(int fd_in, int fd_out)
 {
 	if (fd_in != -1 && fd_in != STDIN_FILENO)
 	{
