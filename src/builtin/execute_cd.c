@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:02:59 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/18 20:38:33 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/19 00:30:43 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,33 +23,19 @@ int	execute_cd(t_ast *ast, t_envl *envl)
 
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
-		return (perror("cd: getcwd"), 1);
+		return (*(ast->u_data.cmd.stp) = 1, 1);
 	if (!ast->u_data.cmd.argv[1] || chdir(ast->u_data.cmd.argv[1]) != 0)
-	{
-		free(pwd);
-		return (*(ast->u_data.cmd.stp) = 1, perror("cd"), 1);
-	}
+		return (free(pwd), *(ast->u_data.cmd.stp) = 1, perror("cd"), 1);
 	if (!getcwd(cwd, sizeof(cwd)))
-	{
-		free(pwd);
-		return (*(ast->u_data.cmd.stp) = 1, perror("cd: getcwd"), 1);
-	}
+		return (free(pwd), *(ast->u_data.cmd.stp) = 1, 1);
 	oldpwd = pwd;
 	pwd = ft_strjoin("OLDPWD=", oldpwd);
 	free(oldpwd);
 	newpwd = ft_strjoin("PWD=", cwd);
 	if (!pwd || !newpwd
-		|| envl_add_node(envl, pwd) != 0
-		|| envl_add_node(envl, newpwd) != 0)
-	{
-		free(pwd);
-		free(newpwd);
-		*(ast->u_data.cmd.stp) = 1;
-		return (perror("cd: failed to update env"), 1);
-	}
-	free(pwd);
-	free(newpwd);
-	return (0);
+		|| envl_add_node(envl, pwd) != 0 || envl_add_node(envl, newpwd) != 0)
+		return (free(pwd), free(newpwd), *(ast->u_data.cmd.stp) = 1, 1);
+	return (free(pwd), free(newpwd), 0);
 }
 
 char *get_env_value(t_envl *lst, const char *key)

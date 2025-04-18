@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:21:49 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/18 20:06:42 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/19 00:23:19 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,6 @@ static	int	execute_builtin(t_ast *ast_node, t_envl *envl, int *status)
 	(void) status;
 	
 	cmd_name = ast_node->u_data.cmd.name;
-
-	//TODO
-	// もしもechoコマンドだった場合、execute_echo()が実行される。
-	// 各コマンド実行関数は、成功なら０、失敗なら１を返してほしい
-	// ex) int	execute_echo(ast_node, status), int	execute_echo(ast_node)toka
-	// buitin関数はbuitin/にあつめてもってこよう
 	if (ft_strcmp(cmd_name, "echo") == 0)
 		return (execute_echo(ast_node));
 	else if (ft_strcmp(cmd_name, "cd") == 0)
