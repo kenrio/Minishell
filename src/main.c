@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:08:21 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/17 19:33:03 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/18 15:30:01 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ static int	main_loop(char *input_line, t_envl *envl, int *exit_status)
 	{
 		// printf("initial: exit_status: %d\n", *exit_status);
 		input_line = get_input_line(exit_status);
-		if (g_signal != 0)
-			continue ;
 		if (!input_line)
 			break ;
+		if (g_signal != 0)
+			continue ;
 		lexer(&token_array, input_line, exit_status);
 		// printf("lexer: exit_status: %d\n", *exit_status);
 		if (token_array.len == 0 || *exit_status == 1)

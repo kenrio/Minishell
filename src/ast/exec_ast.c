@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:21:49 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/17 17:37:51 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/18 15:20:26 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	run_ast(t_ast *ast_node, t_envl *envl, int *status)
 	{
 		if (execute_builtin(ast_node, envl, status))
 			return (1);
+		*status = 0;
 	}
 	else
 	{
