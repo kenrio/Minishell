@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:29:56 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/17 17:35:28 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/19 00:18:57 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,17 @@ int	execute_exit(t_ast *ast, t_envl *envl)
 	{
 		if (!is_numeric(ast->u_data.cmd.argv[1]))
 		{
-			ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+			ft_putstr_fd("exit: ", STDERR_FILENO);
 			ft_putstr_fd(ast->u_data.cmd.argv[1], STDERR_FILENO);
 			ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
 			free_ast(ast);
 			destroy_envl(envl);
-			exit(2);
+			exit(255);
 		}
 		if (ast->u_data.cmd.argv[2])
 		{
-			ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
-			return (1);
+			ft_putstr_fd("exit: too many arguments\n", STDERR_FILENO);
+			return (*(ast->u_data.cmd.stp) = 1, 1);
 		}
 		exit_status = ft_atoi(ast->u_data.cmd.argv[1]);
 	}
