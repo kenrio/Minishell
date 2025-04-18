@@ -6,7 +6,7 @@
 #    By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/04/16 16:28:03 by keishii          ###   ########.fr        #
+#    Updated: 2025/04/18 18:49:44 by keishii          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,7 +63,11 @@ SRC_PARSER		:= \
 SRC_BUILTIN		:= \
 				execute_echo.c \
 				execute_cd.c \
+				execute_pwd.c \
+				execute_export.c \
+				execute_unset.c \
 				execute_env.c \
+				execute_exit.c \
 
 SRC_SIGNAL		:= \
 				signal_handler.c \
@@ -89,6 +93,7 @@ SRC_AST			:= \
 
 SRC_ENVP		:= \
 				envl.c \
+				handle_envl.c \
 				make_envp.c \
 
 # SRC&OBJ

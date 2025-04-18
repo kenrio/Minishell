@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_env.c                                      :+:      :+:    :+:   */
+/*   execute_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 16:21:57 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/18 18:53:17 by keishii          ###   ########.fr       */
+/*   Created: 2025/04/16 19:59:48 by keishii           #+#    #+#             */
+/*   Updated: 2025/04/16 20:58:00 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	execute_env(t_ast *ast)
+int	execute_pwd(void)
 {
-	int		i;
+	char cwd[4096];
 
-	i = 0;
-	while (ast->u_data.cmd.envp[i])
-		printf("%s\n", ast->u_data.cmd.envp[i++]);
+	if (!(getcwd(cwd, sizeof(cwd))))
+	{
+		perror("pwd");
+		return (1);
+	}
+	printf("%s\n", cwd);
 	return (0);
 }

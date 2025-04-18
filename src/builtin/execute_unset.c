@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_env.c                                      :+:      :+:    :+:   */
+/*   execute_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 16:21:57 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/18 18:53:17 by keishii          ###   ########.fr       */
+/*   Created: 2025/04/17 02:02:19 by keishii           #+#    #+#             */
+/*   Updated: 2025/04/17 02:15:26 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	execute_env(t_ast *ast)
+int	execute_unset(t_ast *ast, t_envl *envl)
 {
-	int		i;
+	char		*key;
 
-	i = 0;
-	while (ast->u_data.cmd.envp[i])
-		printf("%s\n", ast->u_data.cmd.envp[i++]);
+	if (!ast->u_data.cmd.argv[1])
+		return (0);
+	key = ast->u_data.cmd.argv[1];
+	if (envl_rm_node(envl, key))
+		return (perror("unset: variable not found"), 1);
 	return (0);
 }
