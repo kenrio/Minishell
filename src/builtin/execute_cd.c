@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:02:59 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/17 01:28:02 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/18 20:38:33 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 char *get_env_value(t_envl *lst, const char *key);
 
-int execute_cd(t_ast *ast, t_envl *envl)
+int	execute_cd(t_ast *ast, t_envl *envl)
 {
-	char *pwd;
-	char *newpwd;
-	char *oldpwd;
-	char cwd[4096];
+	char	*pwd;
+	char	*newpwd;
+	char	*oldpwd;
+	char	cwd[4096];
 
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
@@ -27,13 +27,12 @@ int execute_cd(t_ast *ast, t_envl *envl)
 	if (!ast->u_data.cmd.argv[1] || chdir(ast->u_data.cmd.argv[1]) != 0)
 	{
 		free(pwd);
-		destroy_envl(envl);
-		return (perror("cd: No such file or directory"), 1);
+		return (*(ast->u_data.cmd.stp) = 1, perror("cd"), 1);
 	}
 	if (!getcwd(cwd, sizeof(cwd)))
 	{
 		free(pwd);
-		return (perror("cd: getcwd"), 1);
+		return (*(ast->u_data.cmd.stp) = 1, perror("cd: getcwd"), 1);
 	}
 	oldpwd = pwd;
 	pwd = ft_strjoin("OLDPWD=", oldpwd);
@@ -45,6 +44,7 @@ int execute_cd(t_ast *ast, t_envl *envl)
 	{
 		free(pwd);
 		free(newpwd);
+		*(ast->u_data.cmd.stp) = 1;
 		return (perror("cd: failed to update env"), 1);
 	}
 	free(pwd);
