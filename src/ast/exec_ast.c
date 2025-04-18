@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:21:49 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/18 15:20:26 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/18 20:06:42 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ static	int	execute_builtin(t_ast *ast_node, t_envl *envl, int *status)
 	else if (ft_strcmp(cmd_name, "cd") == 0)
 		return (execute_cd(ast_node, envl));
 	else if (ft_strcmp(cmd_name, "pwd") == 0)
-		return (execute_pwd());
+		return (execute_pwd(ast_node));
 	else if (ft_strcmp(cmd_name, "export") == 0)
 		return (execute_export(ast_node, envl));
 	else if (ft_strcmp(cmd_name, "unset") == 0)
