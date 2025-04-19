@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:08:21 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/17 01:17:48 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/19 20:48:24 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static int	main_loop(char *input_line, t_envl *envl, int *exit_status);
 static char	*get_input_line(int *exit_status);
+static int	event(void);
 
 volatile sig_atomic_t	g_signal;
 
@@ -37,18 +38,20 @@ static int	main_loop(char *input_line, t_envl *envl, int *exit_status)
 {
 	t_ast			*ast_node;
 	t_token_array	token_array;
+	int				lexer_status;
 
 	while (1)
 	{
 		input_line = get_input_line(exit_status);
-		if (!input_line)
-			break ;
 		if (g_signal != 0)
 			continue ;
-		*exit_status = 0;
-		lexer(&token_array, input_line, exit_status);
-		if (token_array.len == 0 || *exit_status == 1)
+		if (!input_line)
+			break ;
+		lexer_status = 0;
+		lexer(&token_array, input_line, &lexer_status);
+		if (token_array.len == 0 || lexer_status == 2)
 		{
+			*exit_status = lexer_status;
 			free_token_array(&token_array);
 			continue ;
 		}
@@ -60,19 +63,27 @@ static int	main_loop(char *input_line, t_envl *envl, int *exit_status)
 	return (*exit_status);
 }
 
+static int	event(void)
+{
+	return (0);
+}
+
 static char	*get_input_line(int *exit_status)
 {
 	char	*input_line;
 
 	g_signal = 0;
+	rl_event_hook = event;
 	set_idle_handler();
+	// printf("DEBUG exit_status before readline: %d\n", *exit_status);
 	input_line = readline(PROMPT);
+	// printf("DEBUG exit_status after readline: %d\n", *exit_status);
 	if (g_signal == 0 && input_line && ft_strlen(input_line) > 0)
 		add_history(input_line);
 	if (g_signal == SIGINT)
 	{
 		free(input_line);
-		*exit_status = 130;
+		*exit_status = 128 + SIGINT;
 	}
 	if (!input_line)
 		write(STDOUT_FILENO, "exit\n", 5);

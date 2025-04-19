@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:19:27 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/19 19:39:09 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/19 21:55:54 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ char	*dq_expand_doller(char *str, char **envp, int *status_p)
 	char	*result;
 
 	origin = expand_doller(str, envp, status_p);
+	if (!origin)
+		return (NULL);
 	result = strip_outer_quotes(origin);
 	free(origin);
 	return (result);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:01:33 by keishii           #+#    #+#             */
-/*   Updated: 2025/03/18 18:59:21 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/19 13:51:27 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ int	lexer(t_token_array *array, char *input_line, int *exit_status)
 	token_array = array;
 	(*token_array).tokens = NULL;
 	(*token_array).len = 0;
-	if (check_opened_quotes(input_line, exit_status))
-		return (*exit_status);
 	if (count_tokens(input_line, &(*token_array)) == 0)
-		return (*exit_status);
+		return (1);
+	if (check_opened_quotes(input_line, exit_status))
+		return (*exit_status = 2, 1);
 	(*token_array).tokens
 		= (t_token *)ft_calloc((*token_array).len + 1, sizeof(t_token));
 	if (!(*token_array).tokens)
@@ -39,7 +39,7 @@ int	lexer(t_token_array *array, char *input_line, int *exit_status)
 	}
 	assign_token_type(&(*token_array));
 	free(input_line);
-	return (*exit_status);
+	return (0);
 }
 
 static int	check_opened_quotes(char *line, int *exit_status)
@@ -55,9 +55,9 @@ static int	check_opened_quotes(char *line, int *exit_status)
 	if (check_state.in_squote || check_state.in_dquote)
 	{
 		if (check_state.in_squote)
-			perror("minishell$: syntax error: looking for matching \'");
+			perror("syntax error: looking for matching \'");
 		else
-			perror("minishell$: syntax error: looking for matching \"");
+			perror("syntax error: looking for matching \"");
 		*exit_status = 1;
 		return (1);
 	}

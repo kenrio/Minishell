@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:27:01 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/06 14:41:05 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/18 00:08:16 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,13 @@ void	wait_pids(t_pids *pids, int *status)
 	{
 		next = curr->next;
 		if (curr->next == NULL)
+		{
 			waitpid(curr->pid, status, 0);
+			if (WIFEXITED(*status))
+				*status = WEXITSTATUS(*status);
+			else
+				*status = 1;
+		}
 		else
 			waitpid(curr->pid, NULL, 0);
 		curr = next;

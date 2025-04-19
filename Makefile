@@ -6,7 +6,7 @@
 #    By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/04/17 12:15:07 by keishii          ###   ########.fr        #
+#    Updated: 2025/04/17 15:39:34 by keishii          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,6 +67,7 @@ SRC_BUILTIN		:= \
 				execute_export.c \
 				execute_unset.c \
 				execute_env.c \
+				execute_exit.c \
 
 SRC_SIGNAL		:= \
 				signal_handler.c \
