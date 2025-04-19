@@ -6,11 +6,13 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:19:27 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/19 13:48:13 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/19 19:39:09 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
+
+static char	*strip_outer_quotes(const char *src);
 
 // we give string, this func() expand string based on appropriate $.
 char	*expand_doller(char *str, char **envp, int *status_p)
@@ -76,7 +78,36 @@ char	*dq_expand_doller(char *str, char **envp, int *status_p)
 	char	*result;
 
 	origin = expand_doller(str, envp, status_p);
-	result = strrmchr(origin, "\"\'");
+	result = strip_outer_quotes(origin);
 	free(origin);
+	return (result);
+}
+
+
+static char	*strip_outer_quotes(const char *src)
+{
+	char	*result;
+	char	*temp;
+	char	quote;
+
+	if (!src)
+		return (NULL);
+	result = (char *)ft_calloc(ft_strlen(src) + 1, sizeof(char));
+	if (!result)
+		return (NULL);
+	temp = result;
+	while (*src)
+	{
+		if (*src == '\'' || *src == '\"')
+		{
+			quote = *(src++);
+			while(*src && *src != quote)
+				*(temp++) = *(src++);
+			if (*src == quote)
+				src++;
+			continue;
+		}
+		*(temp++) = *(src++);
+	}
 	return (result);
 }
