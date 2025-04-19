@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 01:41:22 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/17 12:04:34 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/18 19:29:21 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	execute_export(t_ast *ast, t_envl *envl)
 			if (ft_strchr(ast->u_data.cmd.argv[i], '='))
 			{
 				if (envl_add_node(envl, ast->u_data.cmd.argv[i]) != 0)
-					return (perror("export"), 1);
+					return (*(ast->u_data.cmd.stp) = 1, 1);
 			}
 			else
 			{
@@ -46,7 +46,7 @@ int	execute_export(t_ast *ast, t_envl *envl)
 				if (!new_arg || envl_add_node(envl, new_arg) != 0)
 				{
 					free(new_arg);
-					return (perror("export"), 1);
+					return (*(ast->u_data.cmd.stp) = 1, 1);
 				}
 				free(new_arg);
 			}
@@ -54,7 +54,7 @@ int	execute_export(t_ast *ast, t_envl *envl)
 		else
 		{
 			ft_putstr_fd("export: not a valid identifier\n", STDERR_FILENO);
-			return (1);
+			return (*(ast->u_data.cmd.stp) = 1, 1);
 		}
 		i++;
 	}

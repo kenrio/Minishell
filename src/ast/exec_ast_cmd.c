@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:07:58 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/18 18:31:50 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/19 22:15:32 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	exec_right_cmd(t_ast *node, int fd_in, t_pids *pids)
 {
 	pid_t	pid;
 	int		fd_out;
+
 
 	fd_out = STDOUT_FILENO;
 	if (node->u_data.cmd.redirects)
