@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 01:41:22 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/18 19:29:21 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/20 23:32:57 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	execute_export(t_ast *ast, t_envl *envl)
 		}
 		i++;
 	}
-	return (0);
+	return (*(ast->u_data.cmd.stp) = 0, 0);
 }
 
 static bool	is_valid_key(const char *arg)

@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:21:57 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/16 22:39:01 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/20 23:32:01 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,5 @@ int	execute_env(t_ast *ast)
 	i = 0;
 	while (ast->u_data.cmd.envp[i])
 		printf("%s\n", ast->u_data.cmd.envp[i++]);
-	return (0);
+	return (*(ast->u_data.cmd.stp) = 0, 0);
 }

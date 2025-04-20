@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:02:59 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/19 00:30:43 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/20 23:29:38 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	execute_cd(t_ast *ast, t_envl *envl)
 	if (!pwd || !newpwd
 		|| envl_add_node(envl, pwd) != 0 || envl_add_node(envl, newpwd) != 0)
 		return (free(pwd), free(newpwd), *(ast->u_data.cmd.stp) = 1, 1);
-	return (free(pwd), free(newpwd), 0);
+	return (free(pwd), free(newpwd), *(ast->u_data.cmd.stp) = 0, 0);
 }
 
 char *get_env_value(t_envl *lst, const char *key)

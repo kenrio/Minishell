@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 19:59:48 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/18 20:33:03 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/20 23:33:25 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,5 @@ int	execute_pwd(t_ast *ast)
 		}
 	}
 	printf("%s\n", cwd);
-	return (0);
+	return (*(ast->u_data.cmd.stp) = 0, 0);
 }
