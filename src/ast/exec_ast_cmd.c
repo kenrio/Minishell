@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:07:58 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/19 22:15:32 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/20 13:19:50 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	exec_right_cmd(t_ast *node, int fd_in, t_pids *pids)
 	if (is_valid_cmd(node->u_data.cmd.path, node->u_data.cmd.name))
 	{
 		*(node->u_data.cmd.stp) = 127;
+		pids_push_back(pids, -1);
 		return ;
 	}
 	set_exec_handler();

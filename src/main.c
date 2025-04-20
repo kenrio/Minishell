@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:08:21 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/19 20:48:24 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/20 15:43:17 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ static int	main_loop(char *input_line, t_envl *envl, int *exit_status)
 		lexer(&token_array, input_line, &lexer_status);
 		if (token_array.len == 0 || lexer_status == 2)
 		{
-			*exit_status = lexer_status;
+			if (token_array.len != 0)
+				*exit_status = lexer_status;
 			free_token_array(&token_array);
 			continue ;
 		}
