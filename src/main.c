@@ -6,13 +6,14 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:08:21 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/20 16:01:05 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/20 23:20:19 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	main_loop(char *input_line, t_envl *envl, int *exit_status);
+static int	main_loop(char *input_line, t_envl *envl,
+				int *exit_status, int *lexer_status);
 static char	*get_input_line(int *exit_status);
 static int	event(void);
 
@@ -21,6 +22,7 @@ volatile sig_atomic_t	g_signal;
 int	main(int argc, char **argv, char **envp)
 {
 	int		exit_status;
+	int		lexer_status;
 	char	*input_line;
 	t_envl	*envl;
 
@@ -28,17 +30,18 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	input_line = NULL;
 	exit_status = 0;
+	lexer_status = 0;
 	envl = make_envl(envp);
-	exit_status = main_loop(input_line, envl, &exit_status);
+	exit_status = main_loop(input_line, envl, &exit_status, &lexer_status);
 	destroy_envl(envl);
 	exit(exit_status);
 }
 
-static int	main_loop(char *input_line, t_envl *envl, int *exit_status)
+static int	main_loop(char *input_line, t_envl *envl,
+				int *exit_status, int *lexer_status)
 {
 	t_ast			*ast_node;
 	t_token_array	token_array;
-	int				lexer_status;
 
 	while (1)
 	{
@@ -47,12 +50,12 @@ static int	main_loop(char *input_line, t_envl *envl, int *exit_status)
 			continue ;
 		if (!input_line)
 			break ;
-		lexer_status = 0;
-		lexer(&token_array, input_line, &lexer_status);
-		if (token_array.len == 0 || lexer_status == 2)
+		*lexer_status = 0;
+		lexer(&token_array, input_line, lexer_status);
+		if (token_array.len == 0 || *lexer_status == 2)
 		{
 			if (token_array.len != 0)
-				*exit_status = lexer_status;
+				*exit_status = *lexer_status;
 			free_token_array(&token_array);
 			continue ;
 		}
