@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:08:21 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/20 15:43:17 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/20 16:01:05 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ static int	main_loop(char *input_line, t_envl *envl, int *exit_status)
 		}
 		parser(&ast_node, &token_array, envl, exit_status);
 		free_token_array(&token_array);
+		debug_print_ast(ast_node, 0);
 		run_ast(ast_node, envl, exit_status);
 		free_ast(ast_node);
 	}
@@ -76,9 +77,9 @@ static char	*get_input_line(int *exit_status)
 	g_signal = 0;
 	rl_event_hook = event;
 	set_idle_handler();
-	// printf("DEBUG exit_status before readline: %d\n", *exit_status);
+	printf("DEBUG exit_status before readline: %d\n", *exit_status);
 	input_line = readline(PROMPT);
-	// printf("DEBUG exit_status after readline: %d\n", *exit_status);
+	printf("DEBUG exit_status after readline: %d\n", *exit_status);
 	if (g_signal == 0 && input_line && ft_strlen(input_line) > 0)
 		add_history(input_line);
 	if (g_signal == SIGINT)

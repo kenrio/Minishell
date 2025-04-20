@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:27:01 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/20 15:44:06 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/20 16:24:08 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,26 @@ void	wait_pids(t_pids *pids, int *status)
 		next = curr->next;
 		if (curr->next == NULL)
 		{
-			waitpid(curr->pid, status, 0);
+			pid_t pid_ret =  waitpid(curr->pid, status, 0);
+			fprintf(stderr, "DEBUG waitpid() returned: %d, raw status: %d\n", pid_ret, *status);
+			if (pid_ret == -1)
+			{
+				if (errno == EINTR)
+					continue ;
+				perror("waitpid failed");
+				fprintf(stderr, "DEBUG waitpid errno: %d\n", errno);
+				break ;
+			}
 			if (WIFEXITED(*status))
+			{
+				fprintf(stderr, "DEBUG WIFEXITED: %d\n", WEXITSTATUS(*status));
 				*status = WEXITSTATUS(*status);
+			}
 			else if (WIFSIGNALED(*status))
+			{
+				fprintf(stderr, "DEBUG WIFSIGNALED: %d\n", WTERMSIG(*status));
 				*status = 128 + WTERMSIG(*status);
+			}
 		}
 		else
 			waitpid(curr->pid, NULL, 0);
