@@ -6,27 +6,22 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 01:41:22 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/22 02:29:47 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/22 02:45:03 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	print_export_list(t_envl *envl);
 static bool	is_valid_key(const char *arg);
 
 int	execute_export(t_ast *ast, t_envl *envl)
 {
-	t_env_node	*curr;
-	int			i;
+	int	i;
 
 	if (!ast->u_data.cmd.argv[1])
 	{
-		curr = envl->head;
-		while (curr)
-		{
-			printf("declare -x %s\n", curr->value);
-			curr = curr->next;
-		}
+		print_export_list(envl);
 		return (*(ast->u_data.cmd.stp) = 0, 0);
 	}
 	i = 1;
@@ -46,6 +41,18 @@ int	execute_export(t_ast *ast, t_envl *envl)
 		i++;
 	}
 	return (*(ast->u_data.cmd.stp) = 0, 0);
+}
+
+static void	print_export_list(t_envl *envl)
+{
+	t_env_node	*curr;
+
+	curr = envl->head;
+	while (curr)
+	{
+		printf("declare -x %s\n", curr->value);
+		curr = curr->next;
+	}
 }
 
 static bool	is_valid_key(const char *arg)
