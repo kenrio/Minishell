@@ -64,4 +64,3 @@ int	execute_ast(t_ast *ast_node, int fd_in, t_pids *pids)
 		return (1);
 	}
 }
-
