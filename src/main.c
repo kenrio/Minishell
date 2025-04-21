@@ -45,6 +45,7 @@ static int	main_loop(char *input_line, t_envl *envl,
 
 	while (1)
 	{
+		// printf("initial: exit_status: %d\n", *exit_status);
 		input_line = get_input_line(exit_status);
 		if (g_signal != 0)
 			continue ;
@@ -60,6 +61,7 @@ static int	main_loop(char *input_line, t_envl *envl,
 			continue ;
 		}
 		parser(&ast_node, &token_array, envl, exit_status);
+		// printf("parser: exit_status: %d\n", *exit_status);
 		free_token_array(&token_array);
 		run_ast(ast_node, envl, exit_status);
 		free_ast(ast_node);

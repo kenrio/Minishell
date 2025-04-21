@@ -50,3 +50,14 @@ static bool is_all_n(const char *arg)
 	}
 	return (true);
 }
+
+static bool is_all_n(const char *arg)
+{
+	while (*arg)
+	{
+		if (*arg != 'n')
+			return (false);
+		arg++;
+	}
+	return (true);
+}
