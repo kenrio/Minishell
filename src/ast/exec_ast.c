@@ -6,14 +6,11 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:21:49 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/20 23:35:23 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/21 21:04:21 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static	bool	is_builtin(t_ast *ast_node);
-static	int		execute_builtin(t_ast *ast_node, t_envl *envl, int *status);
 
 // this func() can run ast_node.
 // you should pass ast_top_node and ast_status_poipnter.
@@ -68,57 +65,3 @@ int	execute_ast(t_ast *ast_node, int fd_in, t_pids *pids)
 	}
 }
 
-static	bool	is_builtin(t_ast *ast_node)
-{
-	char	*cmd_name;
-
-	cmd_name = ast_node->u_data.cmd.name;
-	return (
-		ast_node->type == NODE_CMD 
-		&& (ft_strcmp(cmd_name, "echo") == 0
-			|| ft_strcmp(cmd_name, "cd") == 0
-			|| ft_strcmp(cmd_name, "pwd") == 0
-			|| ft_strcmp(cmd_name, "export") == 0
-			|| ft_strcmp(cmd_name, "unset") == 0
-			|| ft_strcmp(cmd_name, "env") == 0
-			|| ft_strcmp(cmd_name, "exit") == 0
-		)
-	);
-}
-
-static	int	execute_builtin(t_ast *ast_node, t_envl *envl, int *status)
-{
-	char	*cmd_name;
-	(void) status;
-
-	int	fd_in;
-	int	fd_out;
-
-	// デフォルト
-	fd_in = STDIN_FILENO;
-	fd_out = STDOUT_FILENO;
-	if (ast_node->u_data.cmd.redirects)
-		if (handle_redirects(ast_node, &fd_in, &fd_out))
-			return (1);
-	
-
-	// TODO: デフォルトからかわってるかもしれないので fd_outに書き込むようにする
-	// fd_inから読み込むコマンドは無いので、ファイル開くように用意してるだけ
-	cmd_name = ast_node->u_data.cmd.name;
-	if (ft_strcmp(cmd_name, "echo") == 0)
-		return (execute_echo(ast_node));
-	else if (ft_strcmp(cmd_name, "cd") == 0)
-		return (execute_cd(ast_node, envl));
-	else if (ft_strcmp(cmd_name, "pwd") == 0)
-		return (execute_pwd(ast_node));
-	else if (ft_strcmp(cmd_name, "export") == 0)
-		return (execute_export(ast_node, envl));
-	else if (ft_strcmp(cmd_name, "unset") == 0)
-		return (execute_unset(ast_node, envl));
-	else if (ft_strcmp(cmd_name, "env") == 0)
-		return (execute_env(ast_node));
-	else if (ft_strcmp(cmd_name, "exit") == 0)
-		return (execute_exit(ast_node, envl));
-	else
-		return (1);
-}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/20 16:17:24 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/21 16:03:55 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,8 @@ char	*get_cmd_path(char **envp, char	*name);
 char	*get_env_value_bykey(char **envp, char *key);
 
 // builtin
+int		execute_builtin(t_ast *ast_node, t_envl *envl, int *status);
+bool	is_builtin(t_ast *ast_node);
 int		execute_echo(t_ast *ast);
 int		execute_cd(t_ast *ast, t_envl *envl);
 int		execute_pwd(t_ast *ast);
