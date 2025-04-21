@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+         #
+#    By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/04/17 15:39:34 by keishii          ###   ########.fr        #
+#    Updated: 2025/04/21 16:04:32 by tishihar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,6 +61,7 @@ SRC_PARSER		:= \
 				copy_ast.c \
 
 SRC_BUILTIN		:= \
+				execute_builtin.c \
 				execute_echo.c \
 				execute_cd.c \
 				execute_pwd.c \
