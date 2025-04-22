@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:07:58 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/20 13:19:50 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/22 14:52:12 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,6 @@ void	exec_right_cmd(t_ast *node, int fd_in, t_pids *pids)
 	if (node->u_data.cmd.redirects)
 		if (handle_redirects(node, &fd_in, &fd_out))
 			return ;
-	if (is_valid_cmd(node->u_data.cmd.path, node->u_data.cmd.name))
-	{
-		*(node->u_data.cmd.stp) = 127;
-		pids_push_back(pids, -1);
-		return ;
-	}
 	set_exec_handler();
 	pid = fork();
 	if (pid < 0)
@@ -45,6 +39,8 @@ void	exec_right_cmd(t_ast *node, int fd_in, t_pids *pids)
 		set_exec_child_handler();
 		check_fd(fd_in, fd_out);
 		setup_child_fd(fd_in, fd_out);
+		if (is_valid_cmd(node->u_data.cmd.path, node->u_data.cmd.name))
+			exit(127);
 		execve(node->u_data.cmd.path, node->u_data.cmd.argv,
 			node->u_data.cmd.envp);
 		exit_f("execve failed");
@@ -62,12 +58,8 @@ void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], t_pids *pids)
 
 	fd_out = fd_pipe[1];
 	if (node->u_data.cmd.redirects)
-		handle_redirects(node, &fd_in, &fd_out);
-	if (is_valid_cmd(node->u_data.cmd.path, node->u_data.cmd.name))
-	{
-		*(node->u_data.cmd.stp) = 127;
-		return ;
-	}
+		if (handle_redirects(node, &fd_in, &fd_out))
+			return ;
 	set_exec_handler();
 	pid = fork();
 	if (pid < 0)
@@ -78,6 +70,8 @@ void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], t_pids *pids)
 		close(fd_pipe[0]);
 		check_fd(fd_in, fd_out);
 		setup_child_fd(fd_in, fd_out);
+		if (is_valid_cmd(node->u_data.cmd.path, node->u_data.cmd.name))
+			exit(127);
 		execve(node->u_data.cmd.path, node->u_data.cmd.argv,
 			node->u_data.cmd.envp);
 		exit_f("execve failed");

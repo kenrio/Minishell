@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 17:27:01 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/21 21:01:18 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/22 14:59:30 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,6 @@ void	wait_pids(t_pids *pids, int *status)
 	curr = pids->head;
 	while (curr)
 	{
-		if (curr->pid == -1)
-		{
-			curr = curr->next;
-			continue ;
-		}
 		next = curr->next;
 		if (curr->next == NULL)
 		{
