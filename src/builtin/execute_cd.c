@@ -6,13 +6,13 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:02:59 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/20 23:29:38 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/22 18:00:54 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *get_env_value(t_envl *lst, const char *key);
+char	*get_env_value(t_envl *lst, const char *key);
 
 int	execute_cd(t_ast *ast, t_envl *envl)
 {
@@ -38,7 +38,7 @@ int	execute_cd(t_ast *ast, t_envl *envl)
 	return (free(pwd), free(newpwd), *(ast->u_data.cmd.stp) = 0, 0);
 }
 
-char *get_env_value(t_envl *lst, const char *key)
+char	*get_env_value(t_envl *lst, const char *key)
 {
 	t_env_node	*curr;
 	size_t		key_len;

@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   execute_builtin.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:34:37 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/21 16:18:47 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/22 18:02:13 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	int	dispatch_builtin(t_ast *ast_node, t_envl *envl, int *status);
-static	int prepare_fd(int *save_stdin, int *save_stdout, int fd_in, int fd_out);
+static int	dispatch_builtin(t_ast *ast_node, t_envl *envl, int *status);
+static int	prepare_fd(int *save_stdin, int *save_stdout,
+				int fd_in, int fd_out);
 static void	put_away_fd(int save_stdin, int save_stdout, int fd_in, int fd_out);
 
 int	execute_builtin(t_ast *ast_node, t_envl *envl, int *status)
@@ -42,7 +43,7 @@ bool	is_builtin(t_ast *ast_node)
 
 	cmd_name = ast_node->u_data.cmd.name;
 	return (
-		ast_node->type == NODE_CMD 
+		ast_node->type == NODE_CMD
 		&& (ft_strcmp(cmd_name, "echo") == 0
 			|| ft_strcmp(cmd_name, "cd") == 0
 			|| ft_strcmp(cmd_name, "pwd") == 0
@@ -54,11 +55,11 @@ bool	is_builtin(t_ast *ast_node)
 	);
 }
 
-static	int	dispatch_builtin(t_ast *ast_node, t_envl *envl, int *status)
+static int	dispatch_builtin(t_ast *ast_node, t_envl *envl, int *status)
 {
 	char	*cmd_name;
-	(void) status;
 
+	(void) status;
 	cmd_name = ast_node->u_data.cmd.name;
 	if (ft_strcmp(cmd_name, "echo") == 0)
 		return (execute_echo(ast_node));
@@ -78,7 +79,7 @@ static	int	dispatch_builtin(t_ast *ast_node, t_envl *envl, int *status)
 		return (1);
 }
 
-static	int prepare_fd(int *save_stdin, int *save_stdout, int fd_in, int fd_out)
+static int	prepare_fd(int *save_stdin, int *save_stdout, int fd_in, int fd_out)
 {
 	*save_stdin = dup(STDIN_FILENO);
 	*save_stdout = dup(STDOUT_FILENO);
@@ -96,7 +97,8 @@ static	int prepare_fd(int *save_stdin, int *save_stdout, int fd_in, int fd_out)
 
 static void	put_away_fd(int save_stdin, int save_stdout, int fd_in, int fd_out)
 {
-	if (dup2(save_stdin, STDIN_FILENO) == -1 || dup2(save_stdout, STDOUT_FILENO) == -1)
+	if (dup2(save_stdin, STDIN_FILENO) == -1
+		|| dup2(save_stdout, STDOUT_FILENO) == -1)
 		perror("put away dup2 failed.");
 	close(save_stdin);
 	close(save_stdout);
