@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 16:29:27 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/22 01:22:53 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/22 11:27:50 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ int	execute_echo(t_ast *ast)
 	}
 	if (newline)
 		ft_putchar_fd('\n', STDOUT_FILENO);
-	return(*(ast->u_data.cmd.stp) = 0, 0);
+	return (*(ast->u_data.cmd.stp) = 0, 0);
 }
 
-static bool is_all_n(const char *arg)
+static bool	is_all_n(const char *arg)
 {
 	while (*arg)
 	{
