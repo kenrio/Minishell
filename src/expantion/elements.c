@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   elements.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:59:47 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/19 10:30:53 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/19 18:21:43 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static char	*create_expand_line(char **envp, char *str);
 static char	*create_expand_exit_line(int exit_status, char *str);
 static void	update_quote_state(char *e, t_quote_state *quote_state);
-static int	handle_update(char **e, char **envp, int *stp, t_quote_state *q_st);
+static int	update_element(char **e, char **envp, int *stp, t_quote_state *q_st);
 
 // if you can find appropriate doller,
 // this func() expand doller in if　statement.
@@ -24,14 +24,58 @@ static int	handle_update(char **e, char **envp, int *stp, t_quote_state *q_st);
 // stp->exit_status_pointer, q_st->quote_state
 int	update_elements(char **envp, char **elements, int *stp, t_quote_state *q_st)
 {
-	while (*elements)
+	while (*elements)// echo "', $USER'" '", $USER"'
 	{
-		if (handle_update(elements, envp, stp, q_st))
+		if (update_element(elements, envp, stp, q_st))
 			return (1);
 		update_quote_state(*elements, q_st);
 		elements++;
 	}
 	return (0);
+}
+
+//arguments:
+// e -> elements, envp -> env_pointer,
+// stp -> exit_status_pointer, q_st -> quote_state
+static int	update_element(char **e, char **envp, int *stp, t_quote_state *q_st)
+{
+	char	*temp;
+
+	if (is_doller(**e) && (*(*e + 1) == '?'))
+	{
+		temp = *e;
+		*e = create_expand_exit_line(*stp, *e);
+		if (!(*e))
+			return (1);
+		free(temp);
+	}
+	else if (
+		is_doller(**e)
+		&& is_env_char(*(*e + 1))
+		&& (!(q_st->in_single_quote))
+	)
+	{
+		temp = *e;
+		*e = create_expand_line(envp, *e);
+		if (!(*e))
+			return (1);
+		free(temp);
+	}
+	return (0);
+}
+
+// $? -> 0 etc...
+static char	*create_expand_exit_line(int exit_status, char *str)
+{
+	char	*status_str;
+	char	*result;
+
+	status_str = ft_itoa(exit_status);
+	if (!status_str)
+		return (NULL);
+	result = ft_strjoin(status_str, str + 2);
+	free(status_str);
+	return (result);
 }
 
 // expand_elemet($USER akfdj -> tishihar akfdj)
@@ -52,20 +96,6 @@ static char	*create_expand_line(char **envp, char *str)
 	return (result);
 }
 
-// $? -> 0 etc...
-static char	*create_expand_exit_line(int exit_status, char *str)
-{
-	char	*status_str;
-	char	*result;
-
-	status_str = ft_itoa(exit_status);
-	if (!status_str)
-		return (NULL);
-	result = ft_strjoin(status_str, str + 2);
-	free(status_str);
-	return (result);
-}
-
 // e -> elements
 static void	update_quote_state(char *e, t_quote_state *quote_state)
 {
@@ -74,42 +104,14 @@ static void	update_quote_state(char *e, t_quote_state *quote_state)
 
 	in_double = &quote_state->in_double_quote;
 	in_single = &quote_state->in_single_quote;
+
+	
 	while (*e)
 	{
-		if (*e == '\"')
+		if (*e == '\"' && !(*in_single))
 			*in_double = !(*in_double);
-		else if (*e == '\'')
+		else if (*e == '\'' && !(*in_double))
 			*in_single = !(*in_single);
 		e++;
 	}
-}
-
-//arguments:
-// e -> elements, envp -> env_pointer,
-// stp -> exit_status_pointer, q_st -> quote_state
-static int	handle_update(char **e, char **envp, int *stp, t_quote_state *q_st)
-{
-	char	*temp;
-
-	if (is_doller(**e) && (*(*e + 1) == '?'))
-	{
-		temp = *e;
-		*e = create_expand_exit_line(*stp, *e);
-		if (!(*e))
-			return (1);
-		free(temp);
-	}
-	else if (
-		is_doller(**e)
-		&& is_env_char(*(*e + 1))
-		&& (!(q_st->in_single_quote) || q_st->in_double_quote)
-	)
-	{
-		temp = *e;
-		*e = create_expand_line(envp, *e);
-		if (!(*e))
-			return (1);
-		free(temp);
-	}
-	return (0);
 }

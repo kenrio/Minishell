@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 20:54:25 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/10 18:43:08 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/18 16:58:56 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,9 @@ extern sig_atomic_t	g_signal;
 
 void	idle_handler(int signum)
 {
-	(void)signum;
-	g_signal = SIGINT;
-	write(STDOUT_FILENO, "\n", 1);
+	g_signal = signum;
 	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
+	rl_done = 1;
 }
 
 void	exec_handler(int signum)
