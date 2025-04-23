@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:07:58 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/22 15:21:48 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/23 16:24:10 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ void	exec_right_cmd(t_ast *node, int fd_in, t_pids *pids)
 		set_exec_child_handler();
 		check_fd(fd_in, fd_out);
 		setup_child_fd(fd_in, fd_out);
-		if (is_valid_cmd(node->u_data.cmd.path, node->u_data.cmd.name))
-			exit(127);
+		*(node->u_data.cmd.stp) = is_valid_cmd(node->u_data.cmd.path, node->u_data.cmd.name);
+		if (*node->u_data.cmd.stp)
+			exit(*node->u_data.cmd.stp);
 		execve(node->u_data.cmd.path, node->u_data.cmd.argv,
 			node->u_data.cmd.envp);
 		exit_f("execve failed");
@@ -69,8 +70,9 @@ void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], t_pids *pids)
 		close(fd_pipe[0]);
 		check_fd(fd_in, fd_out);
 		setup_child_fd(fd_in, fd_out);
-		if (is_valid_cmd(node->u_data.cmd.path, node->u_data.cmd.name))
-			exit(127);
+		*(node->u_data.cmd.stp) = is_valid_cmd(node->u_data.cmd.path, node->u_data.cmd.name);
+		if (*node->u_data.cmd.stp)
+			exit(*node->u_data.cmd.stp);
 		execve(node->u_data.cmd.path, node->u_data.cmd.argv,
 			node->u_data.cmd.envp);
 		exit_f("execve failed");
@@ -114,15 +116,38 @@ static void	setup_child_fd(int fd_in, int fd_out)
 
 static	int	is_valid_cmd(char *cmd_path, char *cmd_name)
 {
-	if (!cmd_path)
+	struct stat	st;
+
+	// if (!cmd_path)
+	// {
+	// 	if (cmd_name)
+	// 	{
+	// 		ft_putstr_fd("Command not found.\n", STDERR_FILENO);
+	// 		return (1);
+	// 	}
+	// 	else
+	// 		return (1);
+	// }
+	(void)cmd_name;
+	if (!cmd_path || access(cmd_path, F_OK) != 0)
 	{
-		if (cmd_name)
-		{
-			ft_putstr_fd("Command not found.\n", STDERR_FILENO);
-			return (1);
-		}
-		else
-			return (1);
+		ft_putstr_fd("Command not found.\n", STDERR_FILENO);
+		return (127);
+	}
+	if (access(cmd_path, X_OK) != 0)
+	{
+		perror(cmd_path);
+		return (126);
+	}
+	if (stat(cmd_path, &st) != 0)
+	{
+		perror(cmd_path);
+		return (126);
+	}
+	if (!S_ISREG(st.st_mode) && !S_ISLNK(st.st_mode))
+	{
+		ft_putstr_fd("Persmission denied.\n", STDERR_FILENO);
+		return (126);
 	}
 	return (0);
 }
