@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_destroy.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:28:25 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/19 11:33:22 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:51:25 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_destroy_split(char **array)
 {
 	char	**origin;
-	
+
 	if (!array)
 		return ;
 	origin = array;

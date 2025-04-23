@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_boundary.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 11:34:34 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/19 12:02:43 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:51:05 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static	size_t	count_element(const char *str, int (*is_boundary)(int))
 
 	count = 1;
 	while (*str)
-	{	
+	{
 		if (is_boundary(*str))
 			count++;
 		str++;
