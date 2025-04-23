@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 17:02:52 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/23 16:16:54 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/23 16:50:26 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,6 @@ char	*get_cmd_path(char **envp, char	*name)
 
 	if (*name == '/' || *name == '.')
 		return (ft_strdup(name));
-	// {
-	// 	result = ft_strdup(name);
-	// 	if (access(result, X_OK) == 0)
-	// 		return (result);
-	// 	else
-	// 	{
-	// 		free(result);
-	// 		return (NULL);
-	// 	}
-	// }
 	path = ft_split(get_env_value_bykey(envp, "PATH"), ':');
 	if (!path)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:07:58 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/23 16:24:10 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/23 17:04:09 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	setup_child_fd(int fd_in, int fd_out);
 static void	check_fd(int fd_in, int fd_out);
-static int	is_valid_cmd(char *path, char *name);
+static int	validate_cmd_path(t_ast *node);
 
 // exec_ast_cmd() is used as follows.
 // step1. if there is a redirect arrays, replace fd_in and fd_out.
@@ -38,8 +38,7 @@ void	exec_right_cmd(t_ast *node, int fd_in, t_pids *pids)
 		set_exec_child_handler();
 		check_fd(fd_in, fd_out);
 		setup_child_fd(fd_in, fd_out);
-		*(node->u_data.cmd.stp) = is_valid_cmd(node->u_data.cmd.path, node->u_data.cmd.name);
-		if (*node->u_data.cmd.stp)
+		if (validate_cmd_path(node))
 			exit(*node->u_data.cmd.stp);
 		execve(node->u_data.cmd.path, node->u_data.cmd.argv,
 			node->u_data.cmd.envp);
@@ -70,8 +69,7 @@ void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], t_pids *pids)
 		close(fd_pipe[0]);
 		check_fd(fd_in, fd_out);
 		setup_child_fd(fd_in, fd_out);
-		*(node->u_data.cmd.stp) = is_valid_cmd(node->u_data.cmd.path, node->u_data.cmd.name);
-		if (*node->u_data.cmd.stp)
+		if (validate_cmd_path(node))
 			exit(*node->u_data.cmd.stp);
 		execve(node->u_data.cmd.path, node->u_data.cmd.argv,
 			node->u_data.cmd.envp);
@@ -114,40 +112,25 @@ static void	setup_child_fd(int fd_in, int fd_out)
 	}
 }
 
-static	int	is_valid_cmd(char *cmd_path, char *cmd_name)
+static	int	validate_cmd_path(t_ast *node)
 {
 	struct stat	st;
+	char		*path;
 
-	// if (!cmd_path)
-	// {
-	// 	if (cmd_name)
-	// 	{
-	// 		ft_putstr_fd("Command not found.\n", STDERR_FILENO);
-	// 		return (1);
-	// 	}
-	// 	else
-	// 		return (1);
-	// }
-	(void)cmd_name;
-	if (!cmd_path || access(cmd_path, F_OK) != 0)
+	path = node->u_data.cmd.path;
+	if (!path || access(path, F_OK) != 0)
 	{
 		ft_putstr_fd("Command not found.\n", STDERR_FILENO);
-		return (127);
+		return (*(node->u_data.cmd.stp) = 127, 1);
 	}
-	if (access(cmd_path, X_OK) != 0)
-	{
-		perror(cmd_path);
-		return (126);
-	}
-	if (stat(cmd_path, &st) != 0)
-	{
-		perror(cmd_path);
-		return (126);
-	}
+	if (access(path, X_OK) != 0)
+		return (perror(path), *(node->u_data.cmd.stp) = 126, 1);
+	if (stat(path, &st) != 0)
+		return (perror(path), *(node->u_data.cmd.stp) = 126, 1);
 	if (!S_ISREG(st.st_mode) && !S_ISLNK(st.st_mode))
 	{
-		ft_putstr_fd("Persmission denied.\n", STDERR_FILENO);
-		return (126);
+		ft_putstr_fd("Permission denied.\n", STDERR_FILENO);
+		return (*(node->u_data.cmd.stp) = 126, 1);
 	}
 	return (0);
 }
