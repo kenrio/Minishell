@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast_pipe.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
+/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:31:27 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/25 21:09:27 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/23 12:51:44 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 // this func() create pipe, and execute left cmd and right ast node.
 // there is a "fd_in" to use input, but is not "fd_out". we don't need.
@@ -31,4 +30,3 @@ int	exec_ast_pipe(t_ast *ast_node, int fd_in, t_pids *pids)
 	close(fd_pipe[0]);
 	return (0);
 }
-

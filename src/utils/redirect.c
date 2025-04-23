@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 12:21:20 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/21 22:57:43 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/23 17:20:33 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ int	handle_redirects(t_ast *node, int *fd_in_, int *fd_out_)
 		else if (curr->type == R_IN)
 			ret = handle_r_in(fd_in_, curr->file_name);
 		else
-			ret = handle_heredoc(fd_in_, curr->file_name, node->u_data.cmd.envp, node->u_data.cmd.stp);
+			ret = handle_heredoc(fd_in_, curr->file_name,
+					node->u_data.cmd.envp, node->u_data.cmd.stp);
 		if (ret == 1)
 			return (*(node->u_data.cmd.stp) = 1, 1);
 		else if (ret == 2)

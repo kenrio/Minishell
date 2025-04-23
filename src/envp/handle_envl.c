@@ -6,15 +6,15 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 13:11:03 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/16 21:48:19 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/23 13:00:04 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	size_t	strlen_delimiter(char *str, char del);
-static	bool	is_match_key(char *str, char *key);
-static	void	handle_rm_node(t_envl *lst, t_env_node *prev, t_env_node *curr);
+static size_t	strlen_delimiter(char *str, char del);
+static bool		is_match_key(char *str, char *key);
+static void		handle_rm_node(t_envl *lst, t_env_node *prev, t_env_node *curr);
 
 // this file handle env_list.
 int	envl_add_node(t_envl *lst, char *value)
@@ -34,24 +34,24 @@ int	envl_add_node(t_envl *lst, char *value)
 // lstをうけとって、keyに一致したノードを削除する関数
 int	envl_rm_node(t_envl *lst, char *key)
 {
-    t_env_node    *curr;
-    t_env_node    *prev;
+	t_env_node	*curr;
+	t_env_node	*prev;
 
 	if (!lst)
 		return (1);
 	prev = NULL;
-    curr = lst->head;
-    while (curr)
-    {
-        if (is_match_key(curr->value, key))
-        {
+	curr = lst->head;
+	while (curr)
+	{
+		if (is_match_key(curr->value, key))
+		{
 			handle_rm_node(lst, prev, curr);
-            return (0);
-        }
+			return (0);
+		}
 		prev = curr;
-        curr = curr->next;
-    }
-    return (1);
+		curr = curr->next;
+	}
+	return (1);
 }
 
 static	void	handle_rm_node(t_envl *lst, t_env_node *prev, t_env_node *curr)
@@ -67,21 +67,18 @@ static	void	handle_rm_node(t_envl *lst, t_env_node *prev, t_env_node *curr)
 	lst->count -= 1;
 }
 
-static	bool	is_match_key(char *str, char *key)
+static bool	is_match_key(char *str, char *key)
 {
 	size_t	len;
-	len = ft_strlen(key);
 
-	return
-	(
-	ft_strncmp(str, key, len) == 0
-	&& str[len] == '='
-	);
+	len = ft_strlen(key);
+	return (ft_strncmp(str, key, len) == 0 && str[len] == '=');
 }
 
-static	size_t	strlen_delimiter(char *str, char del)
+static size_t	strlen_delimiter(char *str, char del)
 {
 	size_t	count;
+
 	count = 0;
 	while (*str && *str != del)
 	{

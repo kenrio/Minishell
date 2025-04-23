@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   boundary_split.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:37:56 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/18 13:56:10 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/23 17:19:38 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"minishell.h"
+#include "minishell.h"
 
 static size_t	count_element(const char *str, int (*is_boundary)(int));
 static int		grow_array(char *str, char **array, int (*is_boundary)(int));
@@ -52,7 +52,7 @@ static	size_t	count_element(const char *str, int (*is_boundary)(int))
 
 	count = 1;
 	while (*str)
-	{	
+	{
 		if (is_boundary(*str))
 			count++;
 		str++;

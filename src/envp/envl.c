@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   envl.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 20:57:20 by tishihar          #+#    #+#             */
-/*   Updated: 2025/03/28 17:00:13 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/23 12:56:22 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	void	init_envl(t_envl *lst);
+static void	init_envl(t_envl *lst);
 
 // envl: node->node->node->NULL
 // node.value = "USER=tishihar" etc..
@@ -70,13 +70,13 @@ int	envl_push_back(t_envl *lst, char *value)
 	else
 	{
 		lst->tail->next = new;
-		lst->tail = new;		
+		lst->tail = new;
 	}
 	lst->count += 1;
 	return (0);
 }
 
-static	void	init_envl(t_envl *lst)
+static void	init_envl(t_envl *lst)
 {
 	lst->count = 0;
 	lst->head = NULL;
