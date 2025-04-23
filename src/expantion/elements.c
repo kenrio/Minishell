@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:59:47 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/19 18:21:43 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/23 15:12:07 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	update_element(char **e, char **envp, int *stp, t_quote_state *q_st);
 // stp->exit_status_pointer, q_st->quote_state
 int	update_elements(char **envp, char **elements, int *stp, t_quote_state *q_st)
 {
-	while (*elements)// echo "', $USER'" '", $USER"'
+	while (*elements)
 	{
 		if (update_element(elements, envp, stp, q_st))
 			return (1);
@@ -84,6 +84,7 @@ static char	*create_expand_line(char **envp, char *str)
 	char	*start;
 	char	*env_key;
 	char	*result;
+	char	*value;
 
 	start = ++str;
 	while (*str && is_env_char(*str))
@@ -91,8 +92,18 @@ static char	*create_expand_line(char **envp, char *str)
 	env_key = ft_substr(start, 0, str - start);
 	if (!env_key)
 		return (NULL);
-	result = ft_strjoin(get_env_value_bykey(envp, env_key), str);
+	value = get_env_value_bykey(envp, env_key);
 	free(env_key);
+	if (value)
+		value = ft_strdup(value);
+	else
+		value = ft_strdup("");
+	if (!value)
+		return (NULL);
+	result = ft_strjoin(value, str);
+	free(value);
+	if (!result)
+		return (NULL);
 	return (result);
 }
 
@@ -104,8 +115,6 @@ static void	update_quote_state(char *e, t_quote_state *quote_state)
 
 	in_double = &quote_state->in_double_quote;
 	in_single = &quote_state->in_single_quote;
-
-	
 	while (*e)
 	{
 		if (*e == '\"' && !(*in_single))
