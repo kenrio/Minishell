@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:08:21 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/22 17:59:37 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/23 17:21:24 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,7 @@ static char	*get_input_line(int *exit_status)
 	g_signal = 0;
 	rl_event_hook = event;
 	set_idle_handler();
-	// printf("DEBUG exit_status before readline: %d\n", *exit_status);
 	input_line = readline(PROMPT);
-	// printf("DEBUG exit_status after readline: %d\n", *exit_status);
 	if (g_signal == 0 && input_line && ft_strlen(input_line) > 0)
 		add_history(input_line);
 	if (g_signal == SIGINT)
