@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   elements.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 17:59:47 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/23 15:12:07 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/23 17:47:54 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 static char	*create_expand_line(char **envp, char *str);
 static char	*create_expand_exit_line(int exit_status, char *str);
 static void	update_quote_state(char *e, t_quote_state *quote_state);
-static int	update_element(char **e, char **envp, int *stp, t_quote_state *q_st);
+static int	update_element(char **e, char **envp, int *stp,
+				t_quote_state *q_st);
 
 // if you can find appropriate doller,
 // this func() expand doller in if　statement.

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand_doller.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:19:27 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/19 21:55:54 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/23 17:47:40 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"minishell.h"
+#include "minishell.h"
 
 static char	*strip_outer_quotes(const char *src);
 
@@ -85,7 +85,6 @@ char	*dq_expand_doller(char *str, char **envp, int *status_p)
 	return (result);
 }
 
-
 static char	*strip_outer_quotes(const char *src)
 {
 	char	*result;
@@ -103,11 +102,11 @@ static char	*strip_outer_quotes(const char *src)
 		if (*src == '\'' || *src == '\"')
 		{
 			quote = *(src++);
-			while(*src && *src != quote)
+			while (*src && *src != quote)
 				*(temp++) = *(src++);
 			if (*src == quote)
 				src++;
-			continue;
+			continue ;
 		}
 		*(temp++) = *(src++);
 	}

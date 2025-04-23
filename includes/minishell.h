@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/23 15:45:54 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/23 17:51:56 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,9 +259,9 @@ void	set_exec_handler(void);
 void	set_exec_child_handler(void);
 
 // debug functions
-void	debug_print_tokens(t_token_array *array);
-void	check_expand(char **envp, int *stp);
-void	debug_print_ast(t_ast *node, int depth);
+// void	debug_print_tokens(t_token_array *array);
+// void	check_expand(char **envp, int *stp);
+// void	debug_print_ast(t_ast *node, int depth);
 
 // utils
 void	print_message(void);
