@@ -6,7 +6,7 @@
 /*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:21:49 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/21 21:04:21 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/23 12:53:12 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,22 +45,22 @@ int	run_ast(t_ast *ast_node, t_envl *envl, int *status)
 // if you execute this func() as top_node, you set "fd_in" to "STDIN_FILENO".
 int	execute_ast(t_ast *ast_node, int fd_in, t_pids *pids)
 {
-    if (!ast_node)
-        return (1);
-    if (ast_node->type == NODE_PIPE)
+	if (!ast_node)
+		return (1);
+	if (ast_node->type == NODE_PIPE)
 	{
 		if (exec_ast_pipe(ast_node, fd_in, pids))
 			return (1);
 		return (0);
 	}
-    else if (ast_node->type == NODE_CMD)
+	else if (ast_node->type == NODE_CMD)
 	{
 		exec_right_cmd(ast_node, fd_in, pids);
 		return (0);
 	}
-    else
+	else
 	{
-        perror("unkonown node type.\n");
+		perror("unkonown node type.\n");
 		return (1);
 	}
 }
