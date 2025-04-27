@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:08:21 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/23 17:21:24 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/27 20:31:15 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static char	*get_input_line(int *exit_status)
 	g_signal = 0;
 	rl_event_hook = event;
 	set_idle_handler();
-	input_line = readline(PROMPT);
+	input_line = readline(COLOR_YELLOW PROMPT COLOR_RESET);
 	if (g_signal == 0 && input_line && ft_strlen(input_line) > 0)
 		add_history(input_line);
 	if (g_signal == SIGINT)

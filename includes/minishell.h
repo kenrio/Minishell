@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/27 19:52:50 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/27 20:30:41 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 
 #include "libft.h"
 
+#define COLOR_YELLOW  "\001\033[1;33m\002"
+#define COLOR_RESET   "\001\033[0m\002"
 #define PROMPT "minishell$ "
 
 // -------------------- define struct --------------------
