@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:07:58 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/23 17:04:09 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/27 19:10:47 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ void	exec_right_cmd(t_ast *node, int fd_in, t_pids *pids)
 {
 	pid_t	pid;
 	int		fd_out;
+	int		fd_in_tmp;
 
 	fd_out = STDOUT_FILENO;
+	fd_in_tmp = fd_in;
 	if (node->u_data.cmd.redirects)
 		if (handle_redirects(node, &fd_in, &fd_out))
 			return ;
@@ -45,7 +47,11 @@ void	exec_right_cmd(t_ast *node, int fd_in, t_pids *pids)
 		exit_f("execve failed");
 	}
 	else
+	{
+		if (fd_in_tmp != STDIN_FILENO)
+			close(fd_in_tmp);
 		pids_push_back(pids, pid);
+	}
 }
 
 // this func() execute cmd, and update pids.
@@ -54,8 +60,10 @@ void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], t_pids *pids)
 {
 	pid_t	pid;
 	int		fd_out;
+	int		fd_in_tmp;
 
 	fd_out = fd_pipe[1];
+	fd_in_tmp = fd_in;
 	if (node->u_data.cmd.redirects)
 		if (handle_redirects(node, &fd_in, &fd_out))
 			return ;
@@ -76,7 +84,12 @@ void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], t_pids *pids)
 		exit_f("execve failed");
 	}
 	else
+	{
+		if (fd_in_tmp != STDIN_FILENO)
+			close(fd_in_tmp);
+		close(fd_pipe[1]);
 		pids_push_back(pids, pid);
+	}
 }
 
 // this func() determines if the input is correct.
