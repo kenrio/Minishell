@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/23 17:51:56 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/27 19:52:50 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ int		execute_ast(t_ast *ast_node, int fd_in, t_pids *pids);
 int		exec_ast_pipe(t_ast *ast_node, int fd_in, t_pids *pids);
 void	exec_right_cmd(t_ast *ast_node, int fd_in, t_pids *pids);
 void	exec_left_cmd(t_ast *node, int fd_in, int fd_pipe[], t_pids *pids);
+void	exec_cmd(t_ast *node, int fd_in, int fd_out);
 
 // pids
 void	init_pids(t_pids *pids);
