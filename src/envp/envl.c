@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envl.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 20:57:20 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/23 12:56:22 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/28 16:01:59 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,11 @@ t_envl	*make_envl(char **envp)
 	init_envl(result);
 	while (*envp)
 	{
-		envl_push_back(result, *envp);
+		if (envl_push_back(result, *envp) != 0)
+		{
+			destroy_envl(result);
+			return(NULL);
+		}
 		envp++;
 	}
 	return (result);
@@ -74,6 +78,27 @@ int	envl_push_back(t_envl *lst, char *value)
 	}
 	lst->count += 1;
 	return (0);
+}
+
+t_envl *envl_clone(const t_envl *src)
+{
+	t_env_node	*curr;
+	t_envl		*cpy;
+	t_envl		*tmp;
+
+	cpy = (t_envl *)ft_calloc(1, sizeof(t_envl));
+	if (!cpy)
+		return (NULL);
+	init_envl(cpy);
+	tmp = cpy;
+	curr = src->head;
+	while (curr)
+	{
+		if (envl_push_back(cpy, curr->value) != 0)
+			return(destroy_envl(cpy), NULL);
+		curr = curr->next;
+	}
+	return (cpy);
 }
 
 static void	init_envl(t_envl *lst)

@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   execute_builtin.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:34:37 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/22 18:02:13 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/28 16:21:27 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	dispatch_builtin(t_ast *ast_node, t_envl *envl, int *status);
+static int	dispatch_builtin(t_ast *ast_node, t_envl **envl, int *status);
 static int	prepare_fd(int *save_stdin, int *save_stdout,
 				int fd_in, int fd_out);
 static void	put_away_fd(int save_stdin, int save_stdout, int fd_in, int fd_out);
 
-int	execute_builtin(t_ast *ast_node, t_envl *envl, int *status)
+int	execute_builtin(t_ast *ast_node, t_envl **envl, int *status)
 {
 	int		fd_in;
 	int		fd_out;
@@ -55,7 +55,7 @@ bool	is_builtin(t_ast *ast_node)
 	);
 }
 
-static int	dispatch_builtin(t_ast *ast_node, t_envl *envl, int *status)
+static int	dispatch_builtin(t_ast *ast_node, t_envl **envl, int *status)
 {
 	char	*cmd_name;
 
@@ -68,13 +68,13 @@ static int	dispatch_builtin(t_ast *ast_node, t_envl *envl, int *status)
 	else if (ft_strcmp(cmd_name, "pwd") == 0)
 		return (execute_pwd(ast_node));
 	else if (ft_strcmp(cmd_name, "export") == 0)
-		return (execute_export(ast_node, envl));
+		return (execute_export(ast_node, *envl));
 	else if (ft_strcmp(cmd_name, "unset") == 0)
-		return (execute_unset(ast_node, envl));
+		return (execute_unset(ast_node, *envl));
 	else if (ft_strcmp(cmd_name, "env") == 0)
 		return (execute_env(ast_node));
 	else if (ft_strcmp(cmd_name, "exit") == 0)
-		return (execute_exit(ast_node, envl));
+		return (execute_exit(ast_node, *envl));
 	else
 		return (1);
 }

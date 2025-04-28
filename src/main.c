@@ -6,13 +6,13 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:08:21 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/27 20:31:15 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/28 17:02:06 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	main_loop(char *input_line, t_envl *envl,
+static int	main_loop(char *input_line, t_envl **envl,
 				int *exit_status, int *lexer_status);
 static char	*get_input_line(int *exit_status);
 static int	event(void);
@@ -32,12 +32,14 @@ int	main(int argc, char **argv, char **envp)
 	exit_status = 0;
 	lexer_status = 0;
 	envl = make_envl(envp);
-	exit_status = main_loop(input_line, envl, &exit_status, &lexer_status);
+	if (!envl)
+		exit(1);
+	exit_status = main_loop(input_line, &envl, &exit_status, &lexer_status);
 	destroy_envl(envl);
 	exit(exit_status);
 }
 
-static int	main_loop(char *input_line, t_envl *envl,
+static int	main_loop(char *input_line, t_envl **envl,
 				int *exit_status, int *lexer_status)
 {
 	t_ast			*ast_node;
@@ -59,7 +61,7 @@ static int	main_loop(char *input_line, t_envl *envl,
 			free_token_array(&token_array);
 			continue ;
 		}
-		parser(&ast_node, &token_array, envl, exit_status);
+		parser(&ast_node, &token_array, *envl, exit_status);
 		free_token_array(&token_array);
 		run_ast(ast_node, envl, exit_status);
 		free_ast(ast_node);

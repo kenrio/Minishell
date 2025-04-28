@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 19:59:48 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/20 23:33:25 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/28 16:59:24 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 
 int	execute_pwd(t_ast *ast)
 {
-	char	cwd[4096];
 	char	*arg;
+	char	*pwd;
 
-	if (!(getcwd(cwd, sizeof(cwd))))
-		return (*(ast->u_data.cmd.stp) = 1, 1);
 	if (ast->u_data.cmd.argv[1])
 	{
 		arg = ast->u_data.cmd.argv[1];
@@ -29,6 +27,10 @@ int	execute_pwd(t_ast *ast)
 			return (*(ast->u_data.cmd.stp) = 2, 1);
 		}
 	}
-	printf("%s\n", cwd);
+	pwd = get_env_value_bykey(ast->u_data.cmd.envp, "PWD");
+	if (!pwd)
+		printf("can't find pwd.\n");
+	else
+		printf("%s\n", pwd);
 	return (*(ast->u_data.cmd.stp) = 0, 0);
 }

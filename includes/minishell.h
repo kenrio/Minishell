@@ -6,7 +6,7 @@
 /*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:09:18 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/27 20:30:41 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/28 16:46:33 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ typedef struct s_envl
 
 // -------------------- functions --------------------
 // run_ast
-int		run_ast(t_ast *ast_node, t_envl *envl, int *status);
+int		run_ast(t_ast *ast_node, t_envl **envl, int *status);
 int		execute_ast(t_ast *ast_node, int fd_in, t_pids *pids);
 
 // run_ast_sub
@@ -178,6 +178,7 @@ int		handle_heredoc(int *fd_in_, char *delimiter, char **envp, int *stp);
 // envp
 t_envl	*make_envl(char **envp);
 void	destroy_envl(t_envl *lst);
+t_envl 	*envl_clone(const t_envl *src);
 int		envl_add_node(t_envl *lst, char *value);
 int		envl_rm_node(t_envl *lst, char *key);
 char	**make_envp_by_envl(t_envl *lst);
@@ -195,10 +196,10 @@ char	*get_cmd_path(char **envp, char	*name);
 char	*get_env_value_bykey(char **envp, char *key);
 
 // builtin
-int		execute_builtin(t_ast *ast_node, t_envl *envl, int *status);
+int		execute_builtin(t_ast *ast_node, t_envl **envl, int *status);
 bool	is_builtin(t_ast *ast_node);
 int		execute_echo(t_ast *ast);
-int		execute_cd(t_ast *ast, t_envl *envl);
+int		execute_cd(t_ast *ast, t_envl **envl);
 int		execute_pwd(t_ast *ast);
 int		execute_export(t_ast *ast, t_envl *envl);
 int		execute_unset(t_ast *ast, t_envl *envl);
