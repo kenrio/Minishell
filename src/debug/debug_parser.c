@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug_parser.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 23:56:02 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/23 17:48:58 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/28 12:48:18 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@
 // 	int			j;
 // 	t_redirect	*redirect;
 
+// 	printf("\n");
+// 	printf("----------------------------------\n");
+
+
 // 	if (!node)
 // 		return ;
 // 	i = 0;
@@ -25,14 +29,24 @@
 // 		printf("  ");
 // 	if (node->type == NODE_CMD)
 // 	{
+// 		// output command_name
 // 		if (node->u_data.cmd.name)
-// 			printf("CMD: %s\n", node->u_data.cmd.name);
+// 			printf("CMD_NAME: %s\n", node->u_data.cmd.name);
 // 		else
-// 			printf("CMD: (null)\n");
+// 			printf("CMD_NAME: (null)\n");
+
+			
+// 		// depth
 // 		i = 0;
 // 		while (i++ < depth)
 // 			printf("  ");	
+
+			
+// 		// output command path
 // 		printf("  path: %s\n", node->u_data.cmd.path);
+
+
+// 		// output arg
 // 		j = 1;
 // 		while (node->u_data.cmd.argv && node->u_data.cmd.argv[j])
 // 		{
@@ -42,6 +56,8 @@
 // 			printf("  argv[%d]: %s\n", j, node->u_data.cmd.argv[j]);
 // 			j++;
 // 		}
+
+// 		// output redirect
 // 		redirect = node->u_data.cmd.redirects;
 // 		while (redirect)
 // 		{
@@ -71,4 +87,8 @@
 // 	{
 // 		printf("UNKNOWN NODE TYPE: %d\n", node->type);
 // 	}
+
+
+// 	printf("----------------------------------\n");
+// 	printf("\n");
 // }
