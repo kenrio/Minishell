@@ -3,56 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:02:59 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/22 18:00:54 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/28 16:58:14 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_env_value(t_envl *lst, const char *key);
-
-int	execute_cd(t_ast *ast, t_envl *envl)
+int	execute_cd(t_ast *ast, t_envl **envl)
 {
-	char	*pwd;
-	char	*newpwd;
-	char	*oldpwd;
-	char	cwd[4096];
+	char	*old_pwd;
+	char	new_pwd[4096];
+	char	*old_node;
+	char	*new_node;
+	t_envl	*cpy_envl;
 
-	pwd = getcwd(NULL, 0);
-	if (!pwd)
-		return (*(ast->u_data.cmd.stp) = 1, 1);
+	old_pwd = get_env_value_bykey(ast->u_data.cmd.envp, "PWD");
+	if (!old_pwd)
+		return (*(ast->u_data.cmd.stp) = 1, perror("can not find ENVKEY: PWD\n"), 1);
 	if (!ast->u_data.cmd.argv[1] || chdir(ast->u_data.cmd.argv[1]) != 0)
-		return (free(pwd), *(ast->u_data.cmd.stp) = 1, perror("cd"), 1);
-	if (!getcwd(cwd, sizeof(cwd)))
-		return (free(pwd), *(ast->u_data.cmd.stp) = 1, 1);
-	oldpwd = pwd;
-	pwd = ft_strjoin("OLDPWD=", oldpwd);
-	free(oldpwd);
-	newpwd = ft_strjoin("PWD=", cwd);
-	if (!pwd || !newpwd
-		|| envl_add_node(envl, pwd) != 0 || envl_add_node(envl, newpwd) != 0)
-		return (free(pwd), free(newpwd), *(ast->u_data.cmd.stp) = 1, 1);
-	return (free(pwd), free(newpwd), *(ast->u_data.cmd.stp) = 0, 0);
-}
-
-char	*get_env_value(t_envl *lst, const char *key)
-{
-	t_env_node	*curr;
-	size_t		key_len;
-
-	if (!lst || !key)
-		return (NULL);
-	curr = lst->head;
-	key_len = ft_strlen(key);
-	while (curr)
-	{
-		if (ft_strncmp(curr->value, key, key_len) == 0
-			&& curr->value[key_len] == '=')
-			return (curr->value + key_len + 1);
-		curr = curr->next;
-	}
-	return (NULL);
+		return (*(ast->u_data.cmd.stp) = 1, perror("cd is only supports relative and absolute path."), 1);
+	if (!getcwd(new_pwd, sizeof(new_pwd)))
+		return (*(ast->u_data.cmd.stp) = 1, 1);
+	old_node = ft_strjoin("OLDPWD=", old_pwd);
+	new_node = ft_strjoin("PWD=", new_pwd);
+	cpy_envl = envl_clone(*envl);
+	if (!old_node || !new_node || !cpy_envl || envl_add_node(cpy_envl, old_node) != 0 || envl_add_node(cpy_envl, new_node) != 0)
+		return (free(old_node), free(new_node), destroy_envl(cpy_envl) , perror("cd failed."),*(ast->u_data.cmd.stp) = 1, 1);
+	destroy_envl(*envl);
+	*envl = cpy_envl;
+	return (free(old_node), free(new_node),*(ast->u_data.cmd.stp) = 0, 0);
 }

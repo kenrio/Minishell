@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug_lexer.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:24:58 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/23 17:48:50 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/28 17:39:11 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 // void	debug_print_tokens(t_token_array *array)
 // {
 // 	int	i;
+
+// 	printf("\n");
+// 	printf("--- lexer ----\n");
 
 // 	printf("\ntoken_array->len: %d\n", array->len);
 // 	printf("\n");
@@ -26,4 +29,6 @@
 // 			array->tokens[i].token_type);
 // 		i++;
 // 	}
+// 	printf("--- lexer ----\n");
+// 	printf("\n");
 // }

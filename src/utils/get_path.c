@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 17:02:52 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/23 16:50:26 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/28 17:52:40 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ char	*get_cmd_path(char **envp, char	*name)
 	char	**path;
 	char	*result;
 
+	if (!*name || !name)
+		return (NULL);
 	if (*name == '/' || *name == '.')
 		return (ft_strdup(name));
 	path = ft_split(get_env_value_bykey(envp, "PATH"), ':');

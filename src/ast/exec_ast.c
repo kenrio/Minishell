@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 15:21:49 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/23 12:53:12 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/28 16:20:18 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // this func() can run ast_node.
 // you should pass ast_top_node and ast_status_poipnter.
-int	run_ast(t_ast *ast_node, t_envl *envl, int *status)
+int	run_ast(t_ast *ast_node, t_envl **envl, int *status)
 {
 	t_pids	pids;
 
