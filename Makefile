@@ -6,7 +6,7 @@
 #    By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/05 12:15:09 by keishii           #+#    #+#              #
-#    Updated: 2025/04/21 16:04:32 by tishihar         ###   ########.fr        #
+#    Updated: 2025/04/27 19:53:34 by tishihar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,9 +88,10 @@ SRC_UTILS		:= \
 				free_str_array.c \
 
 SRC_AST			:= \
+				exec_ast.c \
 				exec_ast_pipe.c \
 				exec_ast_cmd.c \
-				exec_ast.c \
+				exec_child_component.c \
 
 SRC_ENVP		:= \
 				envl.c \

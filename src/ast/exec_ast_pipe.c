@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast_pipe.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
+/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 18:31:27 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/23 12:51:44 by keishii          ###   ########.fr       */
+/*   Updated: 2025/04/27 18:54:32 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ int	exec_ast_pipe(t_ast *ast_node, int fd_in, t_pids *pids)
 		return (1);
 	}
 	exec_left_cmd(ast_node->u_data.pipe.left, fd_in, fd_pipe, pids);
-	close(fd_pipe[1]);
 	if (execute_ast(ast_node->u_data.pipe.right, fd_pipe[0], pids))
 		return (1);
-	close(fd_pipe[0]);
 	return (0);
 }
