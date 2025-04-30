@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envl.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tishihar <wingstonetone9.8@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 20:57:20 by tishihar          #+#    #+#             */
-/*   Updated: 2025/04/28 16:01:59 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/29 11:52:56 by tishihar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,11 @@ t_envl *envl_clone(const t_envl *src)
 {
 	t_env_node	*curr;
 	t_envl		*cpy;
-	t_envl		*tmp;
 
 	cpy = (t_envl *)ft_calloc(1, sizeof(t_envl));
 	if (!cpy)
 		return (NULL);
 	init_envl(cpy);
-	tmp = cpy;
 	curr = src->head;
 	while (curr)
 	{
