@@ -1,6 +1,6 @@
 # Minishell
 
-A custom implementation of a basic UNIX shell, created as part of the 42 school curriculum. This project aims to replicate a subset of the functionality of shells like `bash`, including command execution, environment variable handling, I/O redirections, and pipes.
+A custom implementation of a basic UNIX shell, created as part of the 42 school curriculum. This project aims to replicate a subset of the functionality of the `bash` shell, including command execution, environment variable handling, I/O redirections, and pipes.
 
 ## Features
 
