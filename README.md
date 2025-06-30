@@ -22,6 +22,10 @@ A custom implementation of a basic UNIX shell, created as part of the 42 school 
 *   **Environment Variable Expansion**: Expands variables prefixed with `$` (e.g., `$USER`).
 *   **Signal Handling**: Gracefully handles `Ctrl-C`, `Ctrl-D`, and `Ctrl-\`.
 
+## Demo
+
+![Minishell Demo](assets/minishell-demo-fast.gif)
+
 ## Getting Started
 
 ### Prerequisites
