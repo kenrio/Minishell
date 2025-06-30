@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tishihar <tishihar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: keishii <keishii@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 12:08:21 by keishii           #+#    #+#             */
-/*   Updated: 2025/04/28 17:02:06 by tishihar         ###   ########.fr       */
+/*   Updated: 2025/04/30 21:15:50 by keishii          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ static char	*get_input_line(int *exit_status)
 		add_history(input_line);
 	if (g_signal == SIGINT)
 	{
+		rl_replace_line("", 0);
 		free(input_line);
 		*exit_status = 128 + SIGINT;
 	}
